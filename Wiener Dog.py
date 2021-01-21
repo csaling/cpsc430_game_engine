@@ -36,28 +36,57 @@ def main():
     return
 
 def init ():
+    image = open('Dog Fur.JFIF')
+    
+    ix = image.size[0]
+    iy = image.size[1]
+    image = image.tobytes("raw", "RGB", 0, -1)
+    
+    fur_texture = glGenTextures(1)
+    
+    glBindTexture(GL_TEXTURE_2D, fur_texture)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, image)
+    glEnable(GL_TEXTURE_2D)
+    
     glEnable(GL_COLOR_MATERIAL);
     glDepthFunc(GL_LESS)
     glEnable(GL_DEPTH_TEST)
   
 def cube():
     glBegin(GL_QUADS)
-    # Front face
-    glColor(0.65,0.16,0.16, 1)
+    #glColor(0.65,0.16,0.16, 1)
     glNormal3f(0.0, 0.0, 1.0)
+    
+    glTexCoord2f(0.0, 1.0)
     glVertex3d(-2.0, 0.0, 1.0)
+    
+    glTexCoord2f(0.0, 0.0)
     glVertex3d(-2.0, -1.0, 1.0)
+    
+    glTexCoord2f(1.0, 0.0)
     glVertex3d(2.0, -1.0, 1.0)
+    
+    glTexCoord2f(1.0, 1.0)
     glVertex3d(2.0, 0.0, 1.0)
     glEnd()
 
 def triangle():
     glBegin(GL_TRIANGLES)
-    # Front face
-    glColor(0.65,0.16,0.16, 1)
+    #glColor(0.65,0.16,0.16, 1)
     glNormal3f(0.0, 0.0, 1.0)
+    
+    glTexCoord2f(0.0, 1.0)    
+    glTexCoord2f(0.0, 0.0)
     glVertex3d(2.0, 1.0, 1.0)
+    
+    glTexCoord2f(1.0, 0.0)
     glVertex3d(2.0, -1.0, 1.0)
+    
+    glTexCoord2f(1.0, 1.0)
     glVertex3d(-1.5, 0.0, 1.0)
     glEnd()
 
