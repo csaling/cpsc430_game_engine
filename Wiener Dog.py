@@ -7,11 +7,20 @@ from OpenGL.GL import *
 
 from PIL.Image import open
 
-#Tried changing this and it did not seem to change speed/direction
 rotation = 0.0
 newRotation = -0.5
+x_translation = -3.0
+y_translation = 0.0
+y_rotation = 0.0
 
 def main():
+    global x_translation
+    global y_translation
+    global y_rotation
+    global rotation
+    
+    key_cooldown = 10
+    
     pygame.init()
     windowSize = (800,600)
     pygame.display.set_mode(windowSize, DOUBLEBUF|OPENGL)
@@ -27,6 +36,38 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    y_rotation = 0
+        
+        if key_cooldown == 0:
+            keys = pygame.key.get_pressed()
+            
+            if keys[K_LCTRL or K_RCTRL]:
+                if keys[K_LEFT]:
+                    y_rotation = 1
+                    rotation -= 0.5
+                    
+                if keys[K_RIGHT]:
+                    y_rotation = 1
+                    rotation += 0.5
+
+            else:
+                if keys[K_LEFT]:
+                    x_translation -= 0.05
+                    
+                if keys[K_RIGHT]:
+                    x_translation += 0.05
+                
+                if keys[K_UP]:
+                    y_translation += 0.05
+                    
+                if keys[K_DOWN]:
+                    y_translation -= 0.05
+                
+        if key_cooldown > 0:
+            key_cooldown -= 1
                 
         display()
         
@@ -52,13 +93,23 @@ def init ():
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, image)
     glEnable(GL_TEXTURE_2D)
     
+    light_ambient = [0.1, 0.1, 0.1, 1.0]
+    light_diffuse = [1.0, 1.0, 1.0, 1.0]
+    light_position = [0.0, 0.0, 1.0, 1.0]
+    
+    glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient)
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse)
+    glLightfv(GL_LIGHT1, GL_POSITION, light_position)
+    
+    glEnable(GL_LIGHTING)
+    glEnable(GL_LIGHT1)
+    
     glEnable(GL_COLOR_MATERIAL);
     glDepthFunc(GL_LESS)
     glEnable(GL_DEPTH_TEST)
   
-def cube():
+def body():
     glBegin(GL_QUADS)
-    #glColor(0.65,0.16,0.16, 1)
     glNormal3f(0.0, 0.0, 1.0)
     
     glTexCoord2f(0.0, 1.0)
@@ -76,7 +127,6 @@ def cube():
 
 def triangle():
     glBegin(GL_TRIANGLES)
-    #glColor(0.65,0.16,0.16, 1)
     glNormal3f(0.0, 0.0, 1.0)
     
     glTexCoord2f(0.0, 1.0)    
@@ -89,18 +139,33 @@ def triangle():
     glTexCoord2f(1.0, 1.0)
     glVertex3d(-1.5, 0.0, 1.0)
     glEnd()
+    
+def ball():
+    glBegin(GL_QUADS)
+    #glColor(1.0, 0.0, 0.0, 1.0)
+    glNormal3f( 0.0, 0.0, 1.0)
+    
+    glVertex3d(-0.75, 1.0, 1.0)
+    glVertex3d(-1.0, 0.5, 1.0)
+    glVertex3d(0.25, 0.5, 1.0)
+    glVertex3d(0.0, 1.0, 1.0)
+    
+    glVertex3d(-0.75, 0.0, 1.0)
+    glVertex3d(-1.0, 0.5, 1.0)
+    glVertex3d(0.25, 0.5, 1.0)
+    glVertex3d(0.0, 0.0, 1.0)
+    glEnd()
 
 def display():
     global rotation
     global newRotation
+    global y_translation
     
     glPushMatrix()
     
-    #Not working as I want it to
-    #If I add 0.0 manually it does not seem to do anything
     glRotatef(rotation,0,0,1)
     rotation += newRotation
-    
+
     if rotation <= -40:
         newRotation = 0.5
 
@@ -109,9 +174,15 @@ def display():
     
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
     glPushMatrix()
-    # Push the cube into the screen a bit 
+    # Push the body into the screen a bit 
     glTranslate(0.0, 0.0, -2.0)
-    cube()
+    body()
+    glPopMatrix()
+    glPushMatrix()
+    glTranslate(x_translation, y_translation, 0.0)
+    glRotatef(20,0,y_rotation,0)
+    glScale(0.5, 0.5, 0.5)
+    ball()
     glPopMatrix()
     
     glPushMatrix()
