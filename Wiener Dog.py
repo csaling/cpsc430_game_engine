@@ -9,6 +9,7 @@ from PIL.Image import open
 
 rotation = 0.0
 newRotation = -0.5
+ballRotation = 0.0
 x_translation = -3.0
 y_translation = 0.0
 y_rotation = 0.0
@@ -18,6 +19,7 @@ def main():
     global y_translation
     global y_rotation
     global rotation
+    global ballRotation
     
     key_cooldown = 10
     
@@ -44,14 +46,14 @@ def main():
         if key_cooldown == 0:
             keys = pygame.key.get_pressed()
             
-            if keys[K_LCTRL or K_RCTRL]:
+            if keys[K_LCTRL] or keys[K_RCTRL]:
                 if keys[K_LEFT]:
                     y_rotation = 1
-                    rotation -= 0.5
+                    ballRotation -= 1.0
                     
                 if keys[K_RIGHT]:
                     y_rotation = 1
-                    rotation += 0.5
+                    ballRotation += 1.0
 
             else:
                 if keys[K_LEFT]:
@@ -110,6 +112,7 @@ def init ():
   
 def body():
     glBegin(GL_QUADS)
+    glColor(0.5, 0.5, 0.5, 1.0)
     glNormal3f(0.0, 0.0, 1.0)
     
     glTexCoord2f(0.0, 1.0)
@@ -127,6 +130,7 @@ def body():
 
 def triangle():
     glBegin(GL_TRIANGLES)
+    glColor(0.5, 0.5, 0.5, 1.0)
     glNormal3f(0.0, 0.0, 1.0)
     
     glTexCoord2f(0.0, 1.0)    
@@ -142,7 +146,7 @@ def triangle():
     
 def ball():
     glBegin(GL_QUADS)
-    #glColor(1.0, 0.0, 0.0, 1.0)
+    glColor(1.0, 0.0, 0.0, 1.0)
     glNormal3f( 0.0, 0.0, 1.0)
     
     glVertex3d(-0.75, 1.0, 1.0)
@@ -163,6 +167,15 @@ def display():
     
     glPushMatrix()
     
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    
+    glPushMatrix()
+    glTranslate(x_translation, y_translation, 0.0)
+    glScale(0.5, 0.5, 0.5)
+    glRotatef(ballRotation,0,0,1)
+    ball()
+    glPopMatrix()
+    
     glRotatef(rotation,0,0,1)
     rotation += newRotation
 
@@ -171,18 +184,11 @@ def display():
 
     if rotation >= 0:
         newRotation = -0.5
-    
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
     glPushMatrix()
     # Push the body into the screen a bit 
     glTranslate(0.0, 0.0, -2.0)
     body()
-    glPopMatrix()
-    glPushMatrix()
-    glTranslate(x_translation, y_translation, 0.0)
-    glRotatef(20,0,y_rotation,0)
-    glScale(0.5, 0.5, 0.5)
-    ball()
     glPopMatrix()
     
     glPushMatrix()
