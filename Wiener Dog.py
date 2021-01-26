@@ -49,11 +49,11 @@ def main():
             if keys[K_LCTRL] or keys[K_RCTRL]:
                 if keys[K_LEFT]:
                     y_rotation = 1
-                    ballRotation -= 1.0
+                    ballRotation += 2.0
                     
                 if keys[K_RIGHT]:
                     y_rotation = 1
-                    ballRotation += 1.0
+                    ballRotation -= 2.0
 
             else:
                 if keys[K_LEFT]:
