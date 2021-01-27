@@ -1,6 +1,6 @@
 from pubsub import pub
 
-from game_object import GameObject
+from game_object_rotating import GameObjectRotating
 
 class GameLogic:
     def __init__(self):
@@ -14,15 +14,17 @@ class GameLogic:
             self.game_objects[id].tick()
             
     def create_object(self, position, kind):
-        obj = GameObject(position, kind, self.next_id)
+        obj = GameObjectRotating(position, kind, self.next_id)
         self.next_id += 1
         self.game_objects[obj.id] = obj
         
         pub.sendMessage('create', game_object = obj)
+        return obj
         
     def load_world(self):
         self.create_object ([-2, 0, -10], "cube")
-        self.create_object ([2, 0, -10], "cube")
+        obj = self.create_object ([2, 0, -10], "cube")
+        obj.y_rotation = 45
     
     def get_property(self, key):
         if key in self.properties:

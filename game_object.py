@@ -4,7 +4,10 @@ class GameObject:
         self.position = position
         self.kind = kind
         self.id = id
-
+        self._x_rotation = 0
+        self._y_rotation = 0
+        self._z_rotation = 0
+        
     @property
     def kind(self):
         return self._kind
@@ -17,7 +20,7 @@ class GameObject:
     def id(self):
         return self._id
     
-    @kind.setter
+    @id.setter
     def id(self, value):
         self._id = value
         
@@ -25,9 +28,36 @@ class GameObject:
     def position(self):
         return self._position
     
-    @kind.setter
+    @position.setter
     def position(self, value):
         self._position = value
         
+    @property
+    def x_rotation(self):
+        return self._x_rotation
+    
+    @x_rotation.setter
+    def x_rotation(self, value):
+        self._x_rotation = value
+        
+    @property
+    def y_rotation(self):
+        return self._y_rotation
+    
+    @y_rotation.setter
+    def y_rotation(self, value):
+        self._y_rotation = value
+       
+    @property
+    def z_rotation(self):
+        return self._z_rotation
+    
+    @z_rotation.setter
+    def z_rotation(self, value):
+        self._z_rotation = value
+       
     def tick(self):
+        pass
+    
+    def clicked(self):
         pass
