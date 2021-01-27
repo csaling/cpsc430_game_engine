@@ -28,6 +28,10 @@ class PlayerView:
                 self.game_logic.set_property('quit', True)
                 return
             
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                self.handle_click(pos)
+            
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
@@ -84,7 +88,7 @@ class PlayerView:
         gluPerspective(self.field_of_view, self.aspect_ratio, self.near_distance, self.far_distance)
 
         glMatrixMode(GL_MODELVIEW)
-        sef.display()
+        self.display()
         
         glMatrixMode(GL_PROJECTION);
         glPopMatrix()
@@ -105,9 +109,9 @@ class PlayerView:
         closest = None
         
         for obj in objects:
-            obj_pos = self.view_objects[id].game_object.position
+            obj_pos = self.view_objects[obj].game_object.position
             
             if not closest or numpy.linalg.norm(obj_pos - camera) < numpy.linalg.norm(closest.position - camera):
-                closest = self.view_objects[id].game_object
+                closest = self.view_objects[obj].game_object
                 
         closest.clicked()
