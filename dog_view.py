@@ -60,11 +60,14 @@ class DogView(ViewObject):
     def draw(self):
         glBindTexture(GL_TEXTURE_2D, self.fur_texture)
         glEnable(GL_TEXTURE_2D)
+        
+        #Body
         glPushMatrix()
         glTranslate(0.0, 0.0, -2.0)
         self.body()
         glPopMatrix()
         
+        #Head
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
         glTranslate(-5.8, 0.25, -2.0)
@@ -72,6 +75,7 @@ class DogView(ViewObject):
         self.triangle()
         glPopMatrix()
 
+        #Right Leg
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
         glTranslate(2.5, -2.0, -2.0)
@@ -79,6 +83,7 @@ class DogView(ViewObject):
         self.triangle()
         glPopMatrix()
         
+        #Left Leg
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
         glTranslate(-2.5, -2.0, -2.0)
@@ -86,13 +91,15 @@ class DogView(ViewObject):
         self.triangle()
         glPopMatrix()
         
+        #Tail
         glPushMatrix()
         glScale(0.2, 0.2, 0.2)
-        glTranslate(8.9, 0.5, -2.0)
+        glTranslate(8.5, 0.5, -2.0)
         glRotatef(60,0,0,1)
         self.triangle()
         glPopMatrix()
         
+        #Ear
         glPushMatrix()
         glScale(0.25, 0.25, 0.25)
         glTranslate(-8.5, 2.75, -2.0)
