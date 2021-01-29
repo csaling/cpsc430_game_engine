@@ -7,7 +7,9 @@ from OpenGL.GL import *
 
 import numpy
 
-from view_cube import CubeView
+from dog_view import DogView
+
+from ball_view import BallView
 
 class PlayerView:
     def __init__(self, game_logic):
@@ -18,8 +20,11 @@ class PlayerView:
         self.setup()
         
     def new_game_object(self, game_object):
-        if game_object.kind == 'cube':
-            self.view_objects[game_object.id] = CubeView(game_object)
+        if game_object.kind == 'dog':
+            self.view_objects[game_object.id] = DogView(game_object)
+        
+        if game_object.kind == 'ball':
+            self.view_objects[game_object.id] = BallView(game_object)
     
     def tick(self):
         for event in pygame.event.get():
