@@ -28,10 +28,7 @@ class GameLogic:
         
     def load_world(self):
         self.create_object ([3, 0, -10], "dog")
-        #obj = self.create_object ([2, 0, -10], "dog")
-        #obj.y_rotation = 45
         self.create_object ([-2, 0, -10], "ball")
-        #obj = self.create_object ([2, 0, -10], "ball")
     
     def get_property(self, key):
         if key in self.properties:

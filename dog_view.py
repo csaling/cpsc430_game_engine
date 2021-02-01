@@ -106,3 +106,5 @@ class DogView(ViewObject):
         glRotatef(40,0,0,1)
         self.triangle()
         glPopMatrix()
+        
+        glDisable(GL_TEXTURE_2D)
