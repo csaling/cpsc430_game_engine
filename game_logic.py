@@ -1,5 +1,7 @@
 from pubsub import pub
 
+from game_object import GameObject
+
 from game_object_rotating import GameObjectRotating
 
 class GameLogic:
@@ -14,10 +16,13 @@ class GameLogic:
             self.game_objects[id].tick()
             
     def create_object(self, position, kind):
-        obj = GameObjectRotating(position, kind, self.next_id)
+        if kind == 'dog':
+            obj = GameObjectRotating(position, kind, self.next_id)
+        else:
+            obj = GameObject(position, kind, self.next_id)
         self.next_id += 1
         self.game_objects[obj.id] = obj
-        
+            
         pub.sendMessage('create', game_object = obj)
         return obj
         

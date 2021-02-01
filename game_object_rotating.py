@@ -6,7 +6,6 @@ class GameObjectRotating(GameObject):
         
         self.allow_rotation = True
         self.new_rotation = -0.5
-        self.ball_rotation = 0.0
         
     def tick(self):
         if self.allow_rotation:
