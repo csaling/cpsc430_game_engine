@@ -17,7 +17,13 @@ class PlayerView:
         self.view_objects = {}
         pub.subscribe(self.new_game_object, 'create')
         
+        self.clicks = 0
+        
         self.setup()
+        
+        self.click_texture = glGenTextures(1)
+        
+        self.update_texture()
         
         self.key_cooldown = 10
         
@@ -39,6 +45,8 @@ class PlayerView:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 self.handle_click(pos)
+                self.clicks += 1
+                self.update_texture()
                 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -75,11 +83,15 @@ class PlayerView:
         if self.key_cooldown > 0:
             self.key_cooldown -= 1
             
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        glMatrixMode(GL_MODELVIEW)
-        glLoadIdentity()
+        self.prepare_3d()
         
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        
+        glPushMatrix()
         self.display()
+        glPopMatrix()
+        
+        self.render_hud()
         
         pygame.display.flip()
         pygame.time.wait(10)
@@ -89,7 +101,59 @@ class PlayerView:
         
         for id in self.view_objects:
             self.view_objects[id].display()
-    
+            
+    def prepare_3d(self):
+        
+        glViewport(0, 0, self.window_width, self.window_height)
+        
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluPerspective(self.field_of_view, self.aspect_ratio, self.near_distance, self.far_distance)
+        
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        
+        glEnable(GL_COLOR_MATERIAL)
+        glDepthFunc(GL_LESS)
+        glEnable(GL_DEPTH_TEST)
+        
+    def render_hud(self):
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluOrtho2D(0.0, self.window_width, self.window_height, 0.0)
+        
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        
+        glEnable(GL_TEXTURE_2D)
+        glBindTexture(GL_TEXTURE_2D, self.click_texture)
+        
+        glBegin(GL_QUADS)
+        
+        glColor3f(1.0, 0.0, 0.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex2f(0, 0)
+        glTexCoord2f(1.0, 1.0)
+        glVertex2f(200, 0)
+        glTexCoord2f(1.0, 0.0)
+        glVertex2f(200, 50)
+        glTexCoord2f(0.0, 0.0)
+        glVertex2f(0, 50)
+        
+        glEnd()
+        
+        glDisable(GL_TEXTURE_2D)
+        
+    def update_texture(self):
+        img = pygame.font.SysFont('Arial', 50).render("Clicked: " + str(self.clicks), True, (255, 255, 255), (0, 0, 0))
+        w, h = img.get_size()
+        data = pygame.image.tostring(img, "RGBA", 1)
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+        glBindTexture(GL_TEXTURE_2D, self.click_texture)
+        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+        
     def setup(self):
         pygame.init()
         
@@ -103,18 +167,7 @@ class PlayerView:
         self.near_distance = 0.1
         self.far_distance = 100.0
         
-        self.reset_opengl()
-        
-    def reset_opengl(self):
-        glViewport(0, 0, self.window_width, self.window_height)
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        gluPerspective(self.field_of_view, self.aspect_ratio, self.near_distance, self.far_distance)
-        glMatrixMode(GL_MODELVIEW)
-        glLoadIdentity()
-        glEnable(GL_COLOR_MATERIAL);
-        glDepthFunc(GL_LESS)
-        glEnable(GL_DEPTH_TEST)
+        self.prepare_3d()
         
     def handle_click(self, pos):
         windowX = pos[0]
@@ -142,7 +195,6 @@ class PlayerView:
         for record in buffer:
             min_depth, max_depth, name = record
             objects += name
-        print("Worked Before Return")
         if not objects:
             return
         
@@ -158,6 +210,5 @@ class PlayerView:
                 closest = self.view_objects[obj].game_object
                 
         closest.clicked()
-        print("Worked")
         if closest.kind == 'ball':
             self.ball = closest

@@ -12,14 +12,10 @@ class BallView(ViewObject):
     
     def __init__(self, game_object):
         super(BallView, self).__init__(game_object)
-        
+        self.user_clicked()
+      
+    def user_clicked(self):
         img = pygame.font.SysFont('Arial', 50).render("Red Ball", True, (255, 255, 255), (0, 0, 0))
-        #image = open('Dog Fur.JFIF')
-    
-        #w = image.size[0]
-        #h = image.size[1]
-        #data = image.tobytes("raw", "RGB", 0, -1)
-        
         w, h = img.get_size()
         data = pygame.image.tostring(img, "RGBA", 1)
         self.top_texture = glGenTextures(1)

@@ -7,6 +7,7 @@ class GameObject:
         self._x_rotation = 0
         self._y_rotation = 0
         self._z_rotation = 0
+        self.clicks = 0
         
     @property
     def kind(self):
@@ -60,4 +61,4 @@ class GameObject:
         pass
     
     def clicked(self):
-        pass
+        self.clicks += 1
