@@ -1,3 +1,4 @@
+from localize import Localize
 
 class GameObject:
     def __init__(self, position, kind, id):

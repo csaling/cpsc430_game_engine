@@ -22,3 +22,6 @@ class ViewObject:
     
     def draw(self):
         pass
+    
+    def update_lang(self):
+        pass

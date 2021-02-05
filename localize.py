@@ -29,9 +29,9 @@ class Localize:
         with open('localizations.dat', 'w') as outfile:
             json.dump(Localize.strings, outfile, sort_keys = True, indent = 4)
             
+    @staticmethod
+    def current_lang():
+        return Localize.lang
+            
 Localize.load()
 _ = Localize.get
-
-#Should be in engine not here
-Localize.set_lang("fr")
-print(_("Clicks :"))

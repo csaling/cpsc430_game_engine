@@ -11,6 +11,10 @@ from dog_view import DogView
 
 from ball_view import BallView
 
+from localize import *
+
+from localize import _
+
 class PlayerView:
     def __init__(self, game_logic):
         self.game_logic = game_logic
@@ -45,8 +49,19 @@ class PlayerView:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 self.handle_click(pos)
+            
+            if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                 self.clicks += 1
+                
+                if Localize.current_lang() == 'en':
+                    Localize.set_lang("it")
+                elif Localize.current_lang() == 'it':
+                    Localize.set_lang("en")
+                
                 self.update_texture()
+                
+                for id in self.view_objects:
+                    self.view_objects[id].update_lang()
                 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -145,7 +160,7 @@ class PlayerView:
         glDisable(GL_TEXTURE_2D)
         
     def update_texture(self):
-        img = pygame.font.SysFont('Arial', 50).render("Clicked: " + str(self.clicks), True, (255, 255, 255), (0, 0, 0))
+        img = pygame.font.SysFont('Arial', 50).render(_("Clicks: ") + str(self.clicks), True, (255, 255, 255), (0, 0, 0))
         w, h = img.get_size()
         data = pygame.image.tostring(img, "RGBA", 1)
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
@@ -153,7 +168,6 @@ class PlayerView:
         glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0)
         
     def setup(self):
         pygame.init()

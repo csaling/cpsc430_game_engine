@@ -1,11 +1,13 @@
 {
-    "it": {
-        "Clicks: ": "Clickse :",
-        "Red Ball: ": "Rede Balle :"
-    },
-	
+
 	"en": {
         "Clicks: ": "Clicks: ",
-        "Stores: ": "Stores: "
+        "Red Ball": "Red Ball"
+    },
+	
+    "it": {
+        "Clicks: ": "Clickse :",
+        "Red Ball": "Rede Balle"
     }
+	
 }

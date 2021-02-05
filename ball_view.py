@@ -8,6 +8,8 @@ from view_object import ViewObject
 
 from PIL.Image import open
 
+from localize import _
+
 class BallView(ViewObject):
     
     def __init__(self, game_object):
@@ -15,7 +17,7 @@ class BallView(ViewObject):
         self.user_clicked()
       
     def user_clicked(self):
-        img = pygame.font.SysFont('Arial', 50).render("Red Ball", True, (255, 255, 255), (0, 0, 0))
+        img = pygame.font.SysFont('Arial', 50).render(_("Red Ball"), True, (255, 255, 255), (0, 0, 0))
         w, h = img.get_size()
         data = pygame.image.tostring(img, "RGBA", 1)
         self.top_texture = glGenTextures(1)
@@ -35,6 +37,11 @@ class BallView(ViewObject):
         glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h/2, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+        
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0)
+        
+    def update_lang(self):
+        self.user_clicked()
         
     def ball(self):
         glBindTexture(GL_TEXTURE_2D, self.top_texture)
