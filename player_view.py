@@ -31,6 +31,9 @@ class PlayerView:
         
         self.key_cooldown = 10
         
+        self.paused = False
+        self.camera_angle = 0.0
+        
     def new_game_object(self, game_object):
         if game_object.kind == 'dog':
             self.view_objects[game_object.id] = DogView(game_object)
@@ -38,8 +41,14 @@ class PlayerView:
         if game_object.kind == 'ball':
             self.view_objects[game_object.id] = BallView(game_object)
             self.ball = game_object
+            
+        if game_object.kind == 'house':
+            self.view_objects[game_object.id] = HouseView(game_object)
+            self.house = game_object
     
     def tick(self):
+        mouseMove = (0, 0)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -49,6 +58,11 @@ class PlayerView:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 self.handle_click(pos)
+                
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    self.paused = not self.paused
+                    pygame.mouse.set_pos(self.viewCenter)
             
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                 self.clicks += 1
@@ -100,16 +114,56 @@ class PlayerView:
             
         self.prepare_3d()
         
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        if not self.paused:
+            if event.type == pygame.MOUSEMOTION:
+                mouseMove = [event.pos[i] - self.viewCenter[i] for i in range
         
-        glPushMatrix()
-        self.display()
-        glPopMatrix()
-        
-        self.render_hud()
-        
-        pygame.display.flip()
-        pygame.time.wait(10)
+            pygame.mouse.set_pos(self.viewCenter)
+            
+        if not self.paused:
+            self.prepare_3d()
+            
+            keypress = pygame.key.get_pressed()
+            
+            self.camera_angle += mouseMove[1] * 0.1
+            glRotatef(self.camera_angle, 1.0, 0.0, 0.0)
+            
+            glPushMatrix()
+            glLoadIdentity()
+            
+            if keypress[pygame.K_w]:
+                glTranslatef(0, 0, 0.1)
+                
+            if keypress[pygame.K_s]:
+                glTranslatef(0, 0, -0.1)
+                
+            if keypress[pygame.K_d]:
+                glTranslatef(-0.1, 0, 0)
+                
+            if keypress[pygame.K_a]:
+                glTranslatef(0.1, 0, 0)
+                
+            glRotatef(mouseMove[0] * 0.1, 0.0, 1.0, 0.0)    
+                
+            glMultMatrixf(self.viewMatrix)
+            self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
+            
+            glPopMatrix()
+            glMultMatrixf(self.viewMatrix)
+            
+            glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+            glPushMatrix()
+            
+            glPushMatrix()
+            self.display()
+            glPopMatrix()
+            
+            glPopMatrix()
+            
+            self.render_hud()
+            
+            pygame.display.flip()
+            pygame.time.wait(10)
         
     def display(self):
         glInitNames()
@@ -174,6 +228,7 @@ class PlayerView:
         
         self.window_width = 800
         self.window_height = 600
+        self.viewCenter = (self.window_width//2, self.window_height//2)
         
         pygame.display.set_mode((self.window_width, self.window_height), DOUBLEBUF|OPENGL)
         
@@ -183,6 +238,7 @@ class PlayerView:
         self.far_distance = 100.0
         
         self.prepare_3d()
+        self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
         
     def handle_click(self, pos):
         windowX = pos[0]
