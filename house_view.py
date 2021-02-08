@@ -34,6 +34,9 @@ class HouseView(ViewObject):
         glVertex3f(-1,-1,1);
         glVertex3f(-1,-1,-1);
         glVertex3f(-1,1,-1);
+        
+        #Add a clickable door
+        
         glEnd();
         
     def draw(self):

@@ -84,6 +84,12 @@ class PlayerView:
                 if event.key == pygame.K_SPACE:
                     self.game_logic.create_object ([-2, 0, -10], "ball")
                     
+            if not self.paused:
+                if event.type == pygame.MOUSEMOTION:
+                    mouseMove = [event.pos[i] - self.viewCenter[i] for i in range(2)]
+            
+                pygame.mouse.set_pos(self.viewCenter)
+                
         if self.key_cooldown == 0:
             keys = pygame.key.get_pressed()
         
@@ -113,12 +119,6 @@ class PlayerView:
             self.key_cooldown -= 1
             
         self.prepare_3d()
-        
-        if not self.paused:
-            if event.type == pygame.MOUSEMOTION:
-                mouseMove = [event.pos[i] - self.viewCenter[i] for i in range
-        
-            pygame.mouse.set_pos(self.viewCenter)
             
         if not self.paused:
             self.prepare_3d()
