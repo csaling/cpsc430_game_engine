@@ -11,6 +11,10 @@ from dog_view import DogView
 
 from ball_view import BallView
 
+from house_view import HouseView
+
+from ground_view import GroundView
+
 from localize import *
 
 from localize import _
@@ -45,6 +49,10 @@ class PlayerView:
         if game_object.kind == 'house':
             self.view_objects[game_object.id] = HouseView(game_object)
             self.house = game_object
+        
+        if game_object.kind == 'ground':
+            self.view_objects[game_object.id] = GroundView(game_object)
+            self.ground = game_object
     
     def tick(self):
         mouseMove = (0, 0)
@@ -82,7 +90,7 @@ class PlayerView:
                     self.ball.y_rotation = 0
                     
                 if event.key == pygame.K_SPACE:
-                    self.game_logic.create_object ([-2, 0, -10], "ball")
+                    self.game_logic.create_object ([-2, -3, -30], "ball")
                     
             if not self.paused:
                 if event.type == pygame.MOUSEMOTION:
@@ -151,6 +159,7 @@ class PlayerView:
             glPopMatrix()
             glMultMatrixf(self.viewMatrix)
             
+            glClearColor(0.0, 0.0, 1.0, 1.0)
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
             glPushMatrix()
             

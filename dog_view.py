@@ -23,38 +23,107 @@ class DogView(ViewObject):
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, image)   
         
-    def body(self):
+    def rectangle(self):
         glBegin(GL_QUADS)
         glColor(0.5, 0.5, 0.5, 1.0)
         glNormal3f(0.0, 0.0, 1.0)
         
+        #Left Side
+        #Top Left
         glTexCoord2f(0.0, 1.0)
         glVertex3d(-2.0, 0.0, 1.0)
         
+        #Bottom Left
         glTexCoord2f(0.0, 0.0)
         glVertex3d(-2.0, -1.0, 1.0)
         
+        #Bottom Right 
         glTexCoord2f(1.0, 0.0)
         glVertex3d(2.0, -1.0, 1.0)
         
+        #Top Right
         glTexCoord2f(1.0, 1.0)
         glVertex3d(2.0, 0.0, 1.0)
-        glEnd()
-
-    def triangle(self):
-        glBegin(GL_TRIANGLES)
-        glColor(0.5, 0.5, 0.5, 1.0)
-        glNormal3f(0.0, 0.0, 1.0)
         
-        glTexCoord2f(0.0, 1.0)    
+        #Right Side
+        glTexCoord2f(0.0, 1.0)
+        glVertex3d(-2.0, 0.0, 0.0)
+        
         glTexCoord2f(0.0, 0.0)
-        glVertex3d(2.0, 1.0, 1.0)
+        glVertex3d(-2.0, -1.0, 0.0)
         
+        glTexCoord2f(1.0, 0.0)
+        glVertex3d(2.0, -1.0, 0.0)
+        
+        glTexCoord2f(1.0, 1.0)
+        glVertex3d(2.0, 0.0, 0.0)
+        
+        #Top
+        #Top Left
+        glTexCoord2f(0.0, 1.0)
+        glVertex3d(-2.0, 0.0, 0.0)
+        
+        #Bottom Left
+        glTexCoord2f(0.0, 0.0)
+        glVertex3d(-2.0, 0.0, 1.0)
+        
+        #Bottom Right 
+        glTexCoord2f(1.0, 0.0)
+        glVertex3d(2.0, 0.0, 1.0)
+        
+        #Top Right
+        glTexCoord2f(1.0, 1.0)
+        glVertex3d(2.0, 0.0, 0.0)
+        
+        #Bottom
+        #Top Left
+        glTexCoord2f(0.0, 1.0)
+        glVertex3d(-2.0, -1.0, 0.0)
+        
+        #Bottom Left
+        glTexCoord2f(0.0, 0.0)
+        glVertex3d(-2.0, -1.0, 1.0)
+        
+        #Bottom Right 
         glTexCoord2f(1.0, 0.0)
         glVertex3d(2.0, -1.0, 1.0)
         
+        #Top Right
         glTexCoord2f(1.0, 1.0)
-        glVertex3d(-1.5, 0.0, 1.0)
+        glVertex3d(2.0, -1.0, 0.0)
+        
+        #Chest Top Left
+        glTexCoord2f(0.0, 1.0)
+        glVertex3d(-2.0, 0.0, 1.0)
+        
+        #Chest Bottom Left
+        glTexCoord2f(0.0, 0.0)
+        glVertex3d(-2.0, -1.0, 1.0)
+        
+        #Chest Bottom Right 
+        glTexCoord2f(1.0, 0.0)
+        glVertex3d(-2.0, -1.0, 0.0)
+        
+        #Chest Top Right
+        glTexCoord2f(1.0, 1.0)
+        glVertex3d(-2.0, 0.0, 0.0)    
+        
+        #Butt Top Left
+        glTexCoord2f(0.0, 1.0)
+        glVertex3d(2.0, 0.0, 1.0)
+        
+        #Butt Bottom Left
+        glTexCoord2f(0.0, 0.0)
+        glVertex3d(2.0, -1.0, 1.0)
+        
+        #Butt Bottom Right 
+        glTexCoord2f(1.0, 0.0)
+        glVertex3d(2.0, -1.0, 0.0)
+        
+        #Butt Top Right
+        glTexCoord2f(1.0, 1.0)
+        glVertex3d(2.0, 0.0, 0.0)
+        
         glEnd()
     
     def draw(self):
@@ -64,47 +133,47 @@ class DogView(ViewObject):
         #Body
         glPushMatrix()
         glTranslate(0.0, 0.0, -2.0)
-        self.body()
+        self.rectangle()
         glPopMatrix()
         
         #Head
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
-        glTranslate(-5.8, 0.25, -2.0)
+        glTranslate(-5.8, 0.25, -3.5)
         glRotatef(20,0,0,1)
-        self.triangle()
+        self.rectangle()
         glPopMatrix()
 
         #Right Leg
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
-        glTranslate(2.5, -2.0, -2.0)
+        glTranslate(2.5, -2.0, -3.5)
         glRotatef(90,0,0,1)
-        self.triangle()
+        self.rectangle()
         glPopMatrix()
         
         #Left Leg
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
-        glTranslate(-2.5, -2.0, -2.0)
+        glTranslate(-3.5, -2.0, -3.5)
         glRotatef(90,0,0,1)
-        self.triangle()
+        self.rectangle()
         glPopMatrix()
         
         #Tail
         glPushMatrix()
         glScale(0.2, 0.2, 0.2)
-        glTranslate(8.5, 0.5, -2.0)
+        glTranslate(10.0, 1.0, -8.0)
         glRotatef(60,0,0,1)
-        self.triangle()
+        self.rectangle()
         glPopMatrix()
         
         #Ear
         glPushMatrix()
         glScale(0.25, 0.25, 0.25)
-        glTranslate(-8.5, 2.75, -2.0)
+        glTranslate(-8.5, 2.75, -6.5)
         glRotatef(40,0,0,1)
-        self.triangle()
+        self.rectangle()
         glPopMatrix()
         
         glDisable(GL_TEXTURE_2D)

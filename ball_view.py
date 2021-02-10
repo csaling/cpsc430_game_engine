@@ -15,6 +15,7 @@ class BallView(ViewObject):
     def __init__(self, game_object):
         super(BallView, self).__init__(game_object)
         self.user_clicked()
+        self.quadric = gluNewQuadric()
       
     def user_clicked(self):
         img = pygame.font.SysFont('Arial', 50).render(_("Red Ball"), True, (255, 255, 255), (0, 0, 0))
@@ -78,7 +79,7 @@ class BallView(ViewObject):
     def draw(self):
         glEnable(GL_TEXTURE_2D)
         glPushMatrix()
-        glScale(1.0, 1.25, 1.0)
-        self.ball()
+        glColor(1.0, 0.0, 0.0, 1.0)
+        gluSphere(self.quadric , .5 , 36 , 18)
         glPopMatrix()
         glDisable(GL_TEXTURE_2D)
