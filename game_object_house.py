@@ -1,8 +1,8 @@
 from game_object import GameObject
 
 class GameObjectHouse(GameObject):
-    def __init__(self, position, kind, id):
-        super(GameObjectHouse, self).__init__(position, kind, id)
+    def __init__(self, position, size, kind, id):
+        super(GameObjectHouse, self).__init__(position, size, kind, id)
 
         self.door_open = False
                 

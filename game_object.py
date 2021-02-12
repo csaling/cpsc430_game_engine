@@ -1,9 +1,10 @@
 from localize import Localize
 
 class GameObject:
-    def __init__(self, position, kind, id):
+    def __init__(self, position, size, kind, id):
         self.position = position
         self.kind = kind
+        self.size = size
         self.id = id
         self._x_rotation = 0
         self._y_rotation = 0
@@ -17,6 +18,14 @@ class GameObject:
     @kind.setter
     def kind(self, value):
         self._kind = value
+        
+    @property
+    def size(self):
+        return self._size
+    
+    @size.setter
+    def size(self, value):
+        self._size = value
         
     @property
     def id(self):

@@ -67,6 +67,5 @@ class HouseView(ViewObject):
         
     def draw(self):
         glPushMatrix()
-        glScale(5.0, 5.0, 5.0)
         self.house()
         glPopMatrix()

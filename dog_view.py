@@ -130,16 +130,18 @@ class DogView(ViewObject):
         glBindTexture(GL_TEXTURE_2D, self.fur_texture)
         glEnable(GL_TEXTURE_2D)
         
+        glScale(0.5, 0.5, 0.5)
+        
         #Body
         glPushMatrix()
-        glTranslate(0.0, 0.0, -2.0)
+        glTranslate(0.0, 0.0, 0.0)
         self.rectangle()
         glPopMatrix()
         
         #Head
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
-        glTranslate(-5.8, 0.25, -3.5)
+        glTranslate(-5.8, 0.25, 0.0)
         glRotatef(20,0,0,1)
         self.rectangle()
         glPopMatrix()
@@ -147,7 +149,7 @@ class DogView(ViewObject):
         #Right Leg
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
-        glTranslate(2.5, -2.0, -3.5)
+        glTranslate(2.5, -2.0, 0.0)
         glRotatef(90,0,0,1)
         self.rectangle()
         glPopMatrix()
@@ -155,7 +157,7 @@ class DogView(ViewObject):
         #Left Leg
         glPushMatrix()
         glScale(0.5, 0.5, 0.5)
-        glTranslate(-3.5, -2.0, -3.5)
+        glTranslate(-3.5, -2.0, 0.0)
         glRotatef(90,0,0,1)
         self.rectangle()
         glPopMatrix()
@@ -163,7 +165,7 @@ class DogView(ViewObject):
         #Tail
         glPushMatrix()
         glScale(0.2, 0.2, 0.2)
-        glTranslate(10.0, 1.0, -8.0)
+        glTranslate(10.0, 1.0, 0.0)
         glRotatef(60,0,0,1)
         self.rectangle()
         glPopMatrix()
@@ -171,7 +173,7 @@ class DogView(ViewObject):
         #Ear
         glPushMatrix()
         glScale(0.25, 0.25, 0.25)
-        glTranslate(-8.5, 2.75, -6.5)
+        glTranslate(-8.5, 2.75, 0.0)
         glRotatef(40,0,0,1)
         self.rectangle()
         glPopMatrix()

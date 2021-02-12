@@ -17,15 +17,18 @@ class GameLogic:
         for id in self.game_objects:
             self.game_objects[id].tick()
             
-    def create_object(self, position, kind):
+    def create_object(self, which, position, size, kind):
         if kind == 'dog':
-            obj = GameObjectRotating(position, kind, self.next_id)
-        
+            #GameObjectRotating
+            obj = which(position, size, kind, self.next_id)
+            
         elif kind == 'house':
-            obj = GameObjectHouse(position, kind, self.next_id)
+            #GameObjectHouse
+            obj = which(position, size, kind, self.next_id)
             
         else:
-            obj = GameObject(position, kind, self.next_id)
+            #GameObject
+            obj = which(position, size, kind, self.next_id)
         
         self.next_id += 1
         self.game_objects[obj.id] = obj
@@ -34,10 +37,10 @@ class GameLogic:
         return obj
         
     def load_world(self):
-        self.create_object ([3, -3, -30], "dog")
-        self.create_object ([-2, -3, -30], "ball")
-        self.create_object ([0, 0, -30], "house")
-        self.create_object ([0, -10, 0], "ground")
+        self.create_object (GameObjectRotating, [3, -3, -30], [1.0, 1.0, 1.0], "dog")
+        self.create_object (GameObject, [-2, -3, -30], [0.25, 0.25, 0.25], "ball")
+        #self.create_object (GameObjectHouse, [0, 0, -30], [5.0, 5.0, 5.0], "house")
+        self.create_object (GameObject, [0, -10, 0], [10.0, 10.0, 10.0], "ground")
     
     def get_property(self, key):
         if key in self.properties:
