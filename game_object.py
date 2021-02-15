@@ -10,6 +10,7 @@ class GameObject:
         self._y_rotation = 0
         self._z_rotation = 0
         self.clicks = 0
+        self.color = (1, 1, 1, 1)
         
         self._moved = False
         
@@ -78,3 +79,13 @@ class GameObject:
     
     def clicked(self):
         self.clicks += 1
+        
+    @property
+    def color(self):
+        return self._color
+    
+    @color.setter
+    def color(self, value):
+        self._color = value
+        
+    

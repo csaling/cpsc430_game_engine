@@ -13,7 +13,7 @@ from ball_view import BallView
 
 from house_view import HouseView
 
-from ground_view import GroundView
+from cube_view import CubeView
 
 from localize import *
 
@@ -49,13 +49,8 @@ class PlayerView:
             self.view_objects[game_object.id] = BallView(game_object)
             self.ball = game_object
             
-        if game_object.kind == 'house':
-            self.view_objects[game_object.id] = HouseView(game_object)
-            self.house = game_object
-        
-        if game_object.kind == 'ground':
-            self.view_objects[game_object.id] = GroundView(game_object)
-            self.ground = game_object
+        if game_object.kind == 'cube':
+            self.view_objects[game_object.id] = CubeView(game_object)
             
         if game_object.kind == 'player':
             self.player = game_object

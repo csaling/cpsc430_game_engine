@@ -49,9 +49,17 @@ class GameLogic:
     def load_world(self):
         self.create_object (GameObjectRotating, [2, -5, -25], [5.0, 5.0, 5.0], "dog")
         self.create_object (GameObject, [-2, -3, -28], [0.5, 0.5, 0.5], "ball")
-        self.create_object (GameObjectHouse, [0, 0, -30], [10.0, 10.0, 10.0], "house")
-        self.create_object (GameObject, [0, -10, 0], [10.0, 10.0, 10.0], "ground")
-        self.create_object (GameObject, [0, -10, 0], [10.0, 10.0, 10.0], "cube")
+        floor = self.create_object (GameObject, [0, -1, 0], [100.0, 1.0, 100.0], "cube")
+        floor.color = (0, 0.9, 0.3)
+                                                    #Coordinates      #Scale
+        left_wall = self.create_object (GameObject, [-10, 4, -20], [0.5, 10.0, 10.0], "cube")
+        left_wall.color = (0.6, 0.3, 0.3)
+        
+        right_wall = self.create_object (GameObject, [10, 4, -20], [0.5, 10.0, 10.0], "cube")
+        right_wall.color = (0.6, 0.3, 0.3)
+        
+        back_wall = self.create_object (GameObject, [0, 4, -25], [20, 10.0, 0.5], "cube")
+        back_wall.color = (0.6, 0.3, 0.3)
         
         self.create_object (Player, [0.0, 0.0, 0.0], [1.0, 1.0, 1.0], "player")
     
@@ -73,7 +81,7 @@ class GameLogic:
         distance = numpy.linalg.norm(mypos - otherpos)
         direction_vector = (mypos - otherpos) / distance
         
-        max_direction - max(direction_vector, key = abs)
+        max_direction = max(direction_vector, key = abs)
         
         indices = [i for i, j in enumerate(direction_vector) if j == max_direction]
         sizes = [object2.size[j] for i, j in enumerate(indices)]
