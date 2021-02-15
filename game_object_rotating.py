@@ -8,6 +8,7 @@ class GameObjectRotating(GameObject):
         self.new_rotation = -0.5
         
     def tick(self):
+        #self.allow_rotation = False
         if self.allow_rotation:
             
             self.z_rotation += self.new_rotation

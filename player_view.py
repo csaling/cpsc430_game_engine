@@ -38,7 +38,8 @@ class PlayerView:
         self.key_cooldown = 10
         
         self.paused = False
-        self.camera_angle = 0.0
+        self.player = None
+        self.clock = pygame.time.Clock ()
         
     def new_game_object(self, game_object):
         if game_object.kind == 'dog':
@@ -55,6 +56,9 @@ class PlayerView:
         if game_object.kind == 'ground':
             self.view_objects[game_object.id] = GroundView(game_object)
             self.ground = game_object
+            
+        if game_object.kind == 'player':
+            self.player = game_object
     
     def tick(self):
         mouseMove = (0, 0)
@@ -135,31 +139,28 @@ class PlayerView:
             
             keypress = pygame.key.get_pressed()
             
-            self.camera_angle += mouseMove[1] * 0.1
-            glRotatef(self.camera_angle, 1.0, 0.0, 0.0)
-            
-            glPushMatrix()
-            glLoadIdentity()
             
             if keypress[pygame.K_w]:
-                glTranslatef(0, 0, 0.1)
+                pub.sendMessage('key-w')
                 
             if keypress[pygame.K_s]:
-                glTranslatef(0, 0, -0.1)
+                pub.sendMessage('key-s')
                 
             if keypress[pygame.K_d]:
-                glTranslatef(-0.1, 0, 0)
+                pub.sendMessage('key-d')
                 
             if keypress[pygame.K_a]:
-                glTranslatef(0.1, 0, 0)
+                pub.sendMessage('key-a')
                 
-            glRotatef(mouseMove[0] * 0.1, 0.0, 1.0, 0.0)    
-                
-            glMultMatrixf(self.viewMatrix)
-            self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
+            pub.sendMessage('rotate-y', amount = mouseMove[0] * 0.1)
+            pub.sendMessage('rotate-x', amount = mouseMove[1] * 0.1)
             
-            glPopMatrix()
-            glMultMatrixf(self.viewMatrix)
+            if self.player:
+                glRotate(self.player.x_rotation, 1.0, 0.0, 0.0)
+                glRotate(self.player.y_rotation, 0.0, 1.0, 0.0)
+                glTranslate(-self.player.position[0], -self.player.position[1], -self.player.position[2])
+                
+                self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
             
             glClearColor(0.0, 0.0, 1.0, 1.0)
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
@@ -168,12 +169,12 @@ class PlayerView:
             self.display()
             glPopMatrix()
             
-            self.cube()
+            #self.cube()
             
             self.render_hud()
             
             pygame.display.flip()
-            pygame.time.wait(10)
+            self.clock.tick(60)
         
     def display(self):
         glInitNames()
@@ -296,7 +297,7 @@ class PlayerView:
             self.ball = closest
             
     def cube(self):
-        glTranslate(3, -3, -30)
+        glTranslate(3, -3, -29.5)
         glScale(0.5, 0.5, 0.5)
         glBegin(GL_QUADS)
         # Front face

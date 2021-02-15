@@ -1,10 +1,11 @@
 from pubsub import pub
 
+import numpy
+
 from game_object import GameObject
-
 from game_object_rotating import GameObjectRotating
-
 from game_object_house import GameObjectHouse
+from game_object_player import Player
 
 class GameLogic:
     def __init__(self):
@@ -14,6 +15,15 @@ class GameLogic:
         self.next_id = 0
     
     def tick(self):
+        for game_object in self.game_objects:
+            if self.game_objects[game_object].moved:
+                for other in self.game_objects:
+                    if self.game_objects[game_object] == self.game_objects[other]:
+                        continue
+                    
+                    if self.collide(self.game_objects[game_object], self.game_objects[other]):
+                        self.game_objects[game_object].collisions.append(self.game_objects[other])
+                    
         for id in self.game_objects:
             self.game_objects[id].tick()
             
@@ -37,10 +47,13 @@ class GameLogic:
         return obj
         
     def load_world(self):
-        self.create_object (GameObjectRotating, [3, -3, -30], [1.0, 1.0, 1.0], "dog")
-        self.create_object (GameObject, [-2, -3, -30], [0.25, 0.25, 0.25], "ball")
-        #self.create_object (GameObjectHouse, [0, 0, -30], [5.0, 5.0, 5.0], "house")
+        self.create_object (GameObjectRotating, [2, -5, -25], [5.0, 5.0, 5.0], "dog")
+        self.create_object (GameObject, [-2, -3, -28], [0.5, 0.5, 0.5], "ball")
+        self.create_object (GameObjectHouse, [0, 0, -30], [10.0, 10.0, 10.0], "house")
         self.create_object (GameObject, [0, -10, 0], [10.0, 10.0, 10.0], "ground")
+        self.create_object (GameObject, [0, -10, 0], [10.0, 10.0, 10.0], "cube")
+        
+        self.create_object (Player, [0.0, 0.0, 0.0], [1.0, 1.0, 1.0], "player")
     
     def get_property(self, key):
         if key in self.properties:
@@ -50,3 +63,20 @@ class GameLogic:
     
     def set_property(self, key, value):
         self.properties[key] = value
+        
+    def collide(self, object1, object2):
+        radius1 = max(object1.size)
+        
+        mypos = numpy.array(object1.position)
+        otherpos = numpy.array(object2.position)
+        
+        distance = numpy.linalg.norm(mypos - otherpos)
+        direction_vector = (mypos - otherpos) / distance
+        
+        max_direction - max(direction_vector, key = abs)
+        
+        indices = [i for i, j in enumerate(direction_vector) if j == max_direction]
+        sizes = [object2.size[j] for i, j in enumerate(indices)]
+        radius2 = max(sizes)
+        
+        return distance <  radius1 + radius2

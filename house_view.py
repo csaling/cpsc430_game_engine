@@ -11,10 +11,10 @@ class HouseView(ViewObject):
         glBegin(GL_QUADS)
         #Floor
         glColor(1.0, 1.0, 0.0, 1.0)
-        glVertex3f(-1,-1,-1)
-        glVertex3f(1,-1,-1)
-        glVertex3f(1,-1,1)
-        glVertex3f(-1,-1,1)
+        glVertex3f(-0.5,-0.5,-0.5)
+        glVertex3f(0.5,-0.5,-0.5)
+        glVertex3f(0.5,-0.5,0.5)
+        glVertex3f(-0.5,-0.5,0.5)
 
         glEnd()
         
@@ -22,17 +22,17 @@ class HouseView(ViewObject):
         #Door
         glColor(0.5, 0.3, 0.2, 1.0)
         if self.game_object.door_open:
-            glVertex3f(-1,-1,1)
-            glVertex3f(-1,-1,3)
-            glVertex3f(-1,1,3)
-            glVertex3f(-1,1,1)
+            glVertex3f(-0.5,-0.5,0.5)
+            glVertex3f(-0.5,-0.5,1.5)
+            glVertex3f(-0.5,0.5,1.5)
+            glVertex3f(-0.5,0.5,0.5)
             
             
         else: 
-            glVertex3f(-1,-1,1)
-            glVertex3f(1,-1,1)
-            glVertex3f(1,1,1)
-            glVertex3f(-1,1,1)    
+            glVertex3f(-0.5,-0.5,0.5)
+            glVertex3f(0.5,-0.5,0.5)
+            glVertex3f(0.5,0.5,0.5)
+            glVertex3f(-0.5,0.5,0.5)    
 
         glEnd()
         
@@ -40,28 +40,28 @@ class HouseView(ViewObject):
         
         #Ceiling
         glColor(1.0, 0.0, 0.0, 1.0)
-        glVertex3f(-1,1,-1)
-        glVertex3f(1,1,-1)
-        glVertex3f(1,1,1)
-        glVertex3f(-1,1,1)
+        glVertex3f(-0.5,0.5,-0.5)
+        glVertex3f(0.5,0.5,-0.5)
+        glVertex3f(0.5,0.5,0.5)
+        glVertex3f(-0.5,0.5,0.5)
         
         #Back
-        glVertex3f(-1,-1,-1)
-        glVertex3f(1,-1,-1)
-        glVertex3f(1,1,-1)
-        glVertex3f(-1,1,-1)
+        glVertex3f(-0.5,-0.5,-0.5)
+        glVertex3f(0.5,-0.5,-0.5)
+        glVertex3f(0.5,0.5,-0.5)
+        glVertex3f(-0.5,0.5,-0.5)
 
         #Right Side
-        glVertex3f(1,1,1)
-        glVertex3f(1,-1,1)
-        glVertex3f(1,-1,-1)
-        glVertex3f(1,1,-1)
+        glVertex3f(0.5,0.5,0.5)
+        glVertex3f(0.5,-0.5,0.5)
+        glVertex3f(0.5,-0.5,-0.5)
+        glVertex3f(0.5,0.5,-0.5)
 
         #Left Side
-        glVertex3f(-1,1,1)
-        glVertex3f(-1,-1,1)
-        glVertex3f(-1,-1,-1)
-        glVertex3f(-1,1,-1)
+        glVertex3f(-0.5,0.5,0.5)
+        glVertex3f(-0.5,-0.5,0.5)
+        glVertex3f(-0.5,-0.5,-0.5)
+        glVertex3f(-0.5,0.5,-0.5)
         
         glEnd()
         

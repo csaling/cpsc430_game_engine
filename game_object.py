@@ -11,6 +11,12 @@ class GameObject:
         self._z_rotation = 0
         self.clicks = 0
         
+        self._moved = False
+        
+    @property
+    def moved(self):
+        return self._moved
+    
     @property
     def kind(self):
         return self._kind
