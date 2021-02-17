@@ -4,7 +4,6 @@ import numpy
 
 from game_object import GameObject
 from game_object_rotating import GameObjectRotating
-from game_object_house import GameObjectHouse
 from game_object_player import Player
 
 class GameLogic:
@@ -49,8 +48,9 @@ class GameLogic:
     def load_world(self):
         self.create_object (GameObjectRotating, [2, -5, -25], [5.0, 5.0, 5.0], "dog")
         self.create_object (GameObject, [-2, -3, -28], [0.5, 0.5, 0.5], "ball")
-        floor = self.create_object (GameObject, [0, -1, 0], [100.0, 1.0, 100.0], "cube")
-        floor.color = (0, 0.9, 0.3)
+        
+        ground = self.create_object (GameObject, [0, -1, 0], [100.0, 1.0, 100.0], "cube")
+        ground.color = (0, 0.9, 0.3)
                                                     #Coordinates      #Scale
         left_wall = self.create_object (GameObject, [-10, 4, -20], [0.5, 10.0, 10.0], "cube")
         left_wall.color = (0.6, 0.3, 0.3)
@@ -60,6 +60,18 @@ class GameLogic:
         
         back_wall = self.create_object (GameObject, [0, 4, -25], [20, 10.0, 0.5], "cube")
         back_wall.color = (0.6, 0.3, 0.3)
+        
+        roof = self.create_object (GameObject, [0, 9, -20], [20, 0.5, 10], "cube")
+        roof.color = (0.6, 0.3, 0.3)
+        
+        floor = self.create_object (GameObject, [0, -0.5, -20], [20, 0.5, 10], "cube")
+        floor.color = (1.0, 1.0, 0.0)
+        
+        front_left = self.create_object (GameObject, [-7, 4, -15], [6, 10.0, 0.5], "cube")
+        front_left.color = (0.6, 0.3, 0.3)
+        
+        front_right = self.create_object (GameObject, [7, 4, -15], [6, 10.0, 0.5], "cube")
+        front_right.color = (0.6, 0.3, 0.3)
         
         self.create_object (Player, [0.0, 0.0, 0.0], [1.0, 1.0, 1.0], "player")
     

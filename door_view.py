@@ -6,8 +6,8 @@ from OpenGL.GL import *
 
 from view_object import ViewObject
 
-class HouseView(ViewObject):
-    def house(self):
+class DoorView(ViewObject):
+    def door(self):
         glBegin(GL_QUADS)
         #Floor
         glColor(1.0, 1.0, 0.0, 1.0)
@@ -67,5 +67,5 @@ class HouseView(ViewObject):
         
     def draw(self):
         glPushMatrix()
-        self.house()
+        self.door()
         glPopMatrix()
