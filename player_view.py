@@ -11,8 +11,6 @@ from dog_view import DogView
 
 from ball_view import BallView
 
-from house_view import HouseView
-
 from cube_view import CubeView
 
 from localize import *
@@ -54,6 +52,9 @@ class PlayerView:
             
         if game_object.kind == 'player':
             self.player = game_object
+            
+        if game_object.kind == 'door':
+            self.view_objects[game_object.id] = CubeView(game_object)
     
     def tick(self):
         mouseMove = (0, 0)
@@ -91,7 +92,7 @@ class PlayerView:
                     self.ball.y_rotation = 0
                     
                 if event.key == pygame.K_SPACE:
-                    self.game_logic.create_object (GameObject, [-2, -3, -30], [0.25, 0.25, 0.25], "ball")
+                    self.game_logic.create_object (GameObject, [-1, 1, -22.5], [0.5, 0.5, 0.5], "ball")
                     
             if not self.paused:
                 if event.type == pygame.MOUSEMOTION:
@@ -250,7 +251,7 @@ class PlayerView:
         windowX = pos[0]
         windowY = self.window_height - pos[1]
         
-        glSelectBuffer(20)
+        glSelectBuffer(500)
         glRenderMode(GL_SELECT)
         
         glMatrixMode(GL_PROJECTION);
@@ -286,7 +287,7 @@ class PlayerView:
             
             if not closest or numpy.linalg.norm(obj_pos - camera) < numpy.linalg.norm(closest.position - camera):
                 closest = self.view_objects[obj].game_object
-                
+
         closest.clicked()
         if closest.kind == 'ball':
             self.ball = closest

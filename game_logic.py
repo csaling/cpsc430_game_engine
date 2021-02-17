@@ -4,6 +4,7 @@ import numpy
 
 from game_object import GameObject
 from game_object_rotating import GameObjectRotating
+from game_object_door import GameObjectDoor
 from game_object_player import Player
 
 class GameLogic:
@@ -46,16 +47,17 @@ class GameLogic:
         return obj
         
     def load_world(self):
-        self.create_object (GameObjectRotating, [2, -5, -25], [5.0, 5.0, 5.0], "dog")
-        self.create_object (GameObject, [-2, -3, -28], [0.5, 0.5, 0.5], "ball")
+        self.create_object (GameObjectRotating, [3, -0.5, -20], [5.0, 5.0, 5.0], "dog")
+        
+        self.create_object (GameObject, [-1, 1, -22.5], [0.5, 0.5, 0.5], "ball")
         
         ground = self.create_object (GameObject, [0, -1, 0], [100.0, 1.0, 100.0], "cube")
         ground.color = (0, 0.9, 0.3)
                                                     #Coordinates      #Scale
-        left_wall = self.create_object (GameObject, [-10, 4, -20], [0.5, 10.0, 10.0], "cube")
+        left_wall = self.create_object (GameObject, [-9.75, 4, -20], [0.5, 10.0, 10.0], "cube")
         left_wall.color = (0.6, 0.3, 0.3)
         
-        right_wall = self.create_object (GameObject, [10, 4, -20], [0.5, 10.0, 10.0], "cube")
+        right_wall = self.create_object (GameObject, [9.75, 4, -20], [0.5, 10.0, 10.0], "cube")
         right_wall.color = (0.6, 0.3, 0.3)
         
         back_wall = self.create_object (GameObject, [0, 4, -25], [20, 10.0, 0.5], "cube")
@@ -64,14 +66,17 @@ class GameLogic:
         roof = self.create_object (GameObject, [0, 9, -20], [20, 0.5, 10], "cube")
         roof.color = (0.6, 0.3, 0.3)
         
-        floor = self.create_object (GameObject, [0, -0.5, -20], [20, 0.5, 10], "cube")
+        floor = self.create_object (GameObject, [0, -0.5, -19.8], [19, 0.5, 10], "cube")
         floor.color = (1.0, 1.0, 0.0)
         
-        front_left = self.create_object (GameObject, [-7, 4, -15], [6, 10.0, 0.5], "cube")
+        front_left = self.create_object (GameObject, [-6.5, 4, -15], [7, 10.0, 0.5], "cube")
         front_left.color = (0.6, 0.3, 0.3)
         
-        front_right = self.create_object (GameObject, [7, 4, -15], [6, 10.0, 0.5], "cube")
+        front_right = self.create_object (GameObject, [6.5, 4, -15], [7, 10.0, 0.5], "cube")
         front_right.color = (0.6, 0.3, 0.3)
+        
+        door = self.create_object (GameObjectDoor, [0, 4, -15], [6, 10.0, 0.5], "door")
+        door.color = (1.0, 0.0, 0.0)
         
         self.create_object (Player, [0.0, 0.0, 0.0], [1.0, 1.0, 1.0], "player")
     
