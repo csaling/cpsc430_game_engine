@@ -12,7 +12,14 @@ class GameObject:
         self.clicks = 0
         self.color = (1, 1, 1, 1)
         
+        self.behaviors = []
+        
+        self.collisions = []
         self._moved = False
+      
+    def add_behavior(self, behavior):
+        self.behaviors.append(behavior)
+        behavior.connect(self)
         
     @property
     def moved(self):
@@ -75,10 +82,17 @@ class GameObject:
         self._z_rotation = value
        
     def tick(self):
-        pass
+        for behavior in self.behaviors:
+            behavior.tick()
+            
+        self.collisions = []
+        self._moved = False
     
     def clicked(self):
         self.clicks += 1
+        
+        for behavior in self.behaviors:
+            behavior.clicked()
         
     @property
     def color(self):

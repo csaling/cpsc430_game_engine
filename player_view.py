@@ -105,25 +105,23 @@ class PlayerView:
         
             if keys[K_LCTRL] or keys[K_RCTRL]:
                 if keys[K_LEFT]:
-                    self.ball.y_rotation = 1
-                    self.ball.z_rotation += 2.0
+                    pub.sendMessage('arrowLeft')
                     
                 if keys[K_RIGHT]:
-                    self.ball.y_rotation = 1
-                    self.ball.z_rotation -= 2.0
+                    pub.sendMessage('arrowRight')
 
             else:
                 if keys[K_LEFT]:
-                    self.ball.position[0] -= 0.05
+                    pub.sendMessage('ballLeft')
                     
                 if keys[K_RIGHT]:
-                    self.ball.position[0] += 0.05
+                    pub.sendMessage('ballRight')
                 
                 if keys[K_UP]:
-                    self.ball.position[1] += 0.05
+                    pub.sendMessage('ballUp')
                     
                 if keys[K_DOWN]:
-                    self.ball.position[1] -= 0.05
+                    pub.sendMessage('ballDown')
                 
         if self.key_cooldown > 0:
             self.key_cooldown -= 1
@@ -148,8 +146,8 @@ class PlayerView:
             if keypress[pygame.K_a]:
                 pub.sendMessage('key-a')
                 
-            pub.sendMessage('rotate-y', amount = mouseMove[0] * 0.1)
-            pub.sendMessage('rotate-x', amount = mouseMove[1] * 0.1)
+            pub.sendMessage('rotate-y', amount = mouseMove[0])
+            pub.sendMessage('rotate-x', amount = mouseMove[1])
             
             if self.player:
                 glRotate(self.player.x_rotation, 1.0, 0.0, 0.0)
