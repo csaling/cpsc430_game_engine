@@ -1,10 +1,10 @@
 from behavior import Behavior
 
 class Bouncing(Behavior):
-    def __init__(self, speed, minRot, maxRot):
+    def __init__(self, allow_rotation, speed, minRot, maxRot):
         super(Bouncing, self).__init__()
         
-        self.allow_rotation = True
+        self.allow_rotation = allow_rotation
         self.speed = speed
         self.minRot = minRot
         self.maxRot = maxRot

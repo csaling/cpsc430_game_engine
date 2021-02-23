@@ -3,12 +3,12 @@ from pubsub import pub
 import numpy
 
 from game_object import GameObject
-from game_object_door import GameObjectDoor
 from game_object_player import Player
 from behavior_bouncing import Bouncing
 from behavior_key_move import KeyMove
 from behavior_mouse_rotation import MouseRotation
 from behavior_collision import BlockedByObjects
+from behavior_slide import Slide
 from behavior_spin import Spin
 from behavior_move2D import Move2D
 
@@ -45,7 +45,7 @@ class GameLogic:
     def load_world(self):
     
         dog = self.create_object ([3, -0.5, -20], [5.0, 5.0, 5.0], "dog")
-        dog.add_behavior(Bouncing(-0.5, 0, -40))
+        dog.add_behavior(Bouncing(True, -0.5, 0, -40))
         
         ball = self.create_object ([-1, 1, -22.5], [0.5, 0.5, 0.5], "ball")
         ball.add_behavior(Spin(2.0, 1))
@@ -75,9 +75,9 @@ class GameLogic:
         front_right = self.create_object ([6.5, 4, -15], [7, 10.0, 0.5], "cube")
         front_right.color = (0.6, 0.3, 0.3)
         
-        #door = self.create_object ([0, 4, -15], [6, 10.0, 0.5], "door")
-        #door.color = (1.0, 0.0, 0.0)
-        #door.add_behavior()
+        door = self.create_object ([0, 4, -15], [6, 10.0, 0.5], "door")
+        door.color = (1.0, 0.0, 0.0)
+        door.add_behavior(Slide(False, 0.1, 5))
         
         player = self.create_object ([0.0, 0.0, 0.0], [1.0, 1.0, 1.0], "player")
         player.add_behavior(KeyMove(0.1))
