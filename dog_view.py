@@ -125,11 +125,31 @@ class DogView(ViewObject):
         glVertex3d(2.0, 0.0, 0.0)
         
         glEnd()
+        
+    def leash(self):
+        glBegin(GL_QUADS)
+        glColor(0.5, 0.5, 0.5, 1.0)
+        glNormal3f(0.0, 0.0, 1.0)
+        
+        #Top Left
+        glVertex3d(-0.15, 0.50, -0.35)
+        
+        #Bottom Left
+        glVertex3d(-0.15, 0.50, -0.45)
+        
+        #Bottom Right
+        glVertex3d(self.game_object.player_position[0] - self.game_object.position[0], self.game_object.player_position[1] - self.game_object.position[1] - 2, self.game_object.player_position[2] - self.game_object.position[2])
+        
+        #Top Right
+        glVertex3d(self.game_object.player_position[0] - self.game_object.position[0], self.game_object.player_position[1] - self.game_object.position[1]- 2, self.game_object.player_position[2] - self.game_object.position[2] + 0.10)
+        
+        glEnd()
     
     def draw(self):
         glBindTexture(GL_TEXTURE_2D, self.fur_texture)
         glEnable(GL_TEXTURE_2D)
         
+        glPushMatrix()
         glTranslate(0.1, 0.5,-0.5)
         glScale(0.15, 0.15, 0.15)
         
@@ -178,5 +198,10 @@ class DogView(ViewObject):
         glRotatef(40,0,0,1)
         self.rectangle()
         glPopMatrix()
+        
+        glPopMatrix()
+        
+        #Leash
+        self.leash()
         
         glDisable(GL_TEXTURE_2D)

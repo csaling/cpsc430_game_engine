@@ -11,7 +11,6 @@ class Bouncing(Behavior):
         
         
     def tick(self):
-        #self.allow_rotation = False
         if self.allow_rotation:
             
             self.game_object.z_rotation += self.speed

@@ -11,6 +11,7 @@ from behavior_collision import BlockedByObjects
 from behavior_slide import Slide
 from behavior_spin import Spin
 from behavior_move2D import Move2D
+from behavior_teleport import Teleport
 
 class GameLogic:
     def __init__(self):
@@ -43,9 +44,15 @@ class GameLogic:
         return obj
         
     def load_world(self):
+        
+        player = self.create_object ([0, 0, 0], [1.0, 1.0, 1.0], "player")
+        player.add_behavior(KeyMove(0.1))
+        player.add_behavior(MouseRotation(0.1))
+        player.add_behavior(BlockedByObjects())
     
-        dog = self.create_object ([3, -0.5, -20], [5.0, 5.0, 5.0], "dog")
-        dog.add_behavior(Bouncing(True, -0.5, 0, -40))
+        dog = self.create_object ([0, -0.5, -2], [1.0, 1.0, 1.0], "dog")
+        dog.add_behavior(Bouncing(False, -0.5, 0, -40))
+        dog.add_behavior(Teleport(player, 10, 9.5))
         
         ball = self.create_object ([-1, 1, -22.5], [0.5, 0.5, 0.5], "ball")
         ball.add_behavior(Spin(2.0, 1))
@@ -77,12 +84,7 @@ class GameLogic:
         
         door = self.create_object ([0, 4, -15], [6, 10.0, 0.5], "door")
         door.color = (1.0, 0.0, 0.0)
-        door.add_behavior(Slide(False, 0.1, 5))
-        
-        player = self.create_object ([0.0, 0.0, 0.0], [1.0, 1.0, 1.0], "player")
-        player.add_behavior(KeyMove(0.1))
-        player.add_behavior(MouseRotation(0.1))
-        player.add_behavior(BlockedByObjects())
+        door.add_behavior(Slide(player, False, 0.1, 10, 5))
         
     def get_property(self, key):
         if key in self.properties:

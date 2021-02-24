@@ -102,4 +102,3 @@ class GameObject:
     def color(self, value):
         self._color = value
         
-    
