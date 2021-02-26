@@ -1,8 +1,9 @@
 from localize import Localize
 
 class GameObject:
-    def __init__(self, position, size, kind, id):
+    def __init__(self, position, size, color, kind, id, name):
         self.position = position
+        self._name = name
         self.kind = kind
         self.size = size
         self.id = id
@@ -10,7 +11,7 @@ class GameObject:
         self._y_rotation = 0
         self._z_rotation = 0
         self.clicks = 0
-        self.color = (1, 1, 1, 1)
+        self.color = color
         
         self.behaviors = []
         
@@ -20,7 +21,11 @@ class GameObject:
     def add_behavior(self, behavior):
         self.behaviors.append(behavior)
         behavior.connect(self)
-        
+      
+    @property
+    def name(self):
+        return self._name
+      
     @property
     def moved(self):
         return self._moved

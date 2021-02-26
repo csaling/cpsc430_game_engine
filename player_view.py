@@ -20,8 +20,8 @@ from localize import _
 from game_object import GameObject
 
 class PlayerView:
-    def __init__(self, game_logic):
-        self.game_logic = game_logic
+    def __init__(self):
+        
         self.view_objects = {}
         pub.subscribe(self.new_game_object, 'create')
         
@@ -62,7 +62,7 @@ class PlayerView:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                self.game_logic.set_property('quit', True)
+                GameLogic.set_property('quit', True)
                 return
             
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -92,7 +92,7 @@ class PlayerView:
                     self.ball.y_rotation = 0
                     
                 if event.key == pygame.K_SPACE:
-                    self.game_logic.create_object (GameObject, [-1, 1, -22.5], [0.5, 0.5, 0.5], "ball")
+                    GameLogic.create_object (GameObject, [-1, 1, -22.5], [0.5, 0.5, 0.5], "ball")
                     
             if not self.paused:
                 if event.type == pygame.MOUSEMOTION:

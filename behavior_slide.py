@@ -6,7 +6,8 @@ class Slide(Behavior):
     def __init__(self, player, open, speed, radius, door_length):
         super(Slide, self).__init__()
         
-        self.player = player
+        from game_logic import GameLogic
+        self.player = GameLogic.get_object(player)
         self.open = open
         self.speed = speed
         self.radius = radius

@@ -5,10 +5,11 @@ class Teleport(Behavior):
     def __init__(self, player, radius, leash_length):
         super(Teleport, self).__init__()
         
-        self.player = player
+        from game_logic import GameLogic
+        self.player = GameLogic.get_object(player)
         self.radius = radius
         self.leash_length = leash_length
-        
+
     def tick(self):
         self.game_object.player_position = self.player.position
         
