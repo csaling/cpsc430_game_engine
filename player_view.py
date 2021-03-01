@@ -22,7 +22,8 @@ from game_object import GameObject
 class PlayerView:
     def __init__(self):
         
-        self.view_objects = {}
+        self.clear_view_objects()
+        
         pub.subscribe(self.new_game_object, 'create')
         
         self.clicks = 0
@@ -38,6 +39,11 @@ class PlayerView:
         self.paused = False
         self.player = None
         self.clock = pygame.time.Clock ()
+        
+        pub.subscribe(self.clear_view_objects, 'view_objects')
+        
+    def clear_view_objects(self):
+        self.view_objects = {}
         
     def new_game_object(self, game_object):
         if game_object.kind == 'dog':

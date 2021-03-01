@@ -9,6 +9,10 @@ class Teleport(Behavior):
         self.player = GameLogic.get_object(player)
         self.radius = radius
         self.leash_length = leash_length
+        
+    def connect(self, game_object):
+        super(Teleport, self).connect(game_object)
+        self.game_object.player_position = (0, 0, 0)
 
     def tick(self):
         self.game_object.player_position = self.player.position

@@ -1,0 +1,31 @@
+{
+    "objects": [
+        {"kind": "player", "name": "player", "position": [0.0, 1.0, 0.0], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1]}},
+        {"kind": "dog", "name": "Sami", "position": [0, -0.5, -2], "size": [1.0, 1.0, 1.0], "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Bouncing": [false, -0.5, 0, -40], "Teleport": ["player", 10, 9.5]}},
+        {"kind": "door", "name": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5]}},
+        {"kind": "ball", "name": "ball", "position": [-1, 1, -22.5], "size": [0.5, 0.5, 0.5], "behaviors": {"Spin": [2.0, 1], "Move2D": [0.1]}},
+        {"kind": "cube", "name": "ground", "position": [0, -51, 0], "size": [100.0, 100.0, 100.0], "color": [0, 0.9, 0.3, 1.0]},
+        {"kind": "cube", "name": "left_wall", "position": [-9.75, 4, -20], "size": [0.5, 10.0, 10.0], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"kind": "cube", "name": "right_wall", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"kind": "cube", "name": "back_wall", "position": [0, 4, -25], "size": [20, 10.0, 0.5], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"kind": "cube", "name": "roof", "position": [0, 9, -20], "size": [20, 0.5, 10], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"kind": "cube", "name": "floor", "position": [0, -0.5, -19.8], "size": [19, 0.5, 10], "color": [1.0, 1.0, 0.0, 1.0]},
+        {"kind": "cube", "name": "front_left", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"kind": "cube", "name": "front_right", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"kind": "cube", "name": "reverse_world_door", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"LoadWorld": ["reverse_world.txt"]}}
+    
+    ],
+    
+    "behaviors": {
+        "KeyMove": "behavior_key_move",
+        "MouseRotation": "behavior_mouse_rotation",
+        "Bouncing": "behavior_bouncing",
+        "BlockedByObjects": "behavior_collision",
+        "Slide": "behavior_slide",
+        "Spin": "behavior_spin",
+        "Move2D": "behavior_move2D",
+        "Teleport": "behavior_teleport",
+        "LoadWorld": "behavior_load_world",
+        "Gravity": "behavior_gravity"
+    }
+}

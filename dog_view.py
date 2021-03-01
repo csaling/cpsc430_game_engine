@@ -25,8 +25,8 @@ class DogView(ViewObject):
         
     def rectangle(self):
         glBegin(GL_QUADS)
-        glColor(0.5, 0.5, 0.5, 1.0)
-        glNormal3f(0.0, 0.0, 1.0)
+        glColor(*self.game_object.color)
+        glNormal3f(0.0, 0.0, 0.0)
         
         #Left Side
         #Top Left
