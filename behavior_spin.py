@@ -12,9 +12,9 @@ class Spin(Behavior):
         pub.subscribe(self.arrowRight, 'arrowRight')
         
     def arrowLeft(self):
-        self.ball.y_rotation = rotation
-        self.ball.z_rotation += speed
+        self.game_object.y_rotation = self.rotation
+        self.game_object.z_rotation += self.speed
       
     def arrowRight(self):
-        self.ball.y_rotation = rotation
-        self.ball.z_rotation -= speed
+        self.game_object.y_rotation = self.rotation
+        self.game_object.z_rotation -= self.speed

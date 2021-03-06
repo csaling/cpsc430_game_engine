@@ -79,7 +79,10 @@ class PlayerView:
                 if event.key == pygame.K_p:
                     self.paused = not self.paused
                     pygame.mouse.set_pos(self.viewCenter)
-            
+
+                if event.key == pygame.K_SPACE:
+                    pub.sendMessage('key-jump')
+                    
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                 self.clicks += 1
                 
@@ -96,9 +99,6 @@ class PlayerView:
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     self.ball.y_rotation = 0
-                    
-                if event.key == pygame.K_SPACE:
-                    GameLogic.create_object (GameObject, [-1, 1, -22.5], [0.5, 0.5, 0.5], "ball")
                     
             if not self.paused:
                 if event.type == pygame.MOUSEMOTION:
@@ -168,8 +168,6 @@ class PlayerView:
             glPushMatrix()
             self.display()
             glPopMatrix()
-            
-            #self.cube()
             
             self.render_hud()
             
@@ -295,51 +293,4 @@ class PlayerView:
         closest.clicked()
         if closest.kind == 'ball':
             self.ball = closest
-            
-    def cube(self):
-        glTranslate(3, -3, -29.5)
-        glScale(0.5, 0.5, 0.5)
-        glBegin(GL_QUADS)
-        # Front face
-        glColor(1.0, 0.0, 0.0, 1.0)
-        glNormal3f( 0.0, 0.0, 1.0)
-        glVertex3d(-1.0, 1.0, 1.0)
-        glVertex3d(-1.0, -1.0, 1.0)
-        glVertex3d(1.0, -1.0, 1.0)
-        glVertex3d(1.0, 1.0, 1.0)
-        # Left face
-        glColor(0.0, 1.0, 0.0, 1.0)
-        glNormal3f( -1.0, 0.0, 0.0)
-        glVertex3d(-1.0, 1.0, 1.0)
-        glVertex3d(-1.0, -1.0, 1.0)
-        glVertex3d(-1.0, -1.0, -1.0)
-        glVertex3d(-1.0, 1.0, -1.0)
-        # Back face
-        glColor(0.0, 0.0, 1.0, 1.0)
-        glNormal3f( 0.0, 0.0, -1.0)
-        glVertex3d(-1.0, 1.0, -1.0)
-        glVertex3d(-1.0, -1.0, -1.0)
-        glVertex3d(1.0, -1.0, -1.0)
-        glVertex3d(1.0, 1.0, -1.0)
-        # Right face
-        glColor(1.0, 1.0, 0.0, 1.0)
-        glNormal3f( 1.0, 0.0, 0.0)
-        glVertex3d(1.0, 1.0, 1.0)
-        glVertex3d(1.0, -1.0, 1.0)
-        glVertex3d(1.0, -1.0, -1.0)
-        glVertex3d(1.0, 1.0, -1.0)
-        # Top face
-        glColor(0.0, 1.0, 1.0, 1.0)
-        glNormal3f( 0.0, 1.0, 0.0)
-        glVertex3d(-1.0, 1.0, 1.0)
-        glVertex3d(1.0, 1.0, 1.0)
-        glVertex3d(1.0, 1.0, -1.0)
-        glVertex3d(-1.0, 1.0, -1.0)
-        # Bottom face
-        glColor(1.0, 1.0, 1.0, 1.0)
-        glNormal3f( 0.0, -1.0, 0.0)
-        glVertex3d(-1.0, -1.0, 1.0)
-        glVertex3d(1.0, -1.0, 1.0)
-        glVertex3d(1.0, -1.0, -1.0)
-        glVertex3d(-1.0, -1.0, -1.0)
-        glEnd()
+        
