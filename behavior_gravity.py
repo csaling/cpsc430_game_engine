@@ -9,10 +9,6 @@ class Gravity(Behavior):
         self.old_y = 0.0
         
     def tick(self):
-        if self.game_object.position[1]:
-            self.game_object.set_property('falling', False)
-            self.game_object.position[1] = 0.0
-            return
         
         self.old_y = self.game_object.position[1]
         self.game_object.position[1] -= self.speed

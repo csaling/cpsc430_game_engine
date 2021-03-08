@@ -1,26 +1,29 @@
 from behavior import Behavior
 from math import pi, cos, sin
 from random import random
+import copy
 
 class Spawn(Behavior):
-    def __init__(self, rotation, size, color, kind, radius, amount):
+    def __init__(self, name, radius, amount):
         super(Spawn, self).__init__()
         
-        self.rotation = rotation
-        self.size = size
-        self.radius = radius
-        self.color = color
-        self.kind = kind
+        self.name = name
         self.radius = radius
         self.amount = amount
         self.current_amount = 0
       
-    def click(self):
+    def clicked(self, game_object):
         self.current_amount = self.amount
         
     def tick(self):
+        from game_logic import GameLogic
         if self.current_amount:
-            GameLogic.create_object(None, self.point(), self.rotation, size, color, kind)
+            obj = GameLogic.get_object(self.name)
+            obj = copy.deepcopy(obj)
+            obj.name = None
+            obj.position = self.point()
+            print(id(obj.position))
+            GameLogic.add_object(obj)
             self.current_amount -= 1
             
     def point(self):

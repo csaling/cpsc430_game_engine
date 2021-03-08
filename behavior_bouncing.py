@@ -20,6 +20,6 @@ class Bouncing(Behavior):
             if self.game_object.z_rotation >= self.minRot:
                 self.speed = self.speed * -1
                 
-    def clicked(self):
+    def clicked(self, game_object):
         self.allow_rotation = not self.allow_rotation
         

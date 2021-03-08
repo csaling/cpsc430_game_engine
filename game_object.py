@@ -28,6 +28,10 @@ class GameObject:
     def name(self):
         return self._name
       
+    @name.setter
+    def name(self, value):
+        self._name = value
+        
     @property
     def moved(self):
         return self._moved
@@ -96,11 +100,11 @@ class GameObject:
             
         self.collisions = []
     
-    def clicked(self):
+    def clicked(self, game_object):
         self.clicks += 1
         
         for behavior in self.behaviors:
-            behavior.clicked()
+            behavior.clicked(game_object)
         
     def get_property(self, key, default = None):
         if key in self.properties:

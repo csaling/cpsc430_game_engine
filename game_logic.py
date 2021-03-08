@@ -10,6 +10,8 @@ class GameLogic:
     properties = {}
     game_objects = {}
     name_index = {}
+    deletions = []
+    additions = []
     
     next_id = 0
     
@@ -23,20 +25,51 @@ class GameLogic:
                     
         for id in GameLogic.game_objects:
             GameLogic.game_objects[id].tick()
+            
+        GameLogic.process_deletions()
+        GameLogic.process_additions()
     
     @staticmethod
     def create_object(name, position, rotation, size, color, kind):
 
         obj = GameObject(name, position, rotation, size, color, kind, GameLogic.next_id)
-        
+       
+        return GameLogic.register_object(obj)
+       
+    @staticmethod
+    def register_object(obj):
         GameLogic.next_id += 1
         GameLogic.game_objects[obj.id] = obj
             
-        if name:
-            GameLogic.name_index[name] = obj
+        if obj.name:
+            GameLogic.name_index[obj.name] = obj
             
         pub.sendMessage('create', game_object = obj)
         return obj
+    
+    @staticmethod
+    def delete_object(obj):
+        GameLogic.deletions.append(obj)
+        
+    @staticmethod
+    def process_deletions():
+        for obj in GameLogic.deletions:
+            del GameLogic.game_objects[obj.id]
+            pub.sendMessage('delete', game_object = obj)
+            
+        GameLogic.deletions = []
+        
+    @staticmethod
+    def add_object(obj):
+        GameLogic.additions.append(obj)
+        
+    @staticmethod
+    def process_additions():
+        for obj in GameLogic.additions:
+            print(obj.position)
+            GameLogic.register_object(obj)
+            
+        GameLogic.additions = []
         
     @staticmethod
     def get_object(id):

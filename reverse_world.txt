@@ -1,11 +1,12 @@
 {
     "objects": [
-        {"kind": "player", "name": "player", "position": [0.0, 1.0, 0.0], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.01], "Jump": [5, 0.1]}},
-        {"kind": "dog", "name": "Sami", "position": [0, -1, -2], "size": [1.0, 1.0, 1.0], "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Bouncing": [false, -0.5, 0, -40], "Teleport": ["player", 10, 9.5]}},
-        {"kind": "dog", "name": "statue", "position": [0, -1, -2], "size": [1.0, 1.0, 1.0], "color": [0.0, 0.0, 1.0, 1.0], "behaviors": {"Spawn": [[0, 0, 0], [1.0, 1.0, 1.0], [0.0, 0.0, 1.0, 1.0], "vampire_dog", 10, 6]}},
-        {"kind": "vampire_dog", "name": "vampire_dog", "position": [0, -1, -2], "size": [1.0, 1.0, 1.0], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Bouncing": [false, -2, 0, -40]}},
+        {"kind": "player", "name": "player", "position": [0.0, 1.0, 0.0], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.2], "Jump": [1, 0.1]}},
+        {"kind": "dog", "name": "Sami", "position": [0, -1, -2], "size": [1.0, 1.0, 1.0], "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Bouncing": [false, -0.5, 0, -40], "Teleport": ["player", 10, 9.5], "Switch": ["key1", true, "bounce", true]}},
+        {"kind": "vampire_dog", "name": "statue", "position": [0, -1, -2], "size": [1.0, 1.0, 1.0], "color": [0.0, 0.0, 1.0, 1.0], "behaviors": {"Spawn": ["vampire_dog", 10, 6]}},
+        {"kind": "vampire_dog", "name": "vampire_dog", "position": [0, -10, -2], "size": [1.0, 1.0, 1.0], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Bouncing": [false, -2, 0, -40]}},
         {"kind": "door", "name": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5]}},
-        {"kind": "#ball", "name": "ball", "position": [-1, 1, -22.5], "size": [0.5, 0.5, 0.5], "behaviors": {"Spin": [2.0, 1], "Move2D": [0.1]}},
+        {"kind": "ball", "name": "ball", "position": [-1, 1, -22.5], "size": [0.5, 0.5, 0.5], "behaviors": {"Spin": [2.0, 1], "Move2D": [0.1], "Pickup": ["key1", true]}},
+        {"kind": "cube", "name": "platform", "position": [-52.5, -1.5, 0], "size": [5.0, 1.0, 5.0], "color": [0.7, 0, 0.5], "behaviors": {"Platform": [[-62.5, -1.5, 0], 0.05, true]}},
         {"kind": "cube", "name": "ground", "position": [0, -1.5, 0], "size": [100.0, 1.0, 100.0], "color": [0.9, 0.6, 0.1]},
         {"kind": "cube", "name": "left_wall", "position": [-9.75, 4, -20], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
         {"kind": "cube", "name": "right_wall", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
@@ -31,6 +32,9 @@
         "Gravity": "behavior_gravity",
         "Jump": "behavior_jump",
         "Pull": "behavior_pull",
-        "Spawn": "behavior_spawn"
+        "Spawn": "behavior_spawn",
+        "Platform": "behavior_platform",
+        "Pickup": "behavior_pickup",
+        "Switch": "behavior_switch"
     }
 }

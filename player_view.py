@@ -13,6 +13,8 @@ from ball_view import BallView
 
 from cube_view import CubeView
 
+from vampire_dog_view import VampireDogView
+
 from localize import *
 
 from localize import _
@@ -25,6 +27,7 @@ class PlayerView:
         self.clear_view_objects()
         
         pub.subscribe(self.new_game_object, 'create')
+        pub.subscribe(self.delete_game_object, 'delete')
         
         self.clicks = 0
         
@@ -61,7 +64,13 @@ class PlayerView:
             
         if game_object.kind == 'door':
             self.view_objects[game_object.id] = CubeView(game_object)
+            
+        if game_object.kind == 'vampire_dog':
+            self.view_objects[game_object.id] = VampireDogView(game_object)
     
+    def delete_game_object(self, game_object):
+        del self.view_objects[game_object.id]
+        
     def tick(self):
         mouseMove = (0, 0)
         
@@ -286,11 +295,12 @@ class PlayerView:
         
         for obj in objects:
             obj_pos = self.view_objects[obj].game_object.position
-            
+            #print(self.view_objects[obj].game_object.kind)
             if not closest or numpy.linalg.norm(obj_pos - camera) < numpy.linalg.norm(closest.position - camera):
                 closest = self.view_objects[obj].game_object
-
-        closest.clicked()
+        
+        closest.clicked(self.player)
+        
         if closest.kind == 'ball':
             self.ball = closest
         
