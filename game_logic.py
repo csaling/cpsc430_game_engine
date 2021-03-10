@@ -38,6 +38,7 @@ class GameLogic:
        
     @staticmethod
     def register_object(obj):
+        obj.id = GameLogic.next_id
         GameLogic.next_id += 1
         GameLogic.game_objects[obj.id] = obj
             
@@ -54,6 +55,8 @@ class GameLogic:
     @staticmethod
     def process_deletions():
         for obj in GameLogic.deletions:
+            if obj.name:
+                del GameLogic.name_index[obj.name]
             del GameLogic.game_objects[obj.id]
             pub.sendMessage('delete', game_object = obj)
             
