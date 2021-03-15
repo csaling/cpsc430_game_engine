@@ -10,3 +10,6 @@ class Behavior:
     
     def clicked(self, game_object):
         pass
+    
+    def delete(self):
+        pass

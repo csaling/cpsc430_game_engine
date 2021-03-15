@@ -1,4 +1,5 @@
 from localize import Localize
+from pubsub import pub
 
 class GameObject:
     def __init__(self, name, position, rotation, size, color, kind, id):
@@ -15,13 +16,29 @@ class GameObject:
         self.clicks = 0
         self.color = color
         
-        self.behaviors = []
+        self.behaviors = {}
         
         self.collisions = []
         self._moved = False
+        
+        pub.subscribe(self.clicked, "clicked-" + str(id))
+        
+        if name:
+            pub.subscribe(self.clicked, "clicked-" + name)
+      
+    def delete(self):
+        from game_logic import GameLogic
+        GameLogic.delete_object(self)
+        pub.unsubscribe(self.clicked, "clicked-" + str(self.id))
+        
+        if self.name:
+            pub.unsubscribe(self.clicked, "clicked-" + self.name)
+            
+        for behavior in self.behaviors:
+            self.behaviors[behavior].delete()
       
     def add_behavior(self, behavior):
-        self.behaviors.append(behavior)
+        self.behaviors[behavior.__class__.__name__] = behavior
         behavior.connect(self)
       
     @property
@@ -96,7 +113,7 @@ class GameObject:
         self._moved = False
         
         for behavior in self.behaviors:
-            behavior.tick()
+            self.behaviors[behavior].tick()
             
         self.collisions = []
     
@@ -104,7 +121,7 @@ class GameObject:
         self.clicks += 1
         
         for behavior in self.behaviors:
-            behavior.clicked(game_object)
+            self.behaviors[behavior].clicked(game_object)
         
     def get_property(self, key, default = None):
         if key in self.properties:

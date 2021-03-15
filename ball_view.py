@@ -14,72 +14,10 @@ class BallView(ViewObject):
     
     def __init__(self, game_object):
         super(BallView, self).__init__(game_object)
-        self.user_clicked()
         self.quadric = gluNewQuadric()
-      
-    def user_clicked(self):
-        img = pygame.font.SysFont('Arial', 50).render(_("Red Ball"), True, (255, 255, 255), (0, 0, 0))
-        w, h = img.get_size()
-        data = pygame.image.tostring(img, "RGBA", 1)
-        self.top_texture = glGenTextures(1)
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, w)
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, h//2)
-        glBindTexture(GL_TEXTURE_2D, self.top_texture)
-        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-        glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h/2, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
-        
-        self.bottom_texture = glGenTextures(1)
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, w)
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0)
-        glBindTexture(GL_TEXTURE_2D, self.bottom_texture)
-        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-        glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h/2, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
-        
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0)
-        
-    def update_lang(self):
-        self.user_clicked()
-        
-    def ball(self):
-        glBindTexture(GL_TEXTURE_2D, self.top_texture)
-        glBegin(GL_QUADS)
-        glColor(0.5, 0.5, 0.5, 1.0)
-        glNormal3f( 0.0, 0.0, 1.0)
-        
-        #Top Half
-        glTexCoord2f(0.0, 1.0)
-        glVertex3d(-0.75, 1.0, 1.0)
-        glTexCoord2f(0.0, 0.0)
-        glVertex3d(-1.0, 0.5, 1.0)
-        glTexCoord2f(1.0, 0.0)
-        glVertex3d(0.25, 0.5, 1.0)
-        glTexCoord2f(1.0, 1.0)
-        glVertex3d(0.0, 1.0, 1.0)
-        glEnd()
-        
-        #Bottom Half
-        glBindTexture(GL_TEXTURE_2D, self.bottom_texture)
-        glBegin(GL_QUADS)
-        glColor(0.5, 0.5, 0.5, 1.0)
-        glNormal3f( 0.0, 0.0, 1.0)
-        glTexCoord2f(0.0, 0.0)
-        glVertex3d(-0.75, 0.0, 1.0)
-        glTexCoord2f(0.0, 1.0)
-        glVertex3d(-1.0, 0.5, 1.0)
-        glTexCoord2f(1.0, 1.0)
-        glVertex3d(0.25, 0.5, 1.0)
-        glTexCoord2f(1.0, 0.0)
-        glVertex3d(0.0, 0.0, 1.0)
-        glEnd()
     
     def draw(self):
         glEnable(GL_TEXTURE_2D)
-        glPushMatrix()
-        glColor(1.0, 0.0, 0.0, 1.0)
+        glColor(*self.game_object.color)
         gluSphere(self.quadric , .5 , 36 , 18)
-        glPopMatrix()
         glDisable(GL_TEXTURE_2D)

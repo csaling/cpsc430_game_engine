@@ -4,13 +4,14 @@ from random import random
 import copy
 
 class Spawn(Behavior):
-    def __init__(self, name, radius, amount):
+    def __init__(self, name, radius, amount, adjust):
         super(Spawn, self).__init__()
         
         self.name = name
         self.radius = radius
         self.amount = amount
         self.current_amount = 0
+        self.adjust = adjust
       
     def clicked(self, game_object):
         self.current_amount = self.amount
@@ -22,11 +23,10 @@ class Spawn(Behavior):
             obj = copy.deepcopy(obj)
             obj.name = None
             obj.position = self.point()
-            print(id(obj.position))
             GameLogic.add_object(obj)
             self.current_amount -= 1
             
     def point(self):
         theta = random() * 2 * pi
-        return self.game_object.position[0] + cos(theta) * self.radius, self.game_object.position[1], self.game_object.position[2] + sin(theta) * self.radius
+        return self.game_object.position[0] + cos(theta) * self.radius, self.game_object.position[1] + self.adjust, self.game_object.position[2] + sin(theta) * self.radius
         

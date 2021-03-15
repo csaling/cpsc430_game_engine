@@ -18,4 +18,4 @@ class LoadWorld(Behavior):
         GameLogic.get_object(self.name).z_rotation = self.rotation[2]
         
         
-            
+        
