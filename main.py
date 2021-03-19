@@ -1,11 +1,14 @@
 from game_logic import GameLogic
 from player_view import PlayerView
+from sounds import Sounds
+
 class Main:
     def go (self):
         GameLogic.load_world("reverse_world.txt")
         
         while True:
             GameLogic.tick()
+            Sounds.tick()
             
             for instance in self.instances:
                 instance.tick()

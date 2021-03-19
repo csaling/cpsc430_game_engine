@@ -10,6 +10,8 @@ class GameLogic:
     properties = {}
     game_objects = {}
     name_index = {}
+    files = {}
+    
     deletions = []
     additions = []
     
@@ -131,6 +133,14 @@ class GameLogic:
                     instance = class_(*game_object['behaviors'][behaviors])
                     
                     obj.add_behavior(instance)
+                    
+            for file in level_data['files']:
+                GameLogic.files[file] = level_data['files'][file]
+                
+            if 'level' in level_data:
+                if 'music' in level_data['level']:
+                    from sounds import Sounds
+                    Sounds.play_music(*level_data['level']['music'])
     
     @staticmethod
     def get_property(key, default = None):

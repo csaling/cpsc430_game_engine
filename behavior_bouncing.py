@@ -1,7 +1,8 @@
 from behavior import Behavior
+from sounds import Sounds
 
 class Bouncing(Behavior):
-    def __init__(self, allow_rotation, speed, minRot, maxRot, key):
+    def __init__(self, allow_rotation, speed, minRot, maxRot, key, sound = None):
         super(Bouncing, self).__init__()
         
         self.allow_rotation = allow_rotation
@@ -9,7 +10,7 @@ class Bouncing(Behavior):
         self.minRot = minRot
         self.maxRot = maxRot
         self.key = key
-        
+        self.sound = sound
         
     def tick(self):
         if self.allow_rotation:
@@ -23,5 +24,8 @@ class Bouncing(Behavior):
                 
     def clicked(self, game_object):
         if game_object.get_property(self.key):
+            if self.sound:
+                Sounds.play_sound(self.sound)
+                
             self.allow_rotation = not self.allow_rotation
         
