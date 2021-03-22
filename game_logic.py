@@ -32,9 +32,9 @@ class GameLogic:
         GameLogic.process_additions()
     
     @staticmethod
-    def create_object(name, position, rotation, size, color, kind):
+    def create_object(data):
 
-        obj = GameObject(name, position, rotation, size, color, kind, GameLogic.next_id)
+        obj = GameObject(GameLogic.next_id, data)
        
         return GameLogic.register_object(obj)
        
@@ -71,7 +71,6 @@ class GameLogic:
     @staticmethod
     def process_additions():
         for obj in GameLogic.additions:
-            print(obj.position)
             GameLogic.register_object(obj)
             
         GameLogic.additions = []
@@ -106,23 +105,16 @@ class GameLogic:
                 if game_object['kind'][0] == '#':
                     continue
                 
-                size = [1.0, 1.0, 1.0]
-                if 'size' in game_object:
-                    size = game_object['size']
+                if 'size' not in game_object:
+                    game_object['size'] = [1.0, 1.0, 1.0]
                   
-                name = None
-                color = (1, 1, 1, 1)
-                rotation = (0, 0, 0)
-                if 'name' in game_object:
-                    name = game_object['name']
-                    
-                if 'color' in game_object:
-                    color = game_object['color']
+                if 'name' not in game_object:
+                    game_object['name'] = None
                     
                 if 'rotation' in game_object:
-                    rotation = game_object['rotation']
+                    game_object['rotation'] = (0, 0, 0)
                   
-                obj = GameLogic.create_object(name, game_object['position'], rotation, size, color, game_object['kind'])
+                obj = GameLogic.create_object(game_object)
                 
                 if 'behaviors' not in game_object:
                     continue

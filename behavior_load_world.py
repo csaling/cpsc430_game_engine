@@ -9,7 +9,7 @@ class LoadWorld(Behavior):
         self.name = name
         self.rotation = rotation
 
-    def clicked(self):
+    def clicked(self, game_object):
         from game_logic import GameLogic
         GameLogic.load_world(self.world)
         GameLogic.get_object(self.name).position = self.position

@@ -295,7 +295,6 @@ class PlayerView:
         
         for obj in objects:
             obj_pos = self.view_objects[obj].game_object.position
-            #print(self.view_objects[obj].game_object.kind)
             if not closest or numpy.linalg.norm(obj_pos - camera) < numpy.linalg.norm(closest.position - camera):
                 closest = self.view_objects[obj].game_object
         

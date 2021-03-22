@@ -4,31 +4,34 @@ from view_object import ViewObject
 
 from PIL.Image import open
 
+from textures import Textures
+
 class VampireDogView(ViewObject):
     
-    def __init__(self, game_object):
-        super(VampireDogView, self).__init__(game_object)
-        image = open('Dog Fur.JFIF')
+    def get_color(self, face):
+         
+         if face in self.game_object.faces:
+             if self.game_object.faces[face]['type'] == 'color':
+                 return self.game_object.faces[face]['value']
+                
+         return self.game_object.color
     
-        ix = image.size[0]
-        iy = image.size[1]
-        image = image.tobytes("raw", "RGB", 0, -1)
-        
-        self.fur_texture = glGenTextures(1)
-        
-        glBindTexture(GL_TEXTURE_2D, self.fur_texture)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, image)   
-        
+    def get_texture(self, face):
+         
+         if face in self.game_object.faces:
+             if self.game_object.faces[face]['type'] == 'texture':
+                 Textures.activate_texture(self.game_object.faces[face]['value'])
+                 return
+         
+         Textures.activate_texture(self.game_object.texture)
+         
     def rectangle(self):
+        
+    #Left Side
+        self.get_texture("left")
         glBegin(GL_QUADS)
-        glColor(*self.game_object.color)
+        glColor(*self.get_color("left"))
         glNormal3f(0.0, 0.0, 0.0)
-        
-        #Left Side
         #Top Left
         glTexCoord2f(0.0, 1.0)
         glVertex3d(-2.0, 0.0, 1.0)
@@ -44,8 +47,13 @@ class VampireDogView(ViewObject):
         #Top Right
         glTexCoord2f(1.0, 1.0)
         glVertex3d(2.0, 0.0, 1.0)
+        glEnd()
+        Textures.deactivate_texture()
         
-        #Right Side
+    #Right Side
+        self.get_texture("right")
+        glBegin(GL_QUADS)
+        glColor(*self.get_color("right"))
         glTexCoord2f(0.0, 1.0)
         glVertex3d(-2.0, 0.0, 0.0)
         
@@ -57,8 +65,14 @@ class VampireDogView(ViewObject):
         
         glTexCoord2f(1.0, 1.0)
         glVertex3d(2.0, 0.0, 0.0)
+        glEnd()
+        Textures.deactivate_texture()
         
-        #Top
+        
+    #Top
+        self.get_texture("top")
+        glBegin(GL_QUADS)
+        glColor(*self.get_color("top"))
         #Top Left
         glTexCoord2f(0.0, 1.0)
         glVertex3d(-2.0, 0.0, 0.0)
@@ -74,8 +88,13 @@ class VampireDogView(ViewObject):
         #Top Right
         glTexCoord2f(1.0, 1.0)
         glVertex3d(2.0, 0.0, 0.0)
+        glEnd()
+        Textures.deactivate_texture()
         
-        #Bottom
+    #Bottom
+        self.get_texture("bottom")
+        glBegin(GL_QUADS)
+        glColor(*self.get_color("bottom"))
         #Top Left
         glTexCoord2f(0.0, 1.0)
         glVertex3d(-2.0, -1.0, 0.0)
@@ -91,7 +110,13 @@ class VampireDogView(ViewObject):
         #Top Right
         glTexCoord2f(1.0, 1.0)
         glVertex3d(2.0, -1.0, 0.0)
+        glEnd()
+        Textures.deactivate_texture()
         
+    #Chest
+        self.get_texture("chest")
+        glBegin(GL_QUADS)
+        glColor(*self.get_color("chest"))
         #Chest Top Left
         glTexCoord2f(0.0, 1.0)
         glVertex3d(-2.0, 0.0, 1.0)
@@ -106,8 +131,14 @@ class VampireDogView(ViewObject):
         
         #Chest Top Right
         glTexCoord2f(1.0, 1.0)
-        glVertex3d(-2.0, 0.0, 0.0)    
+        glVertex3d(-2.0, 0.0, 0.0)
+        glEnd()
+        Textures.deactivate_texture()
         
+    #Butt
+        self.get_texture("butt")
+        glBegin(GL_QUADS)
+        glColor(*self.get_color("butt"))
         #Butt Top Left
         glTexCoord2f(0.0, 1.0)
         glVertex3d(2.0, 0.0, 1.0)
@@ -123,12 +154,10 @@ class VampireDogView(ViewObject):
         #Butt Top Right
         glTexCoord2f(1.0, 1.0)
         glVertex3d(2.0, 0.0, 0.0)
-        
         glEnd()
+        Textures.deactivate_texture()
     
     def draw(self):
-        glBindTexture(GL_TEXTURE_2D, self.fur_texture)
-        glEnable(GL_TEXTURE_2D)
         
         glPushMatrix()
         glTranslate(0.1, 0.5,-0.5)

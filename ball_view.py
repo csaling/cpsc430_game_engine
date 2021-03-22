@@ -1,14 +1,7 @@
-import pygame
-from pygame.locals import *
-
 from OpenGL.GLU import *
 from OpenGL.GL import *
 
 from view_object import ViewObject
-
-from PIL.Image import open
-
-from localize import _
 
 class BallView(ViewObject):
     

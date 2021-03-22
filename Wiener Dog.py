@@ -79,7 +79,7 @@ def main():
     return
 
 def init ():
-    image = open('Dog Fur.JFIF')
+    image = open('dog_fur.JFIF')
     
     ix = image.size[0]
     iy = image.size[1]

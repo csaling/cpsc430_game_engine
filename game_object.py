@@ -2,19 +2,40 @@ from localize import Localize
 from pubsub import pub
 
 class GameObject:
-    def __init__(self, name, position, rotation, size, color, kind, id):
+    def __init__(self, id, data):
         self.properties = {}
         
-        self.position = position
-        self._name = name
-        self.kind = kind
-        self.size = size
+        self.position = data['position']
+        self._name = data['name']
+        self.kind = data['kind']
+        self.size = data['size']
+        
+        if 'faces' in data:
+            self.faces = data['faces']
+            
+        else:
+            self.faces = {}
+            
+        if 'color' in data:
+            self.color = data['color']
+            
+        else:
+            self.color = (0.25, 0.25, 0.25, 1.0)
+            
+            
+        if 'texture' in data:
+            self.texture = data['texture']
+            
+        else:
+            self.texture = None
+        
         self.id = id
-        self._x_rotation = rotation[0]
-        self._y_rotation = rotation[1]
-        self._z_rotation = rotation[2]
+        
+        self._x_rotation = 0
+        self._y_rotation = 0
+        self._z_rotation = 0
+        
         self.clicks = 0
-        self.color = color
         
         self.behaviors = {}
         
@@ -23,8 +44,8 @@ class GameObject:
         
         pub.subscribe(self.clicked, "clicked-" + str(id))
         
-        if name:
-            pub.subscribe(self.clicked, "clicked-" + name)
+        if data['name']:
+            pub.subscribe(self.clicked, "clicked-" + data['name'])
       
     def delete(self):
         from game_logic import GameLogic
