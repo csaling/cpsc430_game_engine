@@ -73,6 +73,7 @@ class PlayerView:
         
     def tick(self):
         mouseMove = (0, 0)
+        clicked = False
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -81,8 +82,7 @@ class PlayerView:
                 return
             
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
-                self.handle_click(pos)
+                clicked = True
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
@@ -144,6 +144,9 @@ class PlayerView:
         self.prepare_3d()
             
         if not self.paused:
+            pos = pygame.mouse.get_pos()
+            self.handle_mouse(pos, clicked)
+            
             self.prepare_3d()
             
             keypress = pygame.key.get_pressed()
@@ -258,7 +261,7 @@ class PlayerView:
         self.prepare_3d()
         self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
         
-    def handle_click(self, pos):
+    def handle_mouse(self, pos, clicked):
         windowX = pos[0]
         windowY = self.window_height - pos[1]
         
@@ -298,7 +301,11 @@ class PlayerView:
             if not closest or numpy.linalg.norm(obj_pos - camera) < numpy.linalg.norm(closest.position - camera):
                 closest = self.view_objects[obj].game_object
         
-        closest.clicked(self.player)
+        if closest:
+             closest.hover(self.player)
+             
+             if clicked:
+                 clostest.clicked(self.player)
         
         if closest.kind == 'ball':
             self.ball = closest

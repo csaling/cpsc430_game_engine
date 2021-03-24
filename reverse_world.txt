@@ -31,7 +31,7 @@
         {"name": "pedestal", "kind": "cube", "position": [0, -0.5, 30], "size": [5, 4, 5], "color": [0.7, 0.4, 0.1, 1.0]},
         {"name": "vampire_dog", "kind": "vampire_dog", "position": [0, -10, -2], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Bouncing": [true, -2, 0, -40, "ball"], "Chase": ["player", 0.01]}},
         
-        {"name": "ball", "kind": "ball", "position": [0, 0, 0], "size": [0.5, 0.5, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Spin": [2.0, 1], "Move2D": [0.1], "Pickup": ["ball", true, "pickup_begin"], "StartBehavior": ["goto_begin"]}},
+        {"name": "ball", "kind": "ball", "position": [0, 0, 0], "size": [0.5, 0.5, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": { "EnableHighlight": [], "HighlightColor: [[1, 0.7, 0.4, 1.0]], "Spin": [2.0, 1], "Move2D": [0.1], "Pickup": ["ball", true, "pickup_begin"], "StartBehavior": ["goto_begin"]}},
         {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [0.0, 1.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "ball", 0.05, 1.0, false, "trigger"], "GotoSupervisor": ["trigger", [["pickup_begin", [-100, 10, -6]]]], "ItemTransfer": ["ball", true, "dog_bark"]}},
         {"name": "high_ground", "kind": "cube", "position": [-100, 10, 0], "size": [10.0, 1.0, 10.0], "texture": "dead_grass", "color": [0.9, 0.6, 0.1, 1.0]}
        ],
@@ -69,6 +69,8 @@
         "Goto": "behavior_goto",
         "GotoSupervisor": "behavior_goto_sup",
         "ItemTransfer": "behavior_item_transfer",
-        "StartBehavior": "behavior_start_behavior"
+        "StartBehavior": "behavior_start_behavior",
+        "EnableHighlight": "behavior_highlight",
+        "HighlightColor": "behavior_highlight"
     }
 }

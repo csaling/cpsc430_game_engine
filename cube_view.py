@@ -6,6 +6,7 @@ from OpenGL.GL import *
 
 from view_object import ViewObject
 from textures import Textures
+from movies import Movies
 
 class CubeView(ViewObject):
     
@@ -13,7 +14,9 @@ class CubeView(ViewObject):
         self.cube()
     
      def get_color(self, face):
-         
+         if self.game_object.set_property('highlight_color') and self.game_object.highlight:
+             return self.game_object.set_property('highlight_color')
+            
          if face in self.game_object.faces:
              if self.game_object.faces[face]['type'] == 'color':
                  return self.game_object.faces[face]['value']
@@ -25,6 +28,10 @@ class CubeView(ViewObject):
          if face in self.game_object.faces:
              if self.game_object.faces[face]['type'] == 'texture':
                  Textures.activate_texture(self.game_object.faces[face]['value'])
+                 return
+                
+             if self.game_object.faces[face]['type'] == 'movie':
+                 Movies.get_frame(self.game_object.faces[face]['value'])
                  return
                 
          Textures.activate_texture(self.game_object.texture)
