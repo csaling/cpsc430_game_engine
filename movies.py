@@ -6,6 +6,7 @@ import cv2
 
 class Movies:
     movies = {}
+    counter = 0
     
     @staticmethod
     def get_frame(tag):
@@ -46,6 +47,11 @@ class Movies:
     @staticmethod
     def tick():
         to_delete = []
+        
+        Movies.counter += 1
+        Movies.counter %= 6
+        if Movies.counter != 0:
+            return
         
         for tag in Movies.movies:
             if Movies.movies[tag]['paused']:

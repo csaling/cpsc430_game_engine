@@ -82,16 +82,7 @@ class PlayerView:
                 return
             
             if event.type == pygame.MOUSEBUTTONDOWN:
-                keys = pygame.key.get_pressed()
-        
-                if keys[K_LCTRL] or keys[K_RCTRL]:
-                    clicked = False
-                    
-                else:
-                    clicked = True
-                    
-                pos = pygame.mouse.get_pos()
-                self.handle_mouse(pos, clicked)
+                clicked = True
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
@@ -152,12 +143,12 @@ class PlayerView:
             
         self.prepare_3d()
             
-        if not self.paused:
-            
+        if not self.paused:       
+            pos = pygame.mouse.get_pos()
+            self.handle_mouse(pos, clicked)
             self.prepare_3d()
             
             keypress = pygame.key.get_pressed()
-            
             
             if keypress[pygame.K_w]:
                 pub.sendMessage('key-w')
@@ -269,6 +260,11 @@ class PlayerView:
         self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
         
     def handle_mouse(self, pos, clicked):
+        keys = pygame.key.get_pressed()
+        
+        if not keys[K_LCTRL] and not keys[K_RCTRL] and not clicked:
+            return
+        
         windowX = pos[0]
         windowY = self.window_height - pos[1]
         
