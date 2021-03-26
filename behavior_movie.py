@@ -3,22 +3,25 @@ from movies import Movies
 from pubsub import pub
 
 class Movie(Behavior):
-    def __init__(self, movie, playevent, pauseevent, stopevent, loop = False):
+    def __init__(self, movie, playevent, loop = False, pauseevent = None, stopevent = None):
         super(Movie, self).__init__()
         
         self.loop = loop
         self.movie = movie
         
         pub.subscribe(self.play, playevent)
-        pub.subscribe(self.pause, pauseevent)
-        pub.subscribe(self.stop, stopevent)
         
-    def play(self, game_object):
+        if pauseevent:
+            pub.subscribe(self.pause, pauseevent)
+        if stopevent:   
+            pub.subscribe(self.stop, stopevent)
+        
+    def play(self):
         Movies.play_movie(self.movie, self.loop)
     
-    def pause(self, game_object):
+    def pause(self):
         Movies.pause_movie(self.movie)
     
-    def stop(self, game_object):
+    def stop(self):
         Movie.stop_movie(self.movie)
         

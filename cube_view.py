@@ -14,8 +14,8 @@ class CubeView(ViewObject):
         self.cube()
     
      def get_color(self, face):
-         if self.game_object.set_property('highlight_color') and self.game_object.highlight:
-             return self.game_object.set_property('highlight_color')
+         if self.game_object.get_property('highlight_color') and self.game_object.highlight:
+             return self.game_object.get_property('highlight_color')
             
          if face in self.game_object.faces:
              if self.game_object.faces[face]['type'] == 'color':

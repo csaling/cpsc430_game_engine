@@ -24,14 +24,14 @@
         {"name": "statue_right_wall", "kind": "cube", "position": [9.75, 4, 30], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
         {"name": "statue_back_wall", "kind": "cube", "position": [0, 4, 35], "size": [20, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0]},
         {"name": "statue_roof", "kind": "cube", "position": [0, 9, 30], "size": [20, 0.5, 10], "color": [1.0, 0.0, 0.0, 1.0]},
-        {"name": "statue_front_left", "kind": "cube", "position": [-6.5, 4, 25], "size": [7, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0]},
+        {"name": "statue_front_left", "kind": "cube", "position": [-6.5, 4, 25], "size": [7, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"PlayMovie": ["play", false], "Movie": ["john_marston_dancing", "play", true]}},
         {"name": "statue_front_right", "kind": "cube", "position": [6.5, 4, 25], "size": [7, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0]},
         {"name": "door", "kind": "door", "position": [0, 4, 25], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5]}},
-        {"name": "statue", "kind": "vampire_dog", "position": [0, 0.75, 30], "size": [3.0, 3.0, 3.0], "color": [0.8, 0.7, 0.1, 1.0], "behaviors": {"Spawn": ["vampire_dog", 10, 6, -1, "statue","pack_of_dogs_barking"]}},
+        {"name": "statue", "kind": "vampire_dog", "position": [0, 0.75, 30], "size": [3.0, 3.0, 3.0], "color": [0.8, 0.7, 0.1, 1.0], "behaviors": {"EnableHighlight": [], "HighlightColor": [[1, 0.7, 0.4, 1.0]], "Spawn": ["vampire_dog", 10, 6, -1, "statue","pack_of_dogs_barking"]}},
         {"name": "pedestal", "kind": "cube", "position": [0, -0.5, 30], "size": [5, 4, 5], "color": [0.7, 0.4, 0.1, 1.0]},
         {"name": "vampire_dog", "kind": "vampire_dog", "position": [0, -10, -2], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Bouncing": [true, -2, 0, -40, "ball"], "Chase": ["player", 0.01]}},
         
-        {"name": "ball", "kind": "ball", "position": [0, 0, 0], "size": [0.5, 0.5, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": { "EnableHighlight": [], "HighlightColor: [[1, 0.7, 0.4, 1.0]], "Spin": [2.0, 1], "Move2D": [0.1], "Pickup": ["ball", true, "pickup_begin"], "StartBehavior": ["goto_begin"]}},
+        {"name": "ball", "kind": "ball", "position": [0, 0, 0], "size": [0.5, 0.5, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"EnableHighlight": [], "HighlightColor": [[1, 0.7, 0.4, 1.0]], "Spin": [2.0, 1], "Move2D": [0.1], "Pickup": ["ball", true, "pickup_begin"], "StartBehavior": ["goto_begin"]}},
         {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [0.0, 1.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "ball", 0.05, 1.0, false, "trigger"], "GotoSupervisor": ["trigger", [["pickup_begin", [-100, 10, -6]]]], "ItemTransfer": ["ball", true, "dog_bark"]}},
         {"name": "high_ground", "kind": "cube", "position": [-100, 10, 0], "size": [10.0, 1.0, 10.0], "texture": "dead_grass", "color": [0.9, 0.6, 0.1, 1.0]}
        ],
@@ -43,6 +43,7 @@
            "small_dog_bark": "small_dog_bark.wav",
            "pack_of_dogs_barking": "pack_of_dogs_barking.wav",
            "background_music": "Consecrated Ground.mp3",
+           "john_marston_dancing": "john_marston_dancing.mp4",
            "dog_fur": "dog_fur.jfif",
            "dead_grass": "dead_grass.jfif",
            "dead_bark": "dead_bark.jfif",
@@ -70,6 +71,8 @@
         "GotoSupervisor": "behavior_goto_sup",
         "ItemTransfer": "behavior_item_transfer",
         "StartBehavior": "behavior_start_behavior",
+        "PlayMovie": "behavior_play_movie",
+        "Movie": "behavior_movie",
         "EnableHighlight": "behavior_highlight",
         "HighlightColor": "behavior_highlight"
     }

@@ -82,7 +82,16 @@ class PlayerView:
                 return
             
             if event.type == pygame.MOUSEBUTTONDOWN:
-                clicked = True
+                keys = pygame.key.get_pressed()
+        
+                if keys[K_LCTRL] or keys[K_RCTRL]:
+                    clicked = False
+                    
+                else:
+                    clicked = True
+                    
+                pos = pygame.mouse.get_pos()
+                self.handle_mouse(pos, clicked)
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
@@ -144,8 +153,6 @@ class PlayerView:
         self.prepare_3d()
             
         if not self.paused:
-            pos = pygame.mouse.get_pos()
-            self.handle_mouse(pos, clicked)
             
             self.prepare_3d()
             
@@ -305,7 +312,7 @@ class PlayerView:
              closest.hover(self.player)
              
              if clicked:
-                 clostest.clicked(self.player)
+                 closest.clicked(self.player)
         
         if closest.kind == 'ball':
             self.ball = closest

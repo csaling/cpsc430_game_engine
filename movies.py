@@ -21,13 +21,13 @@ class Movies:
         if tag in Movies.movies:
             Movies.movies[tag]['paused'] = False
         else:
-            if tag in GameLogic.files:
+            if tag not in GameLogic.files:
                 return
             
             capture = cv2.VideoCapture()
             capture.open(GameLogic.files[tag])
             
-            movies.movies[tag] = {'capture': capture, 'paused': False, 'texture': None, 'loop': False}
+            Movies.movies[tag] = {'capture': capture, 'paused': False, 'texture': None, 'loop': False}
     
     @staticmethod
     def pause_movie(tag):
@@ -77,7 +77,7 @@ class Movies:
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, image)
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, frame)
             
             Movies.movies[tag]['texture'] = texture_id
             
