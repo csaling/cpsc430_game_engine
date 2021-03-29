@@ -1,6 +1,15 @@
 class Behavior:
-    def _init_(self):
+    def __init__(self):
         self.game_object = None
+        self._arguments = []
+    
+    @property
+    def arguments(self):
+        return self._arguments
+    
+    @arguments.setter
+    def arguments(self, value):
+        self._arguments = value
         
     def connect(self, game_object):
         self.game_object = game_object

@@ -6,10 +6,23 @@ class GameObject:
         self.properties = {}
         
         self.position = data['position']
-        self._name = data['name']
         self.kind = data['kind']
-        self.size = data['size']
         
+        if 'size' not in data:
+            self.size = [1.0, 1.0, 1.0]
+        
+        else:
+            self.size = data['size']
+                  
+        if 'name' not in data:
+            self.name = None
+        
+        else:
+            self._name = data['name']
+            
+        if 'rotation' in data:
+            game_object['rotation'] = (0, 0, 0)
+                  
         if 'faces' in data:
             self.faces = data['faces']
             
@@ -45,7 +58,7 @@ class GameObject:
         
         pub.subscribe(self.clicked, "clicked-" + str(id))
         
-        if data['name']:
+        if 'name' in data:
             pub.subscribe(self.clicked, "clicked-" + data['name'])
       
     def delete(self):
@@ -136,6 +149,11 @@ class GameObject:
         self._z_rotation = value
        
     def tick(self):
+        from game_logic import GameLogic
+        
+        if GameLogic.get_property('pasued'):
+            return
+        
         self._moved = False
         self._highlight = False
         

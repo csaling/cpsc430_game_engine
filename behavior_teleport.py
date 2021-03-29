@@ -25,6 +25,6 @@ class Teleport(Behavior):
         
         if distance > self.radius:
             y = self.game_object.position[1]
-            self.game_object.position = player_location + self.leash_length * direction_vector
+            self.game_object.position = (player_location + self.leash_length * direction_vector).tolist()
             self.game_object.position[1] = y
             

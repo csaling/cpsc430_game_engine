@@ -1,7 +1,8 @@
 {
 
     "level": {
-        "music": ["background_music", 0.25, -1]
+        "music": ["background_music", 0.25, -1],
+        "background": [0.5, 0.0, 0.0, 1.0]
     },
 
     "objects": [
@@ -18,7 +19,7 @@
         {"name": "roof", "kind": "cube", "position": [0, 9, -20], "size": [20, 0.5, 10], "faces": {"bottom": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "front_left", "kind": "cube", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "front_right", "kind": "cube", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
-        {"name": "reverse_world_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"LoadWorld": ["main_world.txt", "player", [-9, 1, -20], [0, 90, 0]]}},
+        {"name": "reverse_world_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"LoadWorld": ["main_world.txt", "player", [-8, 1.5, -20], [0, 90, 0]]}},
         
         {"name": "statue_left_wall", "kind": "cube", "position": [-9.75, 4, 30], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
         {"name": "statue_right_wall", "kind": "cube", "position": [9.75, 4, 30], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},

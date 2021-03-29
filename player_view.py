@@ -21,6 +21,8 @@ from localize import _
 
 from game_object import GameObject
 
+from game_logic import GameLogic
+
 class PlayerView:
     def __init__(self):
         
@@ -96,10 +98,14 @@ class PlayerView:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     self.paused = not self.paused
+                    GameLogic.set_property('paused', self.paused)
                     pygame.mouse.set_pos(self.viewCenter)
 
                 if event.key == pygame.K_SPACE:
                     pub.sendMessage('key-jump')
+                    
+                if event.key == pygame.K_s and pygame.key.get_mods() and pygame.KMOD_CTRL:
+                    GameLogic.save_world()
                     
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                 self.clicks += 1
@@ -156,19 +162,18 @@ class PlayerView:
             
             self.prepare_3d()
             
-            keypress = pygame.key.get_pressed()
+            keypress = pygame.key.get_pressed()     
             
-            
-            if keypress[pygame.K_w]:
+            if keypress[pygame.K_w] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
                 pub.sendMessage('key-w')
                 
-            if keypress[pygame.K_s]:
+            if keypress[pygame.K_s] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
                 pub.sendMessage('key-s')
                 
-            if keypress[pygame.K_d]:
+            if keypress[pygame.K_d] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
                 pub.sendMessage('key-d')
                 
-            if keypress[pygame.K_a]:
+            if keypress[pygame.K_a] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
                 pub.sendMessage('key-a')
                 
             pub.sendMessage('rotate-y', amount = mouseMove[0])
@@ -181,7 +186,7 @@ class PlayerView:
                 
                 self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
             
-            glClearColor(0.0, 0.0, 1.0, 1.0)
+            glClearColor(*GameLogic.get_property('background'))
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
             
             glPushMatrix()

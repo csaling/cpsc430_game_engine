@@ -24,5 +24,5 @@ class Chase(Behavior):
             direction_vector = (player_location - dog_location) / distance
             
             y = self.game_object.position[1]
-            self.game_object.position = self.game_object.position + self.speed * direction_vector
+            self.game_object.position = (self.game_object.position + self.speed * direction_vector).tolist()
             self.game_object.position[1] = y

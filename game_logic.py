@@ -11,6 +11,9 @@ class GameLogic:
     game_objects = {}
     name_index = {}
     files = {}
+    level_data = {}
+    
+    filename = None
     
     deletions = []
     additions = []
@@ -90,13 +93,14 @@ class GameLogic:
         
     @staticmethod
     def load_world(filename):
-        
         GameLogic.game_objects = {}
         GameLogic.name_index = {}
+        GameLogic.filename = filename
         pub.sendMessage('view_objects')
         
         with open(filename) as infile:
             level_data = json.load(infile)
+            GameLogic.level_data = level_data
             
             if not 'objects' in level_data:
                 return False
@@ -105,24 +109,16 @@ class GameLogic:
                 if game_object['kind'][0] == '#':
                     continue
                 
-                if 'size' not in game_object:
-                    game_object['size'] = [1.0, 1.0, 1.0]
-                  
-                if 'name' not in game_object:
-                    game_object['name'] = None
-                    
-                if 'rotation' in game_object:
-                    game_object['rotation'] = (0, 0, 0)
-                  
                 obj = GameLogic.create_object(game_object)
                 
                 if 'behaviors' not in game_object:
                     continue
                 
-                for behaviors in game_object['behaviors']:
-                    module = importlib.import_module(level_data['behaviors'][behaviors])
-                    class_ = getattr(module, behaviors)
-                    instance = class_(*game_object['behaviors'][behaviors])
+                for behavior in game_object['behaviors']:
+                    module = importlib.import_module(level_data['behaviors'][behavior])
+                    class_ = getattr(module, behavior)
+                    instance = class_(*game_object['behaviors'][behavior])
+                    instance.arguments = game_object['behaviors'][behavior]
                     
                     obj.add_behavior(instance)
                     
@@ -133,7 +129,50 @@ class GameLogic:
                 if 'music' in level_data['level']:
                     from sounds import Sounds
                     Sounds.play_music(*level_data['level']['music'])
+                    
+                if 'background' in level_data['level']:
+                    GameLogic.set_property('background', level_data['level']['background'])
+                    
     
+    @staticmethod
+    def save_world():
+        if 'objects' in GameLogic.level_data:
+            del GameLogic.level_data['objects']
+            
+        GameLogic.level_data['objects'] = []
+        
+        for game_object in GameLogic.game_objects:
+            GameLogic.save_object(GameLogic.game_objects[game_object])
+            
+        with open(GameLogic.filename, 'w') as outfile:
+            json.dump(GameLogic.level_data, outfile, sort_keys = False, indent = 4)
+    
+    @staticmethod
+    def save_object(game_object):
+        data = {}
+        
+        data['kind'] = game_object.kind
+        data['position'] = game_object.position
+        data['size'] = game_object.size
+        
+        if game_object.faces:
+            data['faces'] = game_object.faces
+        
+        if game_object.name:
+            data['name'] = game_object.name
+        
+        if game_object.color:
+            data['color'] = game_object.color
+            
+        if game_object.texture:
+            data['texture'] = game_object.texture
+        
+        data['behaviors'] = {}
+        for behavior in game_object.behaviors:
+            data['behaviors'][behavior] = game_object.behaviors[behavior].arguments
+        
+        GameLogic.level_data['objects'].append(data)
+        
     @staticmethod
     def get_property(key, default = None):
         if key in GameLogic.properties:
