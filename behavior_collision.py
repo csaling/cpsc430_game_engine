@@ -6,7 +6,6 @@ import math
 class BlockedByObjects(Behavior):
     
     def tick(self):
-        #Handle Collisions
         if self.game_object.collisions:
             mypos = numpy.array(self.game_object.position)
             
@@ -14,6 +13,7 @@ class BlockedByObjects(Behavior):
                 otherpos = numpy.array(other.position)
                 distance = numpy.linalg.norm(mypos - otherpos)
                 direction_vector = (mypos - otherpos) / distance
+                
                 max_direction = max(direction_vector, key = abs)
                 indices = [i for i, j in enumerate(direction_vector) if j == max_direction]
         

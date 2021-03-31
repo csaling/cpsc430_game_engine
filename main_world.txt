@@ -22,15 +22,15 @@
        ],
        
        "files": {
-           "opening_door": "opening_door.wav",
-           "closing_door": "closing_door.wav",
-           "small_dog_bark": "small_dog_bark.wav",
-           "background_music": "Dimblebuck.mp4.mp3",
-           "wiener_dogs_video": "wiener_dogs_video.mp4",
-           "dog_fur": "dog_fur.jfif",
-           "grass": "grass.jfif",
-           "bark": "bark.jfif",
-           "leaves": "leaves.jpg"
+           "opening_door": "audio/opening_door.wav",
+           "closing_door": "audio/closing_door.wav",
+           "small_dog_bark": "audio/small_dog_bark.wav",
+           "background_music": "audio/Dimblebuck.mp4.mp3",
+           "dog_fur": "images/dog_fur.jfif",
+           "grass": "images/grass.jfif",
+           "bark": "images/bark.jfif",
+           "leaves": "images/leaves.jpg",
+           "wiener_dogs_video": "movies/wiener_dogs_video.mp4"
        },
     
     "behaviors": {

@@ -38,17 +38,17 @@
        ],
        
        "files": {
-           "opening_door": "opening_door.wav",
-           "closing_door": "closing_door.wav",
-           "dog_bark": "dog_bark.wav",
-           "small_dog_bark": "small_dog_bark.wav",
-           "pack_of_dogs_barking": "pack_of_dogs_barking.wav",
-           "background_music": "Consecrated Ground.mp3",
-           "john_marston_dancing": "john_marston_dancing.mp4",
-           "dog_fur": "dog_fur.jfif",
-           "dead_grass": "dead_grass.jfif",
-           "dead_bark": "dead_bark.jfif",
-           "dead_leaves": "dead_leaves.jpg"
+           "opening_door": "audio/opening_door.wav",
+           "closing_door": "audio/closing_door.wav",
+           "dog_bark": "audio/dog_bark.wav",
+           "small_dog_bark": "audio/small_dog_bark.wav",
+           "pack_of_dogs_barking": "audio/pack_of_dogs_barking.wav",
+           "background_music": "audio/Consecrated Ground.mp3",
+           "dog_fur": "images/dog_fur.jfif",
+           "dead_grass": "images/dead_grass.jfif",
+           "dead_bark": "images/dead_bark.jfif",
+           "dead_leaves": "images/dead_leaves.jpg",
+           "john_marston_dancing": "movies/john_marston_dancing.mp4"
        },
     
     "behaviors": {

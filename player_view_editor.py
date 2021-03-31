@@ -45,6 +45,14 @@ class PlayerView:
         self.player = None
         self.clock = pygame.time.Clock ()
         
+        GameLogic.set_property('paused', True)
+        self.camera_direction = [0.0, 0.0, -1.0]
+        self.edit_mode = False
+        self.distance = 1.5
+        
+        self.textures = []
+        self.current_texture = 0
+        
         pub.subscribe(self.clear_view_objects, 'view_objects')
         
     def clear_view_objects(self):
@@ -73,9 +81,21 @@ class PlayerView:
     def delete_game_object(self, game_object):
         del self.view_objects[game_object.id]
         
+    def find_textures(self):
+        self.textures = []
+        
+        for file in GameLogic.files:
+            if GameLogic.files[file].startswith('images/'):
+                self.textures.append(file)
+        
     def tick(self):
+        if not self.textures:
+            self.find_textures()
+            
         mouseMove = (0, 0)
         clicked = False
+        self.apply_texture = False
+        self.clear_texture = False
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -83,9 +103,6 @@ class PlayerView:
                 GameLogic.set_property('quit', True)
                 return
             
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                clicked = True
-                
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     self.paused = not self.paused
@@ -95,6 +112,21 @@ class PlayerView:
                 if event.key == pygame.K_SPACE:
                     pub.sendMessage('key-jump')
                     
+                if event.key == pygame.K_s and pygame.key.get_mods() and pygame.KMOD_CTRL:
+                    GameLogic.save_world()
+                    
+                if event.key == pygame.K_e:
+                    self.edit_mode = not self.edit_mode
+                    
+                if event.key == pygame.K_t:
+                    self.current_texture = (self.current_texture + 1) % len(self.textures)
+                    
+                if event.key == pygame.K_r:
+                    self.apply_texture = True
+                    
+                if event.key == pygame.K_z:
+                    self.clear_texture = True
+            
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                 self.clicks += 1
                 
@@ -117,6 +149,15 @@ class PlayerView:
                     mouseMove = [event.pos[i] - self.viewCenter[i] for i in range(2)]
             
                 pygame.mouse.set_pos(self.viewCenter)
+                
+                if event.type == pygame.MOUSEWHEEL:
+                    self.distance = max(1.5, self.distance + event.y)
+                
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    clicked = True
+                    
+                    if self.edit_mode:
+                        self.create_object()
                 
         if self.key_cooldown == 0:
             keys = pygame.key.get_pressed()
@@ -174,6 +215,13 @@ class PlayerView:
                 glTranslate(-self.player.position[0], -self.player.position[1], -self.player.position[2])
                 
                 self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
+                
+                camera_direction = numpy.linalg.inv(self.viewMatrix)
+                camera_direction = camera_direction[2][0:3]
+                camera_direction[0] *= -1
+                camera_direction[1] *= -1
+                camera_direction[2] *= -1
+                self.camera_direction = camera_direction
             
             glClearColor(*GameLogic.get_property('background'))
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
@@ -182,10 +230,88 @@ class PlayerView:
             self.display()
             glPopMatrix()
             
+            self.draw_guide()
+            
             self.render_hud()
             
             pygame.display.flip()
             self.clock.tick(60)
+            
+    def draw_guide(self):
+        if not self.edit_mode:
+            return
+        
+        camera_direction = numpy.array(self.camera_direction)
+        current = numpy.array(self.player.position)
+        
+        position = (current + self.distance * camera_direction).tolist()
+        
+        position[0] = round(position[0])
+        position[1] = round(position[1])
+        position[2] = round(position[2])
+        
+        glPushMatrix()
+        
+        glTranslate(*position)
+        
+        glBegin(GL_QUADS)
+        glColor(0.25, 0.25, 0.25, 0.5)
+        # Back face
+        glNormal3f( 0.0, 0.0, 1.0)
+        glVertex3d(-0.5, 0.5, 0.5)
+        glVertex3d(-0.5, -0.5, 0.5)
+        glVertex3d(0.5, -0.5, 0.5)
+        glVertex3d(0.5, 0.5, 0.5)
+        
+        # Left face
+        glNormal3f( -1.0, 0.0, 0.0)
+        glVertex3d(-0.5, 0.5, 0.5)
+        glVertex3d(-0.5, -0.5, 0.5)
+        glVertex3d(-0.5, -0.5, -0.5)
+        glVertex3d(-0.5, 0.5, -0.5)
+        
+        # Front face
+        glNormal3f( 0.0, 0.0, -1.0)
+        glVertex3d(-0.5, 0.5, -0.5)
+        glVertex3d(-0.5, -0.5, -0.5)
+        glVertex3d(0.5, -0.5, -0.5)
+        glVertex3d(0.5, 0.5, -0.5)
+        
+        # Right face
+        glNormal3f( 1.0, 0.0, 0.0)
+        glVertex3d(0.5, 0.5, 0.5)
+        glVertex3d(0.5, -0.5, 0.5)
+        glVertex3d(0.5, -0.5, -0.5)
+        glVertex3d(0.5, 0.5, -0.5)
+        
+        # Top face
+        glNormal3f( 0.0, 1.0, 0.0)
+        glVertex3d(-0.5, 0.5, 0.5)
+        glVertex3d(0.5, 0.5, 0.5)
+        glVertex3d(0.5, 0.5, -0.5)
+        glVertex3d(-0.5, 0.5, -0.5)
+        
+        # Bottom face
+        glNormal3f( 0.0, -1.0, 0.0)
+        glVertex3d(-0.5, -0.5, 0.5)
+        glVertex3d(0.5, -0.5, 0.5)
+        glVertex3d(0.5, -0.5, -0.5)
+        glVertex3d(-0.5, -0.5, -0.5)
+        glEnd()
+        
+        glPopMatrix()
+        
+    def create_object(self):
+        camera_direction = numpy.array(self.camera_direction)
+        current = numpy.array(self.player.position)
+        
+        position = (current + self.distance * camera_direction).tolist()
+        
+        position[0] = round(position[0])
+        position[1] = round(position[1])
+        position[2] = round(position[2])
+        
+        GameLogic.create_object({'kind': 'cube', 'position': position})
         
     def display(self):
         glInitNames()
@@ -207,6 +333,8 @@ class PlayerView:
         glEnable(GL_COLOR_MATERIAL)
         glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         
     def render_hud(self):
         glMatrixMode(GL_PROJECTION)
@@ -310,9 +438,52 @@ class PlayerView:
         if closest:
              closest.hover(self.player)
              
+             if self.apply_texture:
+                 for face in self.get_faces(closest):
+                     closest.faces[face] = {'type': 'texture', 'value': self.textures[self.current_texture]}
+            
+             if self.clear_texture:
+                for face in self.get_faces(closest):
+                     del closest.faces[face]
+             
              if clicked:
                  closest.clicked(self.player)
         
         if closest.kind == 'ball':
             self.ball = closest
+            
+    def get_faces(self, game_object):
+        camera_direction = numpy.array(self.camera_direction)
+        current = numpy.array(self.player.position)
         
+        mypos = current + 1.5 * camera_direction
+        
+        otherpos = numpy.array(game_object.position)
+        distance = numpy.linalg.norm(mypos - otherpos)
+        direction_vector = (mypos - otherpos) / distance
+        
+        max_direction = max(direction_vector, key = abs)
+        indices = [i for i, j in enumerate(direction_vector) if j == max_direction]
+        
+        results = []
+        
+        for index in indices:
+            if index == 0 and direction_vector[index] < 0:
+                results.append('left')
+                
+            if index == 0 and direction_vector[index] > 0:
+                results.append('right')
+            
+            if index == 1 and direction_vector[index] < 0:
+                results.append('bottom')
+                
+            if index == 1 and direction_vector[index] > 0:
+                results.append('top')
+            
+            if index == 2 and direction_vector[index] < 0:
+                results.append('front')
+                
+            if index == 2 and direction_vector[index] > 0:
+                results.append('back')
+            
+        return results
