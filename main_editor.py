@@ -5,7 +5,7 @@ from sounds import Sounds
 
 class Main:
     def go (self):
-        GameLogic.load_world("heaven.txt")
+        GameLogic.load_world("ocean.txt")
         
         while True:
             GameLogic.tick()

@@ -103,7 +103,6 @@ class PlayerView:
         self.position_adjust = 0.0
         self.size_adjust = 0.0
         self.set_name = False
-        self.get_name = False
         
         if self.get_name:
             self.update_hud_texture()
