@@ -52,6 +52,10 @@ class PlayerView:
         
         self.textures = []
         self.current_texture = 0
+        self.position_mode = False
+        self.size_mode = False
+        self.input_mode = False
+        self.get_name = False
         
         pub.subscribe(self.clear_view_objects, 'view_objects')
         
@@ -96,6 +100,15 @@ class PlayerView:
         clicked = False
         self.apply_texture = False
         self.clear_texture = False
+        self.position_adjust = 0.0
+        self.size_adjust = 0.0
+        self.set_name = False
+        self.get_name = False
+        
+        if self.get_name:
+            self.update_hud_texture()
+            
+        self.get_name = False
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -104,28 +117,56 @@ class PlayerView:
                 return
             
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    self.paused = not self.paused
-                    GameLogic.set_property('paused', self.paused)
-                    pygame.mouse.set_pos(self.viewCenter)
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    GameLogic.set_property("quit", True)
+                    return
+                    
+                if self.input_mode:
+                    if event.key == pygame.K_RETURN:
+                        self.input_mode = False
+                        self.set_name = True
+                    elif event.key == pygame.K_BACKSPACE:
+                        self.input = self.input[:-1]
+                    else:
+                        self.input += event.unicode
+                        
+                    self.update_hud_texture()
+                   
+                if not self.input_mode:
+                    if event.key == pygame.K_n:
+                        self.input_mode = True
+                        self.get_name = True
+                        self.input = ""
+                        
+                    if event.key == pygame.K_p:
+                        self.paused = not self.paused
+                        GameLogic.set_property('paused', self.paused)
+                        pygame.mouse.set_pos(self.viewCenter)
 
-                if event.key == pygame.K_SPACE:
-                    pub.sendMessage('key-jump')
-                    
-                if event.key == pygame.K_s and pygame.key.get_mods() and pygame.KMOD_CTRL:
-                    GameLogic.save_world()
-                    
-                if event.key == pygame.K_e:
-                    self.edit_mode = not self.edit_mode
-                    
-                if event.key == pygame.K_t:
-                    self.current_texture = (self.current_texture + 1) % len(self.textures)
-                    
-                if event.key == pygame.K_r:
-                    self.apply_texture = True
-                    
-                if event.key == pygame.K_z:
-                    self.clear_texture = True
+                    if event.key == pygame.K_SPACE:
+                        pub.sendMessage('key-jump')
+                        
+                    if event.key == pygame.K_s and pygame.key.get_mods() and pygame.KMOD_CTRL:
+                        GameLogic.save_world()
+                        
+                    if event.key == pygame.K_e:
+                        self.edit_mode = not self.edit_mode
+                        
+                    if event.key == pygame.K_t:
+                        self.current_texture = (self.current_texture + 1) % len(self.textures)
+                        
+                    if event.key == pygame.K_r:
+                        self.apply_texture = True
+                        
+                    if event.key == pygame.K_z:
+                        self.clear_texture = True
+                        
+                    if event.key == pygame.K_f:
+                        self.position_mode = not self.position_mode
+                        
+                    if event.key == pygame.K_c:
+                        self.size_mode = not self.size_mode
             
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
                 self.clicks += 1
@@ -151,7 +192,14 @@ class PlayerView:
                 pygame.mouse.set_pos(self.viewCenter)
                 
                 if event.type == pygame.MOUSEWHEEL:
-                    self.distance = max(1.5, self.distance + event.y)
+                    if self.edit_mode:
+                        self.distance = max(1.5, self.distance + event.y)
+                        
+                    if self.position_mode:
+                        self.position_adjust = event.y * 0.1
+                    
+                    if self.size_mode:
+                        self.size_adjust = event.y * 0.1
                 
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     clicked = True
@@ -161,26 +209,27 @@ class PlayerView:
                 
         if self.key_cooldown == 0:
             keys = pygame.key.get_pressed()
-        
-            if keys[K_LCTRL] or keys[K_RCTRL]:
-                if keys[K_LEFT]:
-                    pub.sendMessage('arrowLeft')
-                    
-                if keys[K_RIGHT]:
-                    pub.sendMessage('arrowRight')
+            
+            if not self.input_mode:
+                if keys[K_LCTRL] or keys[K_RCTRL]:
+                    if keys[K_LEFT]:
+                        pub.sendMessage('arrowLeft')
+                        
+                    if keys[K_RIGHT]:
+                        pub.sendMessage('arrowRight')
 
-            else:
-                if keys[K_LEFT]:
-                    pub.sendMessage('ballLeft')
+                else:
+                    if keys[K_LEFT]:
+                        pub.sendMessage('ballLeft')
+                        
+                    if keys[K_RIGHT]:
+                        pub.sendMessage('ballRight')
                     
-                if keys[K_RIGHT]:
-                    pub.sendMessage('ballRight')
-                
-                if keys[K_UP]:
-                    pub.sendMessage('ballUp')
-                    
-                if keys[K_DOWN]:
-                    pub.sendMessage('ballDown')
+                    if keys[K_UP]:
+                        pub.sendMessage('ballUp')
+                        
+                    if keys[K_DOWN]:
+                        pub.sendMessage('ballDown')
                 
         if self.key_cooldown > 0:
             self.key_cooldown -= 1
@@ -191,20 +240,21 @@ class PlayerView:
             pos = pygame.mouse.get_pos()
             self.handle_mouse(pos, clicked)
             self.prepare_3d()
-
-            keypress = pygame.key.get_pressed()     
             
-            if keypress[pygame.K_w] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
-                pub.sendMessage('key-w')
+            if not self.input_mode:
+                keypress = pygame.key.get_pressed()     
                 
-            if keypress[pygame.K_s] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
-                pub.sendMessage('key-s')
-                
-            if keypress[pygame.K_d] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
-                pub.sendMessage('key-d')
-                
-            if keypress[pygame.K_a] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
-                pub.sendMessage('key-a')
+                if keypress[pygame.K_w] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
+                    pub.sendMessage('key-w', camera_direction =  self.camera_direction)
+                    
+                if keypress[pygame.K_s] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
+                    pub.sendMessage('key-s', camera_direction =  self.camera_direction)
+                    
+                if keypress[pygame.K_d] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
+                    pub.sendMessage('key-d')
+                    
+                if keypress[pygame.K_a] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
+                    pub.sendMessage('key-a')
                 
             pub.sendMessage('rotate-y', amount = mouseMove[0])
             pub.sendMessage('rotate-x', amount = mouseMove[1])
@@ -336,6 +386,22 @@ class PlayerView:
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         
+    def update_hud_texture(self):
+        surface = pygame.Surface((800, 30), flags = pygame.SRCALPHA)
+        surface.fill(pygame.Color("lightskyblue"))
+        
+        text = pygame.font.SysFont('Ariel', 28).render(self.input, True, (255, 255, 255))
+        surface.blit(text, (0, 0))
+        
+        w, h = surface.get_size()
+        
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+        glBindTexture(GL_TEXTURE_2D, self.hud_texture)
+        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        data = pygame.image.tostring(surface, "RGBA", 1)
+        glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+        
     def render_hud(self):
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
@@ -344,24 +410,22 @@ class PlayerView:
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
         
-        glEnable(GL_TEXTURE_2D)
-        glBindTexture(GL_TEXTURE_2D, self.click_texture)
-        
-        glBegin(GL_QUADS)
-        
-        glColor3f(1.0, 0.0, 0.0)
-        glTexCoord2f(0.0, 1.0)
-        glVertex2f(0, 0)
-        glTexCoord2f(1.0, 1.0)
-        glVertex2f(200, 0)
-        glTexCoord2f(1.0, 0.0)
-        glVertex2f(200, 50)
-        glTexCoord2f(0.0, 0.0)
-        glVertex2f(0, 50)
-        
-        glEnd()
-        
-        glDisable(GL_TEXTURE_2D)
+        if self.input_mode:
+            glEnable(GL_TEXTURE_2D)
+            glBindTexture(GL_TEXTURE_2D, self.hud_texture)
+            glBegin(GL_QUADS)
+            
+            glTexCoord2f(0.0, 1.0)
+            glVertex2f(0, 570)
+            glTexCoord2f(1.0, 1.0)
+            glVertex2f(800, 570)
+            glTexCoord2f(1.0, 0.0)
+            glVertex2f(800, 600)
+            glTexCoord2f(0.0, 0.0)
+            glVertex2f(0, 600)
+            
+            glEnd()
+            glDisable(GL_TEXTURE_2D)
         
     def update_texture(self):
         img = pygame.font.SysFont('Arial', 50).render(_("Clicks: ") + str(self.clicks), True, (255, 255, 255), (0, 0, 0))
@@ -390,12 +454,14 @@ class PlayerView:
         self.prepare_3d()
         self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
         
+        self.hud_texture = glGenTextures(1)
+        
     def handle_mouse(self, pos, clicked):
         keys = pygame.key.get_pressed()
         
         if not keys[K_LCTRL] and not keys[K_RCTRL] and not clicked:
             return
-        
+
         windowX = pos[0]
         windowY = self.window_height - pos[1]
         
@@ -438,6 +504,12 @@ class PlayerView:
         if closest:
              closest.hover(self.player)
              
+             if self.set_name:
+                 closest._name = self.input
+                 
+             if self.get_name:
+                 self.input = closest.name
+                 
              if self.apply_texture:
                  for face in self.get_faces(closest):
                      closest.faces[face] = {'type': 'texture', 'value': self.textures[self.current_texture]}
@@ -445,6 +517,37 @@ class PlayerView:
              if self.clear_texture:
                 for face in self.get_faces(closest):
                      del closest.faces[face]
+                     
+             if self.position_mode and self.position_adjust:
+                 for face in self.get_faces(closest):
+                     if face == 'front':
+                         closest.position[2] += self.position_adjust
+                         
+                     if face == 'back':
+                         closest.position[2] -= self.position_adjust
+                         
+                     if face == 'left':
+                         closest.position[0] += self.position_adjust
+                         
+                     if face == 'right':
+                         closest.position[0] -= self.position_adjust
+                         
+                     if face == 'top':
+                         closest.position[1] -= self.position_adjust
+                         
+                     if face == 'bottom':
+                         closest.position[1] += self.position_adjust
+                
+             if self.size_mode and self.size_adjust:
+                 for face in self.get_faces(closest):
+                     if face == 'front' or face == 'back':
+                         closest.size[2] += self.size_adjust
+                         
+                     if face == 'left' or face == 'right':
+                         closest.size[0] += self.size_adjust
+                         
+                     if face == 'top' or face == 'bottom':
+                         closest.size[1] += self.size_adjust
              
              if clicked:
                  closest.clicked(self.player)
