@@ -13,12 +13,12 @@ class KeyMove(Behavior):
         pub.subscribe(self.key_a, 'key-a')
         pub.subscribe(self.key_d, 'key-d')
         
-    def key_w(self):
+    def key_w(self, camera_direction):
         self.game_object.position[2] -= self.speed * math.cos(math.radians(self.game_object._y_rotation))
         self.game_object.position[0] += self.speed * math.sin(math.radians(self.game_object._y_rotation))
         self.game_object._moved = True
     
-    def key_s(self):
+    def key_s(self, camera_direction):
         self.game_object.position[2] += self.speed * math.cos(math.radians(self.game_object._y_rotation))
         self.game_object.position[0] -= self.speed * math.sin(math.radians(self.game_object._y_rotation))
         self.game_object._moved = True

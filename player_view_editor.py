@@ -8,19 +8,12 @@ from OpenGL.GL import *
 import numpy
 
 from dog_view import DogView
-
 from ball_view import BallView
-
 from cube_view import CubeView
-
 from vampire_dog_view import VampireDogView
-
 from localize import *
-
 from localize import _
-
 from game_object import GameObject
-
 from game_logic import GameLogic
 
 class PlayerView:
@@ -30,8 +23,6 @@ class PlayerView:
         
         pub.subscribe(self.new_game_object, 'create')
         pub.subscribe(self.delete_game_object, 'delete')
-        
-        self.clicks = 0
         
         self.setup()
         
@@ -166,9 +157,6 @@ class PlayerView:
                         
                     if event.key == pygame.K_c:
                         self.size_mode = not self.size_mode
-            
-            if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                self.clicks += 1
                 
                 if Localize.current_lang() == 'en':
                     Localize.set_lang("it")
@@ -427,7 +415,7 @@ class PlayerView:
             glDisable(GL_TEXTURE_2D)
         
     def update_texture(self):
-        img = pygame.font.SysFont('Arial', 50).render(_("Clicks: ") + str(self.clicks), True, (255, 255, 255), (0, 0, 0))
+        img = pygame.font.SysFont('Arial', 50)..render(_("Language: ") + Localize.current_lang(), True, (255, 255, 255), (0, 0, 0))
         w, h = img.get_size()
         data = pygame.image.tostring(img, "RGBA", 1)
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1)

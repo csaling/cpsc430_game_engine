@@ -17,5 +17,7 @@ class LoadWorld(Behavior):
         GameLogic.get_object(self.name).y_rotation = self.rotation[1]
         GameLogic.get_object(self.name).z_rotation = self.rotation[2]
         
-        
+        #if self.world == "main_world.txt":
+            #Check if ball is picked up:
+            #GameLogic.load_world(self.world)
         

@@ -9,10 +9,10 @@
         {"name": "player", "kind": "player", "position": [0.0, 5.0, 0.0], "size": [1, 5, 1], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.1], "Jump": [1, 0.1, "key-jump"]}},
         {"name": "Sami", "kind": "dog", "position": [0, -1.2, -2], "size": [1.0, 1.0, 1.0], "texture": "dog_fur", "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Bouncing": [false, -0.5, 0, -40, "ball", "small_dog_bark"], "Teleport": ["player", 5, 4.5], "Switch": ["key1", true, "bounce", true]}},
         {"name": "flying_vampire_dog", "kind": "vampire_dog", "position": [-52.5, -3, 0], "size": [5.0, 5.0, 5.0], "texture": "dog_fur", "color": [0.7, 0, 0.5], "behaviors": {"Platform": [[-100, 10, 0], 0.05, true, false]}},
-        {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5, "opening_door", "closing_door"]}},
+        {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"SlideLock": ["player", "unlock_house_door", false, 0.1, 10, 5, "opening_door", "closing_door"]}},
         {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"LoadWorld": ["main_world.txt", "player", [-8, 1.5, -20], [0, 90, 0]]}},
         {"name": "ground", "kind": "cube", "position": [0, -1.5, 0], "size": [100.0, 1.0, 100.0], "texture": "dead_grass", "color": [0.9, 0.6, 0.1, 1.0]},
-        {"name": "tree", "kind": "cube", "position": [30, 0, 0], "size": [4, 30, 4], "texture": "dead_bark", "color": [0.6, 0.3, 0, 1.0]},
+        {"name": "tree_trunk", "kind": "cube", "position": [30, 0, 0], "size": [4, 30, 4], "texture": "dead_bark", "color": [0.6, 0.3, 0, 1.0]},
         {"name": "leaves", "kind": "cube", "position": [30, 20, 0], "size": [15, 15, 15], "texture": "dead_leaves", "color": [0.9, 0.6, 0.1, 1.0]},
         {"name": "left_wall", "kind": "cube", "position": [-9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"right": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "right_wall", "kind": "cube", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"left": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
@@ -20,6 +20,7 @@
         {"name": "roof", "kind": "cube", "position": [0, 9, -20], "size": [20, 0.5, 10], "faces": {"bottom": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "front_left", "kind": "cube", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "front_right", "kind": "cube", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "paper", "kind": "cube", "position": [6, 2, -14.5], "size": [1, 1.5, 0.25], "color": [1, 1, 1, 1.0], "behaviors": {"Paper": ["Reverse House", 600]}},
         
         {"name": "statue_left_wall", "kind": "cube", "position": [-9.75, 4, 30], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
         {"name": "statue_right_wall", "kind": "cube", "position": [9.75, 4, 30], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
@@ -27,13 +28,14 @@
         {"name": "statue_roof", "kind": "cube", "position": [0, 9, 30], "size": [20, 0.5, 10], "color": [1.0, 0.0, 0.0, 1.0]},
         {"name": "statue_front_left", "kind": "cube", "position": [-6.5, 4, 25], "size": [7, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"PlayMovie": ["play", false], "Movie": ["john_marston_dancing", "play", true]}},
         {"name": "statue_front_right", "kind": "cube", "position": [6.5, 4, 25], "size": [7, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0]},
-        {"name": "door", "kind": "door", "position": [0, 4, 25], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5]}},
-        {"name": "statue", "kind": "vampire_dog", "position": [0, 0.75, 30], "size": [3.0, 3.0, 3.0], "color": [0.8, 0.7, 0.1, 1.0], "behaviors": {"EnableHighlight": [], "HighlightColor": [[1, 0.7, 0.4, 1.0]], "Spawn": ["vampire_dog", 10, 6, -1, "statue","pack_of_dogs_barking"]}},
+        {"name": "paper", "kind": "cube", "position": [-6, 2, 24.5], "size": [1, 1.5, 0.25], "color": [1, 1, 1, 1.0], "behaviors": {"Paper": ["Statue House", 600]}},
+        {"name": "sliding_door", "kind": "door", "position": [0, 4, 25], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"SlideLock": ["player", "unlock_statue_door", false, 0.1, 10, 5]}},
+        {"name": "statue", "kind": "vampire_dog", "position": [0, 0.75, 30], "size": [3.0, 3.0, 3.0], "color": [0.8, 0.7, 0.1, 1.0], "behaviors": {"EnableHighlight": [], "HighlightColor": [[1, 0.7, 0.4, 1.0]], "Spawn": ["vampire_dog", 10, 6, -1, "statue","pack_of_dogs_barking"], "SendEvent": ["unlock_house_door"]}},
         {"name": "pedestal", "kind": "cube", "position": [0, -0.5, 30], "size": [5, 4, 5], "color": [0.7, 0.4, 0.1, 1.0]},
         {"name": "vampire_dog", "kind": "vampire_dog", "position": [0, -10, -2], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Bouncing": [true, -2, 0, -40, "ball"], "Chase": ["player", 0.01]}},
         
         {"name": "ball", "kind": "ball", "position": [0, 0, 0], "size": [0.5, 0.5, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"EnableHighlight": [], "HighlightColor": [[1, 0.7, 0.4, 1.0]], "Spin": [2.0, 1], "Move2D": [0.1], "Pickup": ["ball", true, "pickup_begin"], "StartBehavior": ["goto_begin"]}},
-        {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [0.0, 1.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "ball", 0.05, 1.0, false, "trigger"], "GotoSupervisor": ["trigger", [["pickup_begin", [-100, 10, -6]]]], "ItemTransfer": ["ball", true, "dog_bark"]}},
+        {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [0.0, 1.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "ball", 0.05, 1.0, false, "trigger"], "GotoSupervisor": ["trigger", [["pickup_begin", [-100, 10, -6]]]], "SendEvent": ["unlock_statue_door"]}},
         {"name": "high_ground", "kind": "cube", "position": [-100, 10, 0], "size": [10.0, 1.0, 10.0], "texture": "dead_grass", "color": [0.9, 0.6, 0.1, 1.0]}
        ],
        
@@ -75,6 +77,9 @@
         "PlayMovie": "behavior_play_movie",
         "Movie": "behavior_movie",
         "EnableHighlight": "behavior_highlight",
-        "HighlightColor": "behavior_highlight"
+        "HighlightColor": "behavior_highlight",
+        "Paper": "behavior_paper",
+        "SlideLock": "behavior_slide_lock",
+        "SendEvent": "behavior_send_event"
     }
 }

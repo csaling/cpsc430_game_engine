@@ -8,19 +8,12 @@ from OpenGL.GL import *
 import numpy
 
 from dog_view import DogView
-
 from ball_view import BallView
-
 from cube_view import CubeView
-
 from vampire_dog_view import VampireDogView
-
 from localize import *
-
 from localize import _
-
 from game_object import GameObject
-
 from game_logic import GameLogic
 
 class PlayerView:
@@ -30,8 +23,6 @@ class PlayerView:
         
         pub.subscribe(self.new_game_object, 'create')
         pub.subscribe(self.delete_game_object, 'delete')
-        
-        self.clicks = 0
         
         self.setup()
         
@@ -43,13 +34,43 @@ class PlayerView:
         
         self.paused = False
         self.player = None
+        self.note = False
+        self.counter = 0
+        self.tag = None
         self.clock = pygame.time.Clock ()
         
         pub.subscribe(self.clear_view_objects, 'view_objects')
+        pub.subscribe(self.display_note, 'display_note')
+        pub.subscribe(self.hide_note, 'hide_note')
         
     def clear_view_objects(self):
         self.view_objects = {}
         
+    def display_note(self, tag, timer):
+        self.note = True
+        self.tag = tag
+        self.counter = timer
+        self.update_note()
+        
+    def update_note(self):
+        surface = pygame.Surface((800, 30), flags = pygame.SRCALPHA)
+        surface.fill(pygame.Color("lightskyblue"))
+        
+        text = pygame.font.SysFont('Ariel', 28).render(_(self.tag), True, (255, 255, 255))
+        surface.blit(text, (0, 0))
+        
+        w, h = surface.get_size()
+        
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+        glBindTexture(GL_TEXTURE_2D, self.note_texture)
+        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        data = pygame.image.tostring(surface, "RGBA", 1)
+        glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+        
+    def hide_note(self):
+        self.note = False
+
     def new_game_object(self, game_object):
         if game_object.kind == 'dog':
             self.view_objects[game_object.id] = DogView(game_object)
@@ -77,6 +98,12 @@ class PlayerView:
         mouseMove = (0, 0)
         clicked = False
         
+        if self.counter > 0:
+            self.counter -= 1
+            
+        if self.counter == 0:
+            self.hide_note()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -87,6 +114,11 @@ class PlayerView:
                 clicked = True
                 
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    GameLogic.set_property("quit", True)
+                    return
+                
                 if event.key == pygame.K_p:
                     self.paused = not self.paused
                     GameLogic.set_property('paused', self.paused)
@@ -94,14 +126,14 @@ class PlayerView:
 
                 if event.key == pygame.K_SPACE:
                     pub.sendMessage('key-jump')
-                    
-            if event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                self.clicks += 1
                 
-                if Localize.current_lang() == 'en':
-                    Localize.set_lang("it")
-                elif Localize.current_lang() == 'it':
-                    Localize.set_lang("en")
+                if event.key == pygame.K_e:
+                    if Localize.current_lang() == 'en':
+                        Localize.set_lang("it")
+                        self.update_note()
+                    elif Localize.current_lang() == 'it':
+                        Localize.set_lang("en")
+                        self.update_note()
                 
                 self.update_texture()
                 
@@ -154,10 +186,10 @@ class PlayerView:
             keypress = pygame.key.get_pressed()     
             
             if keypress[pygame.K_w] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
-                pub.sendMessage('key-w')
+                pub.sendMessage('key-w', camera_direction =  self.camera_direction)
                 
             if keypress[pygame.K_s] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
-                pub.sendMessage('key-s')
+                pub.sendMessage('key-s', camera_direction =  self.camera_direction)
                 
             if keypress[pygame.K_d] and not keypress[pygame.K_LCTRL] and not keypress[pygame.K_RCTRL]:
                 pub.sendMessage('key-d')
@@ -174,6 +206,13 @@ class PlayerView:
                 glTranslate(-self.player.position[0], -self.player.position[1], -self.player.position[2])
                 
                 self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
+                
+                camera_direction = numpy.linalg.inv(self.viewMatrix)
+                camera_direction = camera_direction[2][0:3]
+                camera_direction[0] *= -1
+                camera_direction[1] *= -1
+                camera_direction[2] *= -1
+                self.camera_direction = camera_direction
             
             glClearColor(*GameLogic.get_property('background'))
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
@@ -235,8 +274,25 @@ class PlayerView:
         
         glDisable(GL_TEXTURE_2D)
         
+        if self.note:
+            glEnable(GL_TEXTURE_2D)
+            glBindTexture(GL_TEXTURE_2D, self.note_texture)
+            glBegin(GL_QUADS)
+            
+            glTexCoord2f(0.0, 1.0)
+            glVertex2f(0, 570)
+            glTexCoord2f(1.0, 1.0)
+            glVertex2f(800, 570)
+            glTexCoord2f(1.0, 0.0)
+            glVertex2f(800, 600)
+            glTexCoord2f(0.0, 0.0)
+            glVertex2f(0, 600)
+            
+            glEnd()
+            glDisable(GL_TEXTURE_2D)
+        
     def update_texture(self):
-        img = pygame.font.SysFont('Arial', 50).render(_("Clicks: ") + str(self.clicks), True, (255, 255, 255), (0, 0, 0))
+        img = pygame.font.SysFont('Arial', 50).render(_("Language") + Localize.current_lang(), True, (255, 255, 255), (0, 0, 0))
         w, h = img.get_size()
         data = pygame.image.tostring(img, "RGBA", 1)
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
@@ -261,6 +317,8 @@ class PlayerView:
         
         self.prepare_3d()
         self.viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
+        
+        self.note_texture = glGenTextures(1)
         
     def handle_mouse(self, pos, clicked):
         keys = pygame.key.get_pressed()

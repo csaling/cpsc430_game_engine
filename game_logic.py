@@ -22,6 +22,7 @@ class GameLogic:
     
     @staticmethod
     def tick():
+        GameLogic.world_world_loaded = False
         for game_object in GameLogic.game_objects:
             if GameLogic.game_objects[game_object].moved:
                 for other in GameLogic.game_objects:
@@ -30,6 +31,9 @@ class GameLogic:
                     
         for id in GameLogic.game_objects:
             GameLogic.game_objects[id].tick()
+            if GameLogic.world_world_loaded:
+                GameLogic.world_world_loaded = False
+                break
             
         GameLogic.process_deletions()
         GameLogic.process_additions()
@@ -96,6 +100,7 @@ class GameLogic:
         GameLogic.game_objects = {}
         GameLogic.name_index = {}
         GameLogic.filename = filename
+        GameLogic.world_world_loaded = True
         pub.sendMessage('view_objects')
         
         with open(filename) as infile:
