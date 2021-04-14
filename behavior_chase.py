@@ -1,13 +1,16 @@
 from behavior import Behavior
 from game_object import GameObject
+from pubsub import pub
 import numpy
 
 class Chase(Behavior):
-    def __init__(self, name, speed):
+    def __init__(self, name, speed, distance, event):
         super(Chase, self).__init__()
 
         self.name = name
         self.speed = speed
+        self.distance = distance
+        self.event = event
 
     def tick(self):
         
@@ -26,3 +29,7 @@ class Chase(Behavior):
             y = self.game_object.position[1]
             self.game_object.position = (self.game_object.position + self.speed * direction_vector).tolist()
             self.game_object.position[1] = y
+            
+            print(distance, self.distance)
+            if distance < self.distance:
+                pub.sendMessage(self.event, game_object = self.game_object)

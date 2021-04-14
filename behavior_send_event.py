@@ -2,12 +2,11 @@ from behavior import Behavior
 from pubsub import pub
 
 class SendEvent(Behavior):
-    def __init__(self, name):
+    def __init__(self, event):
         super(SendEvent, self).__init__()
-        
-        self.name = name
-        
+
+        self.event = event
     
     def clicked(self, game_object):
-        pub.sendMessage(self.name)
+        pub.sendMessage(self.event)
         

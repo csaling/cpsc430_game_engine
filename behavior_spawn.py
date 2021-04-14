@@ -39,5 +39,5 @@ class Spawn(Behavior):
             
     def point(self):
         theta = random() * 2 * pi
-        return (self.game_object.position[0] + cos(theta) * self.radius, self.game_object.position[1] + self.adjust, self.game_object.position[2] + sin(theta) * self.radius).tolist()
+        return (self.game_object.position[0] + cos(theta) * self.radius, self.game_object.position[1] + self.adjust, self.game_object.position[2] + sin(theta) * self.radius)
         

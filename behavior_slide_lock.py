@@ -18,7 +18,7 @@ class SlideLock(Behavior):
         self.opening = opening
         self.closing = closing
         self.previous_open = self.open
-        self.unlocked = False
+        self.unlocked = True
         
         pub.subscribe(self.unlock, self.name)
         
