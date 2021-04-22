@@ -47,6 +47,7 @@ class PlayerView:
         self.size_mode = False
         self.input_mode = False
         self.get_name = False
+        self.delete_object = False
         
         pub.subscribe(self.clear_view_objects, 'view_objects')
         
@@ -94,6 +95,7 @@ class PlayerView:
         self.position_adjust = 0.0
         self.size_adjust = 0.0
         self.set_name = False
+        self.delete_object = False
         
         if self.get_name:
             self.update_hud_texture()
@@ -157,6 +159,9 @@ class PlayerView:
                         
                     if event.key == pygame.K_c:
                         self.size_mode = not self.size_mode
+                        
+                    if event.key == pygame.K_m:
+                        self.delete_object = not self.delete_object
                 
                 if Localize.current_lang() == 'en':
                     Localize.set_lang("it")
@@ -415,7 +420,7 @@ class PlayerView:
             glDisable(GL_TEXTURE_2D)
         
     def update_texture(self):
-        img = pygame.font.SysFont('Arial', 50)..render(_("Language: ") + Localize.current_lang(), True, (255, 255, 255), (0, 0, 0))
+        img = pygame.font.SysFont('Arial', 50).render(_("Language: ") + Localize.current_lang(), True, (255, 255, 255), (0, 0, 0))
         w, h = img.get_size()
         data = pygame.image.tostring(img, "RGBA", 1)
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
@@ -504,6 +509,9 @@ class PlayerView:
              if self.clear_texture:
                 for face in self.get_faces(closest):
                      del closest.faces[face]
+            
+             if self.delete_object:
+                 closest.delete()
                      
              if self.position_mode and self.position_adjust:
                  for face in self.get_faces(closest):

@@ -33,7 +33,7 @@ class GameObject:
             self.color = data['color']
             
         else:
-            self.color = (0.25, 0.25, 0.25, 1.0)
+            self.color = (1, 0, 0, 1.0)
             
             
         if 'texture' in data:
@@ -41,6 +41,14 @@ class GameObject:
             
         else:
             self.texture = None
+            
+            
+        if 'invisible' in data:
+            self.invisible = True
+            
+        else:
+            self.invisible = False
+            
         
         self.id = id
         

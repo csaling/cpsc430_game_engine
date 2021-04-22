@@ -30,6 +30,5 @@ class Chase(Behavior):
             self.game_object.position = (self.game_object.position + self.speed * direction_vector).tolist()
             self.game_object.position[1] = y
             
-            print(distance, self.distance)
             if distance < self.distance:
                 pub.sendMessage(self.event, game_object = self.game_object)

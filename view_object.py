@@ -6,6 +6,10 @@ class ViewObject:
         self.game_object = game_object
         
     def display(self):
+        
+        if self.game_object.invisible == True:
+            return
+        
         glPushMatrix()
         
         glTranslate(*self.game_object.position)
