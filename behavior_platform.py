@@ -3,11 +3,12 @@ from game_logic import GameLogic
 import numpy
 
 class Platform(Behavior):
-    def __init__(self, finish, speed, transport, begin):
+    def __init__(self, destination, speed, transport, begin):
         super(Platform, self).__init__()
         
         self.start = None
-        self.finish = numpy.array(finish)
+        self.distance = None
+        self.destination = destination
         self.speed = speed
         self.transport = transport
         self.begin = begin
@@ -19,13 +20,36 @@ class Platform(Behavior):
         super(Platform, self).connect(game_object)
         
         self.start = numpy.array(game_object.position)
-        self.distance = numpy.linalg.norm(self.finish - self.start)
-        self.direction_vector = (self.finish - self.start) / self.distance
+        
+    def get_destination(self):
+        result = None
+        
+        if type(self.destination) == list:
+            result = self.destination
+            
+        if type(self.destination) == str:
+            obj = GameLogic.get_object(self.destination)
+            
+            if obj:
+                result = obj.position
+
+        return result
         
     def tick(self):
         if self.begin:
+            
+            destination = self.get_destination()
+            
+            if not destination:
+                return
+            
+            destination = numpy.array(destination)
             current = numpy.array(self.game_object.position)
             distance = numpy.linalg.norm(self.start - current)
+            
+            if not self.distance:
+                self.distance = numpy.linalg.norm(destination - self.start)
+                self.direction_vector = (destination - self.start) / self.distance
             
             riders = []
             
@@ -46,9 +70,9 @@ class Platform(Behavior):
             
             if distance >= self.distance:
                 self.direction_vector = -(1 / numpy.linalg.norm(self.direction_vector)) * self.direction_vector
-                self.game_object.position = (self.finish).tolist()
+                self.game_object.position = (destination).tolist()
                 temp = self.start
-                self.start = self.finish
+                self.start = destination
                 self.finish = temp
             else:
                 self.game_object.position = (self.start + (distance + self.speed) * self.direction_vector).tolist()

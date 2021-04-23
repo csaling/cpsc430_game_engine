@@ -6,7 +6,10 @@ class StartBehavior(Behavior):
         super(StartBehavior, self).__init__()
         
         self.name = name
+        self.ticks = True
         
-    def clicked(self, game_object):
-        pub.sendMessage(self.name)
+    def tick(self):
+        if self.ticks:
+            pub.sendMessage(self.name)
+            self.ticks = False
         
