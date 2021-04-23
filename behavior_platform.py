@@ -73,7 +73,7 @@ class Platform(Behavior):
                 self.game_object.position = (destination).tolist()
                 temp = self.start
                 self.start = destination
-                self.finish = temp
+                self.destination = temp.tolist()
             else:
                 self.game_object.position = (self.start + (distance + self.speed) * self.direction_vector).tolist()
                 self.move_riders(riders, self.direction_vector, self.speed)

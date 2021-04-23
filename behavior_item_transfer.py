@@ -4,19 +4,17 @@ from sounds import Sounds
 from pubsub import pub
 
 class ItemTransfer(Behavior):
-    def __init__(self, name, value, message, sound = None):
+    def __init__(self, name, value, sound = None):
         super(ItemTransfer, self).__init__()
         
         self.name = name
         self.value = value
         self.sound = sound
-        self.message = message
         
     def clicked(self, game_object):
          if self.game_object.get_property(self.name) == self.value:
              self.game_object.set_property(self.name, None)
              game_object.set_property(self.name, self.value)
-             pub.sendMessage(self.message)
              
          if self.sound:
                 Sounds.play_sound(self.sound)

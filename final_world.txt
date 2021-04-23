@@ -8,10 +8,10 @@
     "objects": [
         {"name": "player", "kind": "player", "position": [0.0, 5.0, 0.0], "size": [1, 5, 1], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.1], "Jump": [1, 0.1, "key-jump"], "FallTeleport": ["ocean.txt", "player"]}},
         {"name": "Sami", "kind": "dog", "position": [0, -1.2, -2], "size": [1.0, 1.0, 1.0], "texture": "dog_fur", "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Teleport": ["player", 5, 4.5], "Bouncing": [false, -0.5, 0, -40, "ball", "small_dog_bark"], "Switch": ["ball", true, "bounce", true]}},
-        {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "high_ground", 0.05, 1.0, true, "trigger"], "SendEventDestination": ["ball", "trigger"], "DeleteAtLocation":["trigger", "dog_bark"], "EventProperty": ["ball", "toggle"]}},
-        {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", "unlock_house_door", false, 0.1, 10, 5, "opening_door", "closing_door"]}},
+        {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "high_ground", 0.05, 1.0, true, "trigger"], "SendEventDestination": ["ball", "trigger"], "DeleteAtLocation":["trigger", "dog_bark"], "SetPropertyStartup": ["ball", true], "ItemTransfer": ["ball", "toggle"]}},
+        {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5, "opening_door", "closing_door"]}},
         {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.0, 0.0, 0.0, 1.0]},
-        {"name": "ground", "kind": "cube", "position": [0, -1.5, 0], "size": [100.0, 1.0, 100.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "ground", "kind": "cube", "position": [0, -1.5, 0], "size": [50.0, 1.0, 50.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
         {"name": "left_wall", "kind": "cube", "position": [-9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"right": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "right_wall", "kind": "cube", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"left": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "back_wall", "kind": "cube", "position": [0, 4, -25], "size": [20, 10.0, 0.5], "faces": {"back": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
@@ -23,12 +23,12 @@
         {"name": "left_screen", "kind": "cube", "position": [-100, 4, -20], "size": [0.5, 100.0, 100.0], "faces": {"left": {"type": "movie", "value": "wiener_dogs_video"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"StartBehavior": ["toggle"], "Invisibility": ["toggle"], "PlayMovie": ["play", false], "Movie": ["wiener_dogs_video", "play", true]}},
         {"name": "right_screen", "kind": "cube", "position": [100, 4, -20], "size": [0.5, 100.0, 100.0], "faces": {"left": {"type": "movie", "value": "john_marston_dancing"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"Invisibility": ["toggle"], "PlayMovie": ["play", false], "Movie": ["john_marston_dancing", "play", true]}},
         
-        {"name": "high_ground", "kind": "cube", "position": [0, 10, 100], "size": [10.0, 1.0, 10.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
-        {"name": "top_right_platform", "kind": "cube", "position": [5, 10, 90], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": ["low_ground", 0.05, true, true]}},
-        {"name": "top_left_platform", "kind": "cube", "position": [-5, 10, 90], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": ["low_ground", 0.05, true, true]}},
-        {"name": "low_ground", "kind": "cube", "position": [0, 5, 50], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
-        {"name": "bottom_right_platform", "kind": "cube", "position": [0, -1.5, 10], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": ["low_ground", 0.05, true, true]}},
-        {"name": "bottom_left_platform", "kind": "cube", "position": [-10, -1.5, 10], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": ["low_ground", 0.05, true, true]}}
+        {"name": "high_ground", "kind": "cube", "position": [0, 50, 120], "size": [10.0, 1.0, 10.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "top_right_platform", "kind": "cube", "position": [10, 50, 110], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[10, 5, 65], 0.05, true, true]}},
+        {"name": "top_left_platform", "kind": "cube", "position": [-10, 50, 110], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[-10, 5, 65], 0.05, true, true]}},
+        {"name": "low_ground", "kind": "cube", "position": [0, 5, 60], "size": [10.0, 1.0, 10.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "bottom_right_platform", "kind": "cube", "position": [10, -1.5, 30], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[10, 5, 55], 0.05, true, true]}},
+        {"name": "bottom_left_platform", "kind": "cube", "position": [-10, -1.5, 30], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[-10, 5, 55], 0.05, true, true]}}
        ],
        
        "files": {
@@ -64,6 +64,8 @@
         "Movie": "behavior_movie",
         "EventProperty": "behavior_event_property",
         "Switch": "behavior_switch",
-        "FallTeleport": "behavior_fall_teleport"
+        "FallTeleport": "behavior_fall_teleport",
+        "ItemTransfer": "behavior_item_transfer",
+        "SetPropertyStartup": "behavior_set_property_startup"
     }
 }

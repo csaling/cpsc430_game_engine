@@ -13,4 +13,4 @@ class TimedMessage(Behavior):
         self.ticks_passed += 1
         
         if self.ticks_passed >= self.time:
-            pub.sendMessage(self.message, self.game_object)
+            pub.sendMessage(self.message, game_object = self.game_object)

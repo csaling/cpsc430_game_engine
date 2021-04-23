@@ -71,7 +71,6 @@
         "Goto": "behavior_goto",
         "GotoSupervisor": "behavior_goto_sup",
         "Pickup": "behavior_pickup",
-        "ItemTransfer": "behavior_item_transfer",
         "SendEvent": "behavior_send_event",
         "Paper": "behavior_paper",
         "SlideLock": "behavior_slide_lock",
