@@ -1,7 +1,6 @@
 from behavior import Behavior
 from game_logic import GameLogic
 from sounds import Sounds
-from pubsub import pub
 
 class ItemTransfer(Behavior):
     def __init__(self, name, value, sound = None):

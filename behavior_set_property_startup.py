@@ -7,10 +7,10 @@ class SetPropertyStartup(Behavior):
         
         self.name = name
         self.value = value
-        self.ticks = False
+        self.ticks = True
         
     def tick(self):
         if self.ticks == True:
-             self.game_object.get_property(self.name, self.value)
+             self.game_object.set_property(self.name, self.value)
              self.ticks = False
              
