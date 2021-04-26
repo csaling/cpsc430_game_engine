@@ -16,16 +16,14 @@ class Spawn(Behavior):
         self.adjust = adjust
         self.sound = sound
         self.obj = obj
+        self.has_been_clicked = False
       
     def clicked(self, game_object):
         self.current_amount = self.amount
+        self.has_been_clicked = True
         
         if self.sound:
                 Sounds.play_sound(self.sound)
-                
-        if self.obj:
-            obj = GameLogic.get_object(self.obj)
-            GameLogic.delete_object(obj)
         
     def tick(self):
         from game_logic import GameLogic
@@ -36,6 +34,10 @@ class Spawn(Behavior):
             obj.position = self.point()
             GameLogic.add_object(obj)
             self.current_amount -= 1
+            
+        elif self.has_been_clicked:
+            obj = GameLogic.get_object(self.obj)
+            GameLogic.delete_object(obj)
             
     def point(self):
         theta = random() * 2 * pi

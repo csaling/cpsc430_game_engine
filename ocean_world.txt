@@ -13,7 +13,7 @@
         {"name": "fish_dog_house", "kind": "vampire_dog", "position": [10, 0, -12], "size": [5.0, 5.0, 5.0], "texture": "dog_fur", "color": [0, 0.7, 0.4], "behaviors": {"Platform": [[-10, 0, -12], 0.05, false, true]}},
         {"name": "deep_one", "kind": "vampire_dog", "position": [50, 25, -50], "size": [50.0, 50.0, 50.0], "texture": "dog_fur", "color": [0, 0.7, 0.4], "behaviors": {"Platform": [[-50, 25, -50], 0.05, false, true]}},
         {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.9, 0.5, 0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5]}},
-        {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.9, 0.5, 0, 1.0], "behaviors": {"LoadWorld": ["main_world.txt", "player", [-8, 1.5, -20], [0, 90, 0]]}},
+        {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.9, 0.5, 0, 1.0], "behaviors": {"LoadWorld": ["reverse_world.txt", "player", [0, 1.5, -10], [0, 180, 0]]}},
         {"name": "ocean_floor", "kind": "cube", "position": [0, -1.5, 0], "size": [100.0, 1.0, 100.0], "texture": "sea_weed", "color": [0.8, 0.7, 0.4, 1.0]},
         {"name": "sea_tree_trunk", "kind": "cube", "position": [30, 0, 0], "size": [4, 30, 4], "texture": "coral", "color": [1, 1, 1, 1.0]},
         {"name": "sea_weed", "kind": "cube", "position": [30, 20, 0], "size": [15, 15, 15], "texture": "sea_grass", "color": [0, 0.9, 0.3, 1.0]},

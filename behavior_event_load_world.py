@@ -1,5 +1,6 @@
 from behavior import Behavior
 from pubsub import pub
+import pygame
 
 class EventLoadWorld(Behavior):
     def __init__(self, name, event):
@@ -13,3 +14,4 @@ class EventLoadWorld(Behavior):
     def load_world(self, game_object):
         from game_logic import GameLogic
         GameLogic.load_world(self.name)
+        pygame.mixer.stop()

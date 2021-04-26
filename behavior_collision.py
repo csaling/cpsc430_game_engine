@@ -20,13 +20,13 @@ class BlockedByObjects(Behavior):
                 velocity = 0.0
                 for index in indices:
                     if index == 0:
-                        velocity = max(velocity, self.game_object.get_property('x_velocity', 0.1))
+                        velocity = max(velocity, self.game_object.get_property('x_velocity', 0.25))
                     
                     if index == 1:
-                        velocity = max(velocity, self.game_object.get_property('y_velocity', 0.1))
+                        velocity = max(velocity, self.game_object.get_property('y_velocity', 0.25))
                     
                     if index == 2:
-                        velocity = max(velocity, self.game_object.get_property('z_velocity', 0.1))
+                        velocity = max(velocity, self.game_object.get_property('z_velocity', 0.25))
         
                 face = indices[0]
                 thirdpos = numpy.array([0.0, 0.0, 0.0])

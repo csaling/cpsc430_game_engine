@@ -18,7 +18,7 @@ class SlideLock(Behavior):
         self.opening = opening
         self.closing = closing
         self.previous_open = self.open
-        self.unlocked = True
+        self.unlocked = False
         
         pub.subscribe(self.unlock, self.name)
         
@@ -32,7 +32,6 @@ class SlideLock(Behavior):
         self.start_position = list(self.game_object.position)
             
     def tick(self):
-        
         if self.unlocked:
             door_location = numpy.array(self.start_position)
             player_location = numpy.array(self.player.position)  

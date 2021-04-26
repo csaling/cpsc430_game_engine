@@ -11,6 +11,7 @@ class Sounds:
         if tag in GameLogic.files:
             pygame.mixer.music.load(GameLogic.files[tag])
             pygame.mixer.music.set_volume(volume)
+            #comment this out to stop background music from playing
             pygame.mixer.music.play(loop)
     
     @staticmethod

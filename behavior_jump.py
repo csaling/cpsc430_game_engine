@@ -19,10 +19,9 @@ class Jump(Behavior):
         pub.unsubscribe(self.jump, self.event)
         
     def jump(self):
-        if self.jump_counter < 2:
+        #Remove if not statement for infinite jumping
+        if not self.game_object.get_property("falling"):
             self.jumping = True
-            self.jump_counter += 1
-            self.current = self.speed
         
     def tick(self):
         if not self.jumping:
@@ -30,12 +29,10 @@ class Jump(Behavior):
         
         if self.current <= 0.0:
             self.jumping = False
-            self.jump_counter = 0
+            self.current = self.speed
             return
         
         self.game_object.set_property('y_velocity', self.game_object.get_property('y_velocity', 0.0) + self.current)
         self.game_object.position[1] += self.current
         self.game_object._moved = True
         self.current -= self.adjust
-        
-        
