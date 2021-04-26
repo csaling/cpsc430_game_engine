@@ -6,7 +6,7 @@
     },
     
     "objects": [
-        {"name": "player", "kind": "player", "position": [0.0, 5.0, 5.0], "size": [1, 5, 1], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.1], "Jump": [1, 0.1, "key-jump"], "FallTeleport": ["ocean.txt", "player"]}},
+        {"name": "player", "kind": "player", "position": [0.0, 5.0, 5.0], "size": [1, 5, 1], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.25], "Jump": [1, 0.1, "key-jump"], "FallTeleport": ["ocean_world.txt", "player"]}},
         {"name": "Sami", "kind": "dog", "position": [0, -1.2, -2], "size": [1.0, 1.0, 1.0], "texture": "dog_fur", "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Teleport": ["player", 5, 4.5]}},
         {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5]}},
         {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"LoadWorld": ["reverse_world.txt", "player", [-8, 1.5, -20], [0, 90, 0]]}},
