@@ -1,0 +1,48 @@
+{
+
+    "level": {
+        "music": ["background_music", 0.25, -1],
+        "background": [0.0, 0.0, 1.0, 1.0]
+    },
+    
+    "objects": [
+        {"name": "player", "kind": "player", "position": [0.0, 5.0, 5.0], "size": [1, 5, 1], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.25], "Jump": [1, 0.1, "key-jump"], "FallTeleport": ["ocean_world.txt", "player"]}},
+        {"name": "Sami", "kind": "dog", "position": [0, -1.2, -2], "size": [1.0, 1.0, 1.0], "texture": "dog_fur", "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Teleport": ["player", 5, 4.5]}},
+        {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5]}},
+        {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"LoadWorld": ["reverse_world.txt", "player", [0, 1.5, -10], [0, 180, 0]]}},
+        {"name": "ground", "kind": "cube", "position": [0, -1.5, 0], "size": [100.0, 1.0, 100.0], "texture": "grass", "color": [0, 0.9, 0.3, 1.0]},
+        {"name": "tree_trunk", "kind": "cube", "position": [30, 0, 0], "size": [4, 30, 4], "texture": "bark", "color": [0.6, 0.3, 0, 1.0]},
+        {"name": "leaves", "kind": "cube", "position": [30, 20, 0], "size": [15, 15, 15], "texture": "leaves", "color": [0, 0.9, 0.3, 1.0]},
+        {"name": "left_wall", "kind": "cube", "position": [-9.75, 4, -20], "size": [0.5, 10.0, 10.0], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"name": "right_wall", "kind": "cube", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"name": "back_wall", "kind": "cube", "position": [0, 4, -25], "size": [20, 10.0, 0.5], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"name": "roof", "kind": "cube", "position": [0, 9, -20], "size": [20, 0.5, 10], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"name": "front_left", "kind": "cube", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"name": "front_right", "kind": "cube", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "color": [0.6, 0.3, 0.3, 1.0]},
+        {"name": "paper", "kind": "cube", "position": [6, 2, -14.5], "size": [1, 1.5, 0.25], "color": [1, 1, 1, 1.0], "behaviors": {"Paper": ["Normal House", 600]}}
+       ],
+       
+       "files": {
+           "opening_door": "audio/opening_door.wav",
+           "closing_door": "audio/closing_door.wav",
+           "small_dog_bark": "audio/small_dog_bark.wav",
+           "background_music": "audio/Dimblebuck.ogg",
+           "dog_fur": "images/dog_fur.jfif",
+           "grass": "images/grass.jfif",
+           "bark": "images/bark.jfif",
+           "leaves": "images/leaves.jpg"
+       },
+    
+    "behaviors": {
+        "KeyMove": "behavior_key_move",
+        "MouseRotation": "behavior_mouse_rotation",
+        "BlockedByObjects": "behavior_collision",
+        "Slide": "behavior_slide",
+        "Teleport": "behavior_teleport",
+        "LoadWorld": "behavior_load_world",
+        "Gravity": "behavior_gravity",
+        "Jump": "behavior_jump",
+        "FallTeleport": "behavior_fall_teleport",
+        "Paper": "behavior_paper"
+    }
+}

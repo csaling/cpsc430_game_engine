@@ -1,0 +1,85 @@
+{
+
+    "level": {
+        "music": ["background_music", 0.25, -1],
+        "background": [0.5, 0.0, 0.0, 1.0]
+    },
+
+    "objects": [
+        {"name": "player", "kind": "player", "position": [0.0, 5.0, 0.0], "size": [1, 5, 1], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.25], "Jump": [1, 0.1, "key-jump"], "FallTeleport": ["ocean_world.txt", "player"]}},
+        {"name": "Sami", "kind": "dog", "position": [0, -1.2, -2], "size": [1.0, 1.0, 1.0], "texture": "dog_fur", "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Teleport": ["player", 5, 4.5]}},
+        {"name": "flying_vampire_dog", "kind": "vampire_dog", "position": [-52.5, -3, 0], "size": [5.0, 5.0, 5.0], "texture": "dog_fur", "color": [0.7, 0, 0.5], "behaviors": {"Platform": [[-100, 10, 0], 0.05, true, true]}},
+        {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"SlideLock": ["player", "unlock_house_door", false, 0.1, 10, 5, "opening_door", "closing_door"]}},
+        {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"LoadWorld": ["final_world.txt", "player", [-8, 1.5, -20], [0, 90, 0]]}},
+        {"name": "ground", "kind": "cube", "position": [0, -1.5, 0], "size": [100.0, 1.0, 100.0], "texture": "dead_grass", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "tree_trunk", "kind": "cube", "position": [30, 0, 0], "size": [4, 30, 4], "texture": "dead_bark", "color": [0.6, 0.3, 0, 1.0]},
+        {"name": "leaves", "kind": "cube", "position": [30, 20, 0], "size": [15, 15, 15], "texture": "dead_leaves", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "left_wall", "kind": "cube", "position": [-9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"right": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "right_wall", "kind": "cube", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"left": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "back_wall", "kind": "cube", "position": [0, 4, -25], "size": [20, 10.0, 0.5], "faces": {"back": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "roof", "kind": "cube", "position": [0, 9, -20], "size": [20, 0.5, 10], "faces": {"bottom": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "front_left", "kind": "cube", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "front_right", "kind": "cube", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "paper", "kind": "cube", "position": [6, 2, -14.5], "size": [1, 1.5, 0.25], "color": [1, 1, 1, 1.0], "behaviors": {"Paper": ["Reverse House", 600]}},
+        
+        {"name": "statue_left_wall", "kind": "cube", "position": [-9.75, 4, 30], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
+        {"name": "statue_right_wall", "kind": "cube", "position": [9.75, 4, 30], "size": [0.5, 10.0, 10.0], "color": [1.0, 0.0, 0.0, 1.0]},
+        {"name": "statue_back_wall", "kind": "cube", "position": [0, 4, 35], "size": [20, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0]},
+        {"name": "statue_roof", "kind": "cube", "position": [0, 9, 30], "size": [20, 0.5, 10], "color": [1.0, 0.0, 0.0, 1.0]},
+        {"name": "statue_front_left", "kind": "cube", "position": [-6.5, 4, 25], "size": [7, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0]},
+        {"name": "statue_front_right", "kind": "cube", "position": [6.5, 4, 25], "size": [7, 10.0, 0.5], "color": [1.0, 0.0, 0.0, 1.0]},
+        {"name": "paper", "kind": "cube", "position": [-6, 2, 24.5], "size": [1, 1.5, 0.25], "color": [1, 1, 1, 1.0], "behaviors": {"Paper": ["Statue House", 600]}},
+        {"name": "sliding_door", "kind": "door", "position": [0, 4, 25], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"SlideLock": ["player", "unlock_statue_door", false, 0.1, 10, 5, "opening_door", "closing_door"]}},
+        {"name": "statue", "kind": "vampire_dog", "position": [0, 0.75, 30], "size": [3.0, 3.0, 3.0], "color": [0.8, 0.7, 0.1, 1.0], "behaviors": {"EnableHighlight": [], "HighlightColor": [[1, 0.7, 0.4, 1.0]], "Spawn": ["vampire_dog", 15, 6, -1, "statue","pack_of_dogs_barking"], "SendEvent": ["unlock_house_door"]}},
+        {"name": "pedestal", "kind": "cube", "position": [0, -0.5, 30], "size": [5, 4, 5], "color": [0.7, 0.4, 0.1, 1.0]},
+        {"name": "vampire_dog", "kind": "vampire_dog", "position": [0, -10000, 0], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Bouncing": [true, -2, 0, -40, "ball"], "Chase": ["player", 0.01, 5,"load_ocean"], "EventLoadWorld": ["ocean_world.txt", "load_ocean"]}},
+        
+        {"name": "ball", "kind": "ball", "position": [0, 0, 0], "size": [0.5, 0.5, 0.5], "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"EnableHighlight": [], "HighlightColor": [[1, 0.7, 0.4, 1.0]], "Spin": [2.0, 1], "Move2D": [0.1], "Pickup": ["ball", true, "pickup_begin"], "SendEvent": ["goto_begin"]}},
+        {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "ball", 0.05, 1.0, false, "trigger"], "GotoSupervisor": ["trigger", [["pickup_begin", "high_ground"]]], "SendEventDestination": ["unlock_statue_door", "trigger"], "DeleteAtLocation":["trigger", "dog_bark"]}},
+        {"name": "high_ground", "kind": "cube", "position": [-100, 10, 0], "size": [10.0, 1.0, 10.0], "texture": "dead_grass", "color": [0.9, 0.6, 0.1, 1.0]}
+       ],
+       
+       "files": {
+           "opening_door": "audio/opening_door.wav",
+           "closing_door": "audio/closing_door.wav",
+           "dog_bark": "audio/dog_bark.wav",
+           "small_dog_bark": "audio/small_dog_bark.wav",
+           "pack_of_dogs_barking": "audio/pack_of_dogs_barking.wav",
+           "background_music": "audio/Consecrated Ground.mp3",
+           "dog_fur": "images/dog_fur.jfif",
+           "dead_grass": "images/dead_grass.jfif",
+           "dead_bark": "images/dead_bark.jfif",
+           "dead_leaves": "images/dead_leaves.jpg"
+       },
+    
+    "behaviors": {
+        "KeyMove": "behavior_key_move",
+        "MouseRotation": "behavior_mouse_rotation",
+        "BlockedByObjects": "behavior_collision",
+        "Slide": "behavior_slide",
+        "Spin": "behavior_spin",
+        "Move2D": "behavior_move2D",
+        "Teleport": "behavior_teleport",
+        "Bouncing": "behavior_bouncing",
+        "LoadWorld": "behavior_load_world",
+        "EventLoadWorld": "behavior_event_load_world",
+        "FallTeleport": "behavior_fall_teleport",
+        "Gravity": "behavior_gravity",
+        "Jump": "behavior_jump",
+        "Chase": "behavior_chase",
+        "Spawn": "behavior_spawn",
+        "Platform": "behavior_platform",
+        "Switch": "behavior_switch",
+        "EnableHighlight": "behavior_highlight",
+        "HighlightColor": "behavior_highlight",
+        "Goto": "behavior_goto",
+        "GotoSupervisor": "behavior_goto_sup",
+        "Pickup": "behavior_pickup",
+        "SendEvent": "behavior_send_event",
+        "Paper": "behavior_paper",
+        "SlideLock": "behavior_slide_lock",
+        "SendEvent": "behavior_send_event",
+        "SendEventDestination": "behavior_send_event_destination",
+        "DeleteAtLocation": "behavior_delete_object_location"
+    }
+}
