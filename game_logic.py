@@ -150,7 +150,7 @@ class GameLogic:
             GameLogic.save_object(GameLogic.game_objects[game_object])
             
         with open(GameLogic.filename, 'w') as outfile:
-            json.dump(GameLogic.level_data, outfile, sort_keys = False, indent = 4)
+            outfile.write(jsonprint(GameLogic.level_data))
     
     @staticmethod
     def save_object(game_object):
@@ -188,7 +188,7 @@ class GameLogic:
     @staticmethod
     def set_property(key, value):
         GameLogic.properties[key] = value
-    
+
     @staticmethod
     def collide(object1, object2):
         if object1 == object2:
@@ -208,5 +208,32 @@ class GameLogic:
         maxz2 = object2.position[2] + object2.size[2] / 2
         
         return minx1 < maxx2 and minx2 < maxx1 and miny1 < maxy2 and miny2 < maxy1 and minz1 < maxz2 and minz2 < maxz1
+
+def replace(data):
+    import uuid
     
+    replacements = []
+    objects = []
     
+    for obj in data['objects']:
+        replacement = uuid.uuid4().hex
+        replacements.append((f'"{replacement}"', json.dumps(obj)))
+        
+        objects.append(f'{replacement}')
+        
+    data['objects'] = objects
+    
+    return data, replacements
+
+def jsonprint(data):
+    import copy
+    
+    data = copy.deepcopy(data)
+    
+    data, replacements = replace(data)
+    result = json.dumps(data, indent=4)
+    
+    for old, new in replacements:
+        result = result.replace(old, new)
+        
+    return result

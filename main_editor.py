@@ -5,7 +5,7 @@ from sounds import Sounds
 
 class Main:
     def go (self):
-        GameLogic.load_world("splash_screen.txt")
+        GameLogic.load_world("final_world - Copy.txt")
         
         while True:
             GameLogic.tick()
