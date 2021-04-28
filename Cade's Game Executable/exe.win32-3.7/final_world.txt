@@ -1,0 +1,68 @@
+{
+
+    "level": {
+        "music": ["background_music", 0.25, -1],
+        "background": [0.5, 0.0, 0.0, 1.0]
+    },
+
+    "objects": [
+        {"name": "player", "kind": "player", "position": [0.0, 5.0, 0.0], "size": [1, 5, 1], "behaviors": {"KeyMove": [0.1], "MouseRotation": [0.1], "BlockedByObjects": [], "Gravity": [0.25], "Jump": [1, 0.1, "key-jump"], "FallTeleport": ["ocean_world.txt", "player"]}},
+        {"name": "Sami", "kind": "dog", "position": [0, -1.2, -2], "size": [1.0, 1.0, 1.0], "texture": "dog_fur", "color": [0.5, 0.5, 0.5, 1.0], "behaviors": {"Teleport": ["player", 5, 4.5], "Bouncing": [false, -0.5, 0, -40, "ball", "play_movie", "small_dog_bark"], "Switch": ["ball", true, "bounce", true]}},
+        {"name": "pathfinder", "kind": "vampire_dog", "position": [-10, -1.2, -10], "size": [3.0, 3.0, 3.0], "texture": "dog_fur", "color": [1.0, 0.0, 0.0, 1.0], "behaviors": {"Goto": [ "goto_begin", "high_ground", 0.05, 1.0, true, "trigger"], "SendEventDestination": ["ball", "trigger"], "DeleteAtLocation":["trigger", "dog_bark"], "SetPropertyStartup": ["ball", true], "ItemTransfer": ["ball", true]}},
+        {"name": "sliding_door", "kind": "door", "position": [0, 4, -15], "size": [6, 10.0, 0.5], "color": [0.0, 0.0, 0.0, 1.0], "behaviors": {"Slide": ["player", false, 0.1, 10, 5, "opening_door", "closing_door"]}},
+        {"name": "warp_door", "kind": "cube", "position": [-9.5, 4, -20], "size": [0.5, 10.0, 5.0], "color": [0.0, 0.0, 0.0, 1.0]},
+        {"name": "ground", "kind": "cube", "position": [0, -1.5, 0], "size": [50.0, 1.0, 50.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "left_wall", "kind": "cube", "position": [-9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"right": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "right_wall", "kind": "cube", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"left": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "back_wall", "kind": "cube", "position": [0, 4, -25], "size": [20, 10.0, 0.5], "faces": {"back": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "roof", "kind": "cube", "position": [0, 9, -20], "size": [20, 0.5, 10], "faces": {"bottom": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "front_left", "kind": "cube", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"back": {"type": "movie", "value": "wiener_dogs_video"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"PlayMovie": ["play", "play_movie", false], "Movie": ["john_marston_dancing", "play", true]}},
+        {"name": "front_right", "kind": "cube", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"back": {"type": "movie", "value": "john_marston_dancing"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"PlayMovie": ["play", "play_movie", false], "Movie": ["wiener_dogs_video", "play", true]}},
+        {"name": "paper", "kind": "cube", "position": [6, 2, -14.5], "size": [1, 1.5, 0.25], "color": [1, 1, 1, 1.0], "behaviors": {"Paper": ["Final House", 600]}},
+        
+        {"name": "high_ground", "kind": "cube", "position": [0, 50, 120], "size": [10.0, 1.0, 10.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "top_right_platform", "kind": "cube", "position": [10, 50, 115], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[10, 5, 65], 0.05, true, true]}},
+        {"name": "top_left_platform", "kind": "cube", "position": [-10, 50, 115], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[-10, 5, 65], 0.05, true, true]}},
+        {"name": "low_ground", "kind": "cube", "position": [0, 5, 60], "size": [10.0, 1.0, 10.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
+        {"name": "bottom_right_platform", "kind": "cube", "position": [10, -1.5, 28], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[10, 5, 58], 0.05, true, true]}},
+        {"name": "bottom_left_platform", "kind": "cube", "position": [-10, -1.5, 28], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[-10, 5, 58], 0.05, true, true]}}
+       ],
+       
+       "files": {
+           "opening_door": "audio/opening_door.wav",
+           "closing_door": "audio/closing_door.wav",
+           "dog_bark": "audio/dog_bark.wav",
+           "small_dog_bark": "audio/small_dog_bark.wav",
+           "background_music": "audio/robot_hell.mp3",
+           "dog_fur": "images/dog_fur.jfif",
+           "brimstone": "images/brimstone.jfif",
+           "wiener_dogs_video": "movies/wiener_dogs_video.mp4",
+           "john_marston_dancing": "movies/john_marston_dancing.mp4"
+       },
+    
+    "behaviors": {
+        "KeyMove": "behavior_key_move",
+        "MouseRotation": "behavior_mouse_rotation",
+        "BlockedByObjects": "behavior_collision",
+        "Slide": "behavior_slide",
+        "Teleport": "behavior_teleport",
+        "Gravity": "behavior_gravity",
+        "Jump": "behavior_jump",
+        "Platform": "behavior_platform",
+        "Goto": "behavior_goto",
+        "ItemTransfer": "behavior_item_transfer",
+        "StartBehavior": "behavior_start_behavior",
+        "Paper": "behavior_paper",
+        "SendEventDestination": "behavior_send_event_destination",
+        "DeleteAtLocation": "behavior_delete_object_location",
+        "Bouncing": "behavior_bouncing",
+        "Invisibility": "behavior_invisibility",
+        "PlayMovie": "behavior_play_movie",
+        "Movie": "behavior_movie",
+        "EventProperty": "behavior_event_property",
+        "Switch": "behavior_switch",
+        "FallTeleport": "behavior_fall_teleport",
+        "ItemTransfer": "behavior_item_transfer",
+        "SetPropertyStartup": "behavior_set_property_startup"
+    }
+}

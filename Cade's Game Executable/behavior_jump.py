@@ -20,7 +20,7 @@ class Jump(Behavior):
         
     def jump(self):
         #Remove if not statement for infinite jumping
-        #if not self.game_object.get_property("falling"):
+        if not self.game_object.get_property("falling"):
             self.jumping = True
         
     def tick(self):
