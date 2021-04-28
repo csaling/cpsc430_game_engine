@@ -49,7 +49,7 @@ class Movies:
         to_delete = []
         
         Movies.counter += 1
-        Movies.counter %= 6
+        Movies.counter %= 20
         if Movies.counter != 0:
             return
         
@@ -76,7 +76,12 @@ class Movies:
             iy = frame.size[1]
             frame = frame.tobytes("raw", "RGB", 0, -1)
             
-            texture_id = glGenTextures(1)
+            if Movies.movies[tag]['texture']:
+                texture_id = Movies.movies[tag]['texture']
+            else:
+                texture_id = glGenTextures(1)
+                Movies.movies[tag]['texture'] = texture_id
+                
             glBindTexture(GL_TEXTURE_2D, texture_id)
             
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)

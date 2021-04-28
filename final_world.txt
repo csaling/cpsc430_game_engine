@@ -16,12 +16,9 @@
         {"name": "right_wall", "kind": "cube", "position": [9.75, 4, -20], "size": [0.5, 10.0, 10.0], "faces": {"left": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "back_wall", "kind": "cube", "position": [0, 4, -25], "size": [20, 10.0, 0.5], "faces": {"back": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
         {"name": "roof", "kind": "cube", "position": [0, 9, -20], "size": [20, 0.5, 10], "faces": {"bottom": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
-        {"name": "front_left", "kind": "cube", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
-        {"name": "front_right", "kind": "cube", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"front": {"type": "color", "value": [1.0, 0.0, 0.0, 1.0]}}},
+        {"name": "front_left", "kind": "cube", "position": [-6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"back": {"type": "movie", "value": "wiener_dogs_video"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"PlayMovie": ["play", "play_movie", false], "Movie": ["john_marston_dancing", "play", true]}},
+        {"name": "front_right", "kind": "cube", "position": [6.5, 4, -15], "size": [7, 10.0, 0.5], "faces": {"back": {"type": "movie", "value": "john_marston_dancing"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"PlayMovie": ["play", "play_movie", false], "Movie": ["wiener_dogs_video", "play", true]}},
         {"name": "paper", "kind": "cube", "position": [6, 2, -14.5], "size": [1, 1.5, 0.25], "color": [1, 1, 1, 1.0], "behaviors": {"Paper": ["Final House", 600]}},
-        
-        {"name": "left_screen", "kind": "cube", "position": [-100, 4, -20], "size": [0.5, 100.0, 100.0], "invisible": true, "faces": {"left": {"type": "movie", "value": "wiener_dogs_video"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"StartBehavior": ["toggle"], "Invisibility": ["play_movie"], "PlayMovie": ["play", false], "Movie": ["wiener_dogs_video", "play", true]}},
-        {"name": "right_screen", "kind": "cube", "position": [100, 4, -20], "size": [0.5, 100.0, 100.0], "invisible": true, "faces": {"left": {"type": "movie", "value": "john_marston_dancing"}}, "color": [0.6, 0.3, 0.3, 1.0], "behaviors": {"Invisibility": ["play_movie"], "PlayMovie": ["play", false], "Movie": ["john_marston_dancing", "play", true]}},
         
         {"name": "high_ground", "kind": "cube", "position": [0, 50, 120], "size": [10.0, 1.0, 10.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0]},
         {"name": "top_right_platform", "kind": "cube", "position": [10, 50, 115], "size": [5.0, 1.0, 5.0], "texture": "brimstone", "color": [0.9, 0.6, 0.1, 1.0], "behaviors": {"Platform": [[10, 5, 65], 0.05, true, true]}},
