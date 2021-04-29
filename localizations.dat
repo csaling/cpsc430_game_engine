@@ -5,8 +5,8 @@
         "Normal House": "The little doggo has lost his ball. Enter the inner door and help him get it back",
         "Ocean House": "Leave now, or stay forever, the choice is yours, Exit through here",
         "Reverse House": "Chase the vampire dog to get the ball back for your little companion",
-        "Statue House": "Taking the statue unlocks the door to heaven",
-        "Final House": "Chase the vampire dog up the staircase of the infernal staircase"
+        "Statue House": "Taking the statue unlocks the door to Hell",
+        "Final House": "Chase the vampire dog up the infernal staircase"
     },
 
     "it": {
@@ -14,7 +14,7 @@
         "Normal House": "Il cagnolino ha perso la palla. Entra nella porta interna e aiutalo a riaverla",
         "Ocean House": "Vattene adesso, o rimani per sempre, la scelta è tua, esci da qui",
         "Reverse House": "Insegui il cane vampiro per riprendere la palla per il tuo piccolo compagno",
-        "Statue House": "Prendendo la statua si apre la porta del paradiso",
-        "Final House": "Insegui il cane vampiro su per le scale della scala infernale"
+        "Statue House": "Prendendo la statua si apre la porta dell'inferno",
+        "Final House": "Insegui il cane vampiro su per le scale infernali"
     }
 }
